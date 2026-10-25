@@ -119,7 +119,7 @@ public class PageController {
                 List.of(seo.crumb("Home", "/"), seo.crumb("Services", "/services"),
                         seo.crumb(service.name(), null)),
                 service.name(), service.summary(), canonical));
-        model.addAttribute("preloadImage", "/assets/services/" + service.heroImage().fileName());
+        model.addAttribute("preloadImage", "/assets/services/" + service.getHeroImage().fileName());
         return "service-detail";
     }
 
@@ -140,7 +140,7 @@ public class PageController {
                         seo.crumb(parent.name(), "/services/" + parentSlug),
                         seo.crumb(service.name(), null)),
                 service.name(), service.summary(), canonical));
-        model.addAttribute("preloadImage", "/assets/services/" + service.heroImage().fileName());
+        model.addAttribute("preloadImage", "/assets/services/" + service.getHeroImage().fileName());
         return "specialist-service-detail";
     }
 
