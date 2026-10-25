@@ -8,7 +8,7 @@ Preview the whole site locally with `python3 scripts/serve-runtime-snapshot.py`.
 
 | Path | Status | Bytes | Title |
 | --- | --- | --- | --- |
-| `/` | 200 | 44398 | Infeara Technologies | IT Infrastructure, Security &amp; Cloud |
+| `/` | 200 | 44394 | Infeara Technologies | IT Infrastructure, Security &amp; Cloud |
 | `/services` | 200 | 36580 | Technology Services: IT, Security &amp; Cloud | Infeara |
 | `/industries` | 200 | 44758 | Technology by Industry &amp; Work Environment | Infeara |
 | `/about` | 200 | 33105 | About Infeara Technologies | Approach, People &amp; Values |
