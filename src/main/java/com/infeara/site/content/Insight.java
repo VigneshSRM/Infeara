@@ -14,10 +14,23 @@ public record Insight(
     private static final String DEFAULT_IMAGE = "editorial/insights-cover.jpg";
 
     /**
+     * Photographs for the seeded articles, so two articles in the same category do not show the
+     * same picture. Articles published later fall back to their category below.
+     */
+    private static final java.util.Map<String, String> ARTICLE_IMAGES = java.util.Map.of(
+            "server-backup-strategy", "services/infrastructure-overview.jpg",
+            "patch-management-checklist", "services/managed-it-overview.jpg",
+            "cloud-vs-on-premises", "services/cloud-datacenter-overview.jpg");
+
+    /**
      * Photograph used by the field-note cards. Chosen from the article's own category rather than
      * stored per article, so newly published articles get a fitting image without extra data.
      */
     public String imageFileName() {
+        String specific = slug == null ? null : ARTICLE_IMAGES.get(slug);
+        if (specific != null) {
+            return specific;
+        }
         String key = category == null ? "" : category.toLowerCase(java.util.Locale.ROOT);
         if (key.contains("cyber") || key.contains("secur")) {
             return "services/cybersecurity-overview.jpg";
