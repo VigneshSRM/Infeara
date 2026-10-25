@@ -113,6 +113,36 @@ Verified: the 9 service areas, 54 capability pages and 24 industry pages generat
 | `SITE_BASE_URL` → `seo.base-url` | Canonical origin, for example `https://www.infeara.com`. No trailing slash. Used for canonical links, Open Graph URLs, sitemap entries and the `Sitemap:` line in `robots.txt`. |
 | `SITE_INDEXABLE` → `seo.indexable` | `true` allows indexing, `false` forces `noindex` and `Disallow: /`. Empty (default) means "indexable only when `SITE_BASE_URL` is HTTPS". Set `true` explicitly in production so the decision does not depend on the protocol of the base URL. |
 
+## 5.1 Running the application
+
+The site is a Spring Boot 4.1.2 application on Java 27 and needs nothing beyond a JDK and Maven:
+
+```bash
+mvn -DskipTests package
+SITE_BASE_URL=https://www.example.com SITE_INDEXABLE=true java -jar target/*.jar
+```
+
+`SITE_BASE_URL` is the only source of the canonical origin — the `Host` header is never trusted —
+and `SITE_INDEXABLE` must be set only on the production deployment. Without it the app still
+serves every page, but sends `Disallow: /` and an `X-Robots-Tag: noindex` so a staging copy
+cannot be indexed.
+
+Startup also validates the copy library: `PageCopyService` fails the application if any of the
+103 routes is missing copy, or if a title or description is duplicated or outside the search
+snippet limits. A clean "Started InfearaApplication" line therefore also means rule 4.1 and the
+content-quality rules passed for the whole site, not just for the page that gets tested.
+
+Verified on the CI runner (`gh api repos/VigneshSRM/Infeara/check-runs/<job-id>/annotations`):
+
+```
+openjdk version "27.0.1.0.2" 2026-10-21          Spring-Boot-Version: 4.1.2
+Tomcat started on port 8080 (http) with context path '/'
+Started InfearaApplication in 2.448 seconds (process running for 3.025)
+GET /services/network-engineering/wi-fi-infrastructure
+  <title>Wi-Fi Infrastructure Design & Deployment | Network Engineering</title>
+  2 scope/deliverable columns, 1 question list, 1 H1
+```
+
 ## 6. Release gate
 
 ```sh
