@@ -90,7 +90,8 @@ The script fails the release when:
 - `sitemap.xml` is missing or contains a URL that is not `200`;
 - a URL variant (`/path/`, `/index.html`, `/services.html`) is not a one-hop permanent redirect;
 - an unknown URL does not return `404`/`410`;
-- a checked page has no canonical, a canonical that differs from the expected absolute URL, a `noindex` directive, no description, no `og:title`, no JSON-LD, a duplicate title/description, or an over-long title.
+- a checked page has no canonical, a canonical that differs from the expected absolute URL, a `noindex` directive, no description, no `og:title`, a duplicate title/description, or an over-long title;
+- JSON-LD is not valid JSON, or a page that visibly renders a breadcrumb trail has no `BreadcrumbList` markup.
 
 ## 7. Performance work done and targets
 

@@ -87,7 +87,7 @@ fi
 # 5. Per-page metadata: canonical, robots directive, unique titles, descriptions, JSON-LD.
 if command -v python3 >/dev/null 2>&1; then
   python3 - "$BASE_URL" <<'PY'
-import re, sys, urllib.request
+import json, re, sys, urllib.request
 
 base = sys.argv[1].rstrip('/')
 pages = [
@@ -128,8 +128,20 @@ for path in pages:
         problems.append(f'{path}: canonical is {canonical!r}, expected {base + path!r}')
     if not og_title:
         problems.append(f'{path}: missing og:title')
-    if path != '/' and ldjson == 0:
-        problems.append(f'{path}: missing JSON-LD structured data')
+    # Structured data must exist whenever the page shows a breadcrumb trail, and must be
+    # parseable JSON that mirrors that visible trail (see the SEO standard, section 7).
+    shows_breadcrumb = 'service-breadcrumb' in html
+    if shows_breadcrumb and ldjson == 0:
+        problems.append(f'{path}: page shows a breadcrumb but has no JSON-LD')
+    for block in re.findall(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', html, re.S):
+        try:
+            parsed = json.loads(block)
+        except ValueError as error:
+            problems.append(f'{path}: JSON-LD is not valid JSON ({error})')
+            continue
+        types = {node.get('@type') for node in parsed.get('@graph', [])}
+        if shows_breadcrumb and 'BreadcrumbList' not in types:
+            problems.append(f'{path}: breadcrumb is visible but JSON-LD has no BreadcrumbList')
     if title.lower() in titles:
         problems.append(f'{path}: duplicate title shared with {titles[title.lower()]}')
     else:
