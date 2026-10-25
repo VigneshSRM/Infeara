@@ -143,6 +143,19 @@ GET /services/network-engineering/wi-fi-infrastructure
   2 scope/deliverable columns, 1 question list, 1 H1
 ```
 
+## 5.2 Reviewing the running site
+
+`docs/runtime-snapshot/` holds the response bodies CI recorded from the running application, one
+file per sitemap URL, plus `robots.txt` and `sitemap.xml`. To browse them:
+
+```bash
+python3 scripts/serve-runtime-snapshot.py        # http://localhost:8080
+```
+
+CSS, JS and images are served from `src/main/resources/static`, so the pages look and behave as
+the server delivered them. This is a review aid for environments without a JDK - the application
+itself still runs from `mvn -DskipTests package && java -jar target/*.jar`.
+
 ## 6. Release gate
 
 ```sh
