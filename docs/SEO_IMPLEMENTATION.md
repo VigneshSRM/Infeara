@@ -41,6 +41,16 @@ standard, **TARGET** is an internal engineering goal rather than a Google requir
 | 10 | No compression and no explicit static-asset caching policy. | Larger transfers and a slower TTFB/FCP than necessary. | `server.compression.*` enabled for HTML/CSS/JS/JSON/XML/SVG; `WebConfig` sets long-lived immutable caching for `/assets`, `/css` and `/js` (versions are already part of the URLs). |
 | 11 | No automated technical SEO verification. | Regressions (duplicate titles, missing canonicals, a broken sitemap entry) could reach production unnoticed. | `scripts/seo-smoke-test.sh` checks status codes, canonical/robots/title/description uniqueness, JSON-LD presence, one-hop redirects, `robots.txt` and sitemap hygiene; `.github/workflows/seo.yml` runs it against a started instance on every push and pull request. |
 
+### 2.1 Runtime bugs found by the release gate
+
+The gate runs against a live instance (CI builds the jar, starts it, then crawls it), which surfaced
+two defects that no static review could catch. Both are fixed:
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| `/contact` returned a response truncated after ~35 KB; the enquiry form never rendered. | The two free-text `<option>` elements in the service picker had no `value`; Thymeleaf aborts `th:field` selects in that case. | Explicit `value` attributes on both options. |
+| Also on `/contact`: `th:field` could not read the bound object. | `ConsultationRequest` is a record, so it only exposes `fullName()`, while Thymeleaf resolves values through Spring's bean wrapper (`getFullName()` / `isConsent()`). | Added read accessors; the record stays immutable, so submissions still bind through the canonical constructor. |
+
 ## 3. What each page now returns
 
 Every rendered page (Thymeleaf templates in `src/main/resources/templates/`) gets:
