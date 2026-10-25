@@ -42,6 +42,20 @@ public final class SeoText {
         return ending.isEmpty() ? primary : primary + " | " + ending;
     }
 
+    /**
+     * Page title with a page specific suffix, falling back to the shorter brand suffix when the
+     * combination would be cut off in search results (long article and edition titles).
+     */
+    public static String titleWithSuffix(String label, String suffix) {
+        String primary = clean(label);
+        String ending = clean(suffix);
+        if (ending.isEmpty()) {
+            return primary;
+        }
+        String combined = primary + " | " + ending;
+        return combined.length() <= TITLE_TARGET + 6 ? combined : title(primary);
+    }
+
     /** Description from a single, already complete piece of copy. */
     public static String description(String text) {
         return truncate(clean(text), DESCRIPTION_MAX);

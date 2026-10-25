@@ -247,7 +247,7 @@ public class PageController {
         NewsletterEdition edition = newsletterService.findPublished(slug)
                 .orElseThrow(() -> notFound("Newsletter edition"));
         model.addAttribute("edition", edition);
-        model.addAttribute("pageTitle", SeoText.title(edition.title(), "Infeara Newsletters"));
+        model.addAttribute("pageTitle", SeoText.titleWithSuffix(edition.title(), "Infeara Newsletters"));
         model.addAttribute("pageDescription", SeoText.description(edition.excerpt(), ""));
         model.addAttribute("ogType", "article");
         model.addAttribute("ogArticlePublishedTime", seo.isoDate(edition.publishedAt()));
@@ -283,7 +283,7 @@ public class PageController {
         model.addAttribute("blog", blog);
         model.addAttribute("relatedBlogs", insightService.findPublished().stream()
                 .filter(item -> !item.slug().equals(slug)).limit(2).toList());
-        model.addAttribute("pageTitle", SeoText.title(blog.title(), "Infeara Blog"));
+        model.addAttribute("pageTitle", SeoText.titleWithSuffix(blog.title(), "Infeara Blog"));
         model.addAttribute("pageDescription", SeoText.description(blog.excerpt(), ""));
         model.addAttribute("ogType", "article");
         model.addAttribute("ogArticlePublishedTime", seo.isoDate(blog.publishedAt()));

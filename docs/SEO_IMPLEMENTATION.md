@@ -45,7 +45,7 @@ standard, **TARGET** is an internal engineering goal rather than a Google requir
 
 Every rendered page (Thymeleaf templates in `src/main/resources/templates/`) gets:
 
-- `<title>` — unique, page specific, brand suffix added only when the result stays close to 60 characters.
+- `<title>` — unique, page specific, brand suffix added only when the result stays close to 60 characters; long article and newsletter titles fall back to the shorter `| Infeara` suffix (`SeoText.titleWithSuffix`).
 - `<meta name="description">` — unique, built from that page's own summary.
 - `<link rel="canonical">` — absolute, HTTPS in production, self-referencing, query strings and fragments removed.
 - `<meta name="robots">` — `index,follow` on production, `noindex,nofollow` on any deployment that is not cleared for indexing.
