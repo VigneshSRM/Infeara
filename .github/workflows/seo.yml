@@ -75,7 +75,10 @@ jobs:
             echo "::notice title=SEO gate summary::$(tail -6 seo.log | tr '\n' ' ' | cut -c1-380)"
           fi
           if [ -f application.log ]; then
-            echo "::notice title=Application log tail::$(tail -12 application.log | tr '\n' ' ' | cut -c1-380)"
+            grep -E "Exception|Caused by|TemplateInput|ERROR" application.log | head -6 | while IFS= read -r line; do
+              echo "::error title=Application::$(printf '%s' "$line" | cut -c1-380)"
+            done
+            echo "::notice title=Application log tail::$(tail -8 application.log | tr '\n' ' ' | cut -c1-380)"
           fi
 
       - name: Upload runnable jar

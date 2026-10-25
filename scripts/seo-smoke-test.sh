@@ -24,7 +24,11 @@ checks=0
 pass() { checks=$((checks + 1)); printf '  ok   %s\n' "$1"; }
 fail() { checks=$((checks + 1)); failures=$((failures + 1)); printf '  FAIL %s\n' "$1"; }
 
-http_status() { curl -sS -o "$WORK_DIR/body" -w '%{http_code}' "$1" 2>/dev/null || echo 000; }
+http_status() {
+  local code
+  code="$(curl -sS -o "$WORK_DIR/body" -w '%{http_code}' "$1" 2>/dev/null)" || code="000"
+  printf '%s' "$code"
+}
 
 echo "SEO smoke test against ${BASE_URL}"
 echo
@@ -59,7 +63,7 @@ fi
 # 2. Every sitemap URL must return 200 (never a redirect, 404 or 5xx).
 while read -r url; do
   [ -z "$url" ] && continue
-  code="$(curl -sS -o /dev/null -w '%{http_code}' "$url" 2>/dev/null || echo 000)"
+  code="$(curl -sS -o /dev/null -w '%{http_code}' "$url" 2>/dev/null)" || code="000"
   [ "$code" = "200" ] || fail "sitemap URL is not 200 (${code}): ${url}"
 done < "$WORK_DIR/sitemap-urls"
 pass "sitemap URLs return 200 (any failures listed above)"
@@ -77,7 +81,7 @@ for variant in "/services/" "/robots.txt/" "/industries/healthcare-life-sciences
 done
 
 # 4. Unknown URLs must not return a generic 200 page.
-code="$(curl -sS -o /dev/null -w '%{http_code}' "$BASE_URL/this-page-does-not-exist" 2>/dev/null || echo 000)"
+code="$(curl -sS -o /dev/null -w '%{http_code}' "$BASE_URL/this-page-does-not-exist" 2>/dev/null)" || code="000"
 if [ "$code" = "404" ] || [ "$code" = "410" ]; then
   pass "unknown URL returns ${code}"
 else
