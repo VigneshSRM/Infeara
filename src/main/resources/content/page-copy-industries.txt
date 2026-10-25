@@ -4,7 +4,7 @@
 
 @industry agriculture-agritech
 title: Agriculture & Agritech IT Support | Infeara Technologies
-description: Technology for farms, agri-businesses, and agritech teams: field connectivity, sensor and telemetry data, ERP, and seasonal resilience.
+description: Technology for farms, agri-businesses, and agritech teams: field connectivity, sensor and telemetry data, ERP, and resilience through peak seasons.
 intro: Agricultural operations mix remote sites, seasonal peaks, and systems that must work with intermittent connectivity. Planning around those conditions matters more than the hardware chosen.
 covers: Field and remote-site connectivity | Sensor, telemetry, and weather data feeds | Farm management, ERP, and inventory systems | Office and packhouse networks
 signs: Data from the field arrives late or not at all | Connectivity decisions assume a stable office link | Seasonal peaks expose capacity that was never sized for them
@@ -24,7 +24,7 @@ faq: Do you integrate telematics platforms? | Where the provider offers an inter
 
 @industry banking-financial-services
 title: Banking & Financial Services Technology | Infeara Technologies
-description: Infrastructure, security, and operations support for banks, NBFCs, and financial services teams with strict access and audit expectations.
+description: Infrastructure, security, and operations support for banks, NBFCs, and financial services teams with strict access, audit, and downtime expectations.
 intro: Financial services environments combine tight access control, audit evidence, and little tolerance for downtime. Every change needs to be explainable.
 covers: Core and surrounding application hosting | Identity, privileged access, and segregation of duties | Branch and office network connectivity | Backup, recovery, and retention controls
 signs: Access reviews happen once a year, if at all | Evidence for auditors is assembled from memory | Branch networks drift from the standard
@@ -44,7 +44,7 @@ faq: Can you support field devices? | Yes, including standard builds, remote wip
 
 @industry education-edtech
 title: Education & EdTech IT Support | Infeara Technologies
-description: Campus and online learning infrastructure: networks, identity, device fleets, and assessment systems with term-time reliability in mind.
+description: Campus and online learning infrastructure: networks, identity, device fleets, and assessment systems with term-time reliability in mind throughout.
 intro: Education environments swing between quiet periods and term-time peaks, with students, staff, and guests sharing the same infrastructure.
 covers: Campus and classroom networking | Identity and access for staff, students, and guests | Device fleets and shared equipment | Learning platforms and assessment systems
 signs: Guest and student networks share controls with administrative systems | Term start exposes capacity limits | Shared devices have no consistent rebuild process
@@ -54,7 +54,7 @@ faq: Do you work with our LMS provider? | Yes, integrating identity and access a
 
 @industry energy-utilities
 title: Energy & Utilities Technology Support | Infeara Technologies
-description: IT for energy and utility operations: control-network separation, field communications, monitoring data, and recovery for critical systems.
+description: IT for energy and utility operations: control-network separation, field communications, monitoring data, and recovery for critical systems and remote sites.
 intro: Energy and utility environments separate operational technology from business IT for good reason. The work is keeping that boundary intact while data still flows.
 covers: Segmentation between IT and operational networks | Field and substation communications | Metering, SCADA-adjacent, and monitoring data flows | Resilience and recovery for critical systems
 signs: Operational and business networks are connected for convenience | Remote-site access paths are undocumented | Recovery plans assume the control network and IT fail independently
@@ -74,7 +74,7 @@ faq: How do you handle distributor connectivity? | Through agreed interfaces and
 
 @industry government-public-sector
 title: Public Sector & Government IT | Infeara Technologies
-description: Infrastructure and support for public sector teams, with procurement discipline, access control, record retention, and service continuity.
+description: Infrastructure and support for public sector teams, with procurement discipline, access control, record retention, and service continuity planning.
 intro: Public sector technology work carries obligations beyond uptime: records must be retained, access must be justified, and change must be documented.
 covers: Application hosting and service continuity | Identity and access management | Network and site connectivity | Record retention and backup controls
 signs: Access rights outlast the role they were granted for | Retention rules are unclear or inconsistently applied | Service continuity plans are untested
@@ -114,7 +114,7 @@ faq: Can you support customer-facing SLAs? | We can operate within them where th
 
 @industry insurance
 title: Insurance Technology & IT Support | Infeara Technologies
-description: IT for insurers, brokers, and MGAs: claims and policy systems, document workflows, access control, and resilience for regulated data.
+description: IT for insurers, brokers, and MGAs: claims and policy systems, document workflows, access control, and resilience for regulated data and reporting.
 intro: Insurance workflows are document-heavy and time-sensitive, with regulatory expectations around access and retention.
 covers: Policy, claims, and broker systems | Document management and retention | Identity and role-based access | Backup and continuity for regulated records
 signs: Claims data is shared through email attachments | Access follows the org chart rather than the role | Retention rules differ between systems
@@ -124,7 +124,7 @@ faq: How is client data protected during support work? | Through least-privilege
 
 @industry legal-services
 title: Legal Services Technology & IT | Infeara Technologies
-description: IT for law firms and legal teams: document management, matter systems, secure remote access, and confidentiality controls for client data.
+description: IT for law firms and legal teams: document management, matter systems, secure remote access, and confidentiality controls for client data at all times.
 intro: Legal work depends on confidentiality and document integrity. Access must be precise and removable without disrupting active matters.
 covers: Document management and matter systems | Secure remote and mobile access | Confidentiality and access controls | Backup and retention for client files
 signs: Matter files sit on shared drives with broad access | Remote access is convenient rather than controlled | Departing staff retain access longer than needed
@@ -144,7 +144,7 @@ faq: Do you design warehouse wireless? | Yes, with on-site surveys that account 
 
 @industry manufacturing-industrial
 title: Manufacturing & Industrial IT | Infeara Technologies
-description: IT for manufacturing operations: plant networks, OT and IT separation, ERP and MES integration, and resilience on the production floor.
+description: IT for manufacturing operations: plant networks, OT and IT separation, ERP and MES integration, and resilience on the production floor during shifts.
 intro: Manufacturing environments need business IT and production systems to exchange data without compromising either side.
 covers: Plant and office network separation | ERP, MES, and production data integration | Shop-floor device management | Resilience for production-critical systems
 signs: Production systems share a flat network with office devices | Data between MES and ERP is reconciled manually | Shop-floor endpoints are unmanaged
@@ -154,7 +154,7 @@ faq: Can you work during production shutdowns? | Yes, and shutdown windows are o
 
 @industry media-entertainment
 title: Media & Entertainment Technology | Infeara Technologies
-description: IT for media and entertainment teams: high-throughput storage, large-file workflows, rendering capacity, and secure contributor access.
+description: IT for media and entertainment teams: high-throughput storage, large-file workflows, rendering capacity, and secure contributor access from anywhere.
 intro: Media workflows are constrained by transfer and storage performance more than by compute, and by freelancers who need access without permanence.
 covers: High-throughput storage and asset management | Large-file transfer and remote editing | Render and compute capacity | Time-bound access for contributors
 signs: Editors wait on file transfers between sites | Storage growth outpaces any forecast | Contributor accounts are never removed
@@ -164,7 +164,7 @@ faq: How is archive storage handled? | Through tiering aligned to reuse patterns
 
 @industry non-profit-organizations
 title: Non-Profit Technology Support | Infeara Technologies
-description: Cost-aware IT for non-profits: donor and program systems, identity, remote teams, and recovery planning within tight budgets.
+description: Cost-aware IT for non-profits: donor and program systems, identity, remote teams, and recovery planning within tight budgets and small teams.
 intro: Non-profit technology decisions carry a budget constraint and a mission risk at the same time. Priorities need to be chosen deliberately.
 covers: Donor and fundraising platforms | Program and case management systems | Identity and remote access | Backup and continuity planning
 signs: Systems were donated or discounted and never reviewed | Data sits in several platforms that do not reconcile | Recovery depends on a volunteer's knowledge
@@ -174,7 +174,7 @@ faq: How do you handle limited budgets? | By sequencing: fix the risks that woul
 
 @industry pharmaceuticals-biotechnology
 title: Pharmaceutical & Biotech IT Support | Infeara Technologies
-description: IT for pharma and biotech: validated-system support, controlled access, laboratory data integrity, and audit-ready records.
+description: IT for pharma and biotech: validated-system support, controlled access, laboratory data integrity, and audit-ready records with full traceability.
 intro: Pharmaceutical environments need systems that can be explained years after they were configured, with change control that survives audit.
 covers: Laboratory and quality system hosting | Controlled access and audit trails | Data integrity and retention | Network separation for instruments
 signs: Change history is incomplete for critical systems | Instrument PCs sit outside the managed estate | Access reviews rely on memory
@@ -184,7 +184,7 @@ faq: Can you support laboratory instruments? | The IT around them, yes: workstat
 
 @industry professional-services
 title: Professional Services Technology | Infeara Technologies
-description: IT for consulting, accounting, and advisory firms: secure collaboration, document workflows, client isolation, and reliable remote work.
+description: IT for consulting, accounting, and advisory firms: secure collaboration, document workflows, client isolation, and reliable remote work every day.
 intro: Professional services firms sell expertise, so the systems that carry client information are the business. Access should follow engagements, not seniority alone.
 covers: Document management and workflow systems | Client and matter isolation | Remote and mobile working | Identity and access governance
 signs: Client data is separated by folder permissions alone | Onboarding a new engagement takes manual setup | Remote access is broad and rarely reviewed
@@ -194,7 +194,7 @@ faq: How is client separation achieved? | Through permission structures and, whe
 
 @industry real-estate-property-management
 title: Real Estate & Property IT Support | Infeara Technologies
-description: IT for property and real estate firms: CRM platforms, multi-site connectivity, building systems, and support across managed locations.
+description: IT for property and real estate firms: CRM platforms, multi-site connectivity, building systems, and support across managed locations and tenants.
 intro: Property businesses run many small sites and one large dependency: whether the systems at each building work when a tenant or client needs them.
 covers: Property and CRM platforms | Multi-site and building connectivity | Access control and CCTV integration | Support across managed locations
 signs: Each building is set up differently | Building systems are integrated without security review | Site issues are resolved by whoever is local
@@ -204,7 +204,7 @@ faq: Do you support tenant-facing networks? | Where that is in scope, with separ
 
 @industry retail-e-commerce
 title: Retail & E-commerce Technology | Infeara Technologies
-description: IT for retail and online sellers: POS and store networks, e-commerce platforms, payment flows, and peak-trading readiness.
+description: IT for retail and online sellers: POS and store networks, e-commerce platforms, payment flows, and readiness for peak trading periods and seasonal spikes.
 intro: Retail systems face predictable peaks with unpredictable consequences. Peak readiness is a planning exercise, not a hardware purchase.
 covers: POS and store networking | E-commerce platform and integrations | Payment and order flows | Peak capacity and failover planning
 signs: Peak trading readiness is assessed after the season | Store networks differ from site to site | Order and payment failures surface in customer complaints
@@ -214,7 +214,7 @@ faq: Do you support store networks? | Yes, including POS isolation, guest Wi-Fi 
 
 @industry telecommunications
 title: Telecommunications Technology & IT | Infeara Technologies
-description: IT for telecom operators and service providers: network operations support, OSS/BSS integration, and infrastructure for service delivery.
+description: IT for telecom operators and service providers: network operations support, OSS/BSS integration, and infrastructure for service delivery at scale.
 intro: Telecom environments combine network operations, billing systems, and strict availability expectations across distributed sites.
 covers: Network operations and monitoring support | OSS and BSS application hosting | Datacenter and edge infrastructure | Service-delivery continuity
 signs: Monitoring covers the network but not the services on it | BSS changes carry operational risk with no test stage | Capacity planning is separated from service demand
@@ -224,7 +224,7 @@ faq: Can you help with OSS/BSS integration? | Yes, at the integration and hostin
 
 @industry travel-tourism
 title: Travel & Tourism Technology & IT Support | Infeara
-description: IT for travel and tourism businesses: booking platforms, availability integrations, payment flows, and support across distributed sites.
+description: IT for travel and tourism businesses: booking platforms, availability integrations, payment flows, and support across distributed sites and agents.
 intro: Travel systems live on integrations: availability, pricing, and payments all depend on partners whose interfaces change without notice.
 covers: Booking engines and channel integrations | Payment and refund workflows | Property and branch connectivity | Customer-facing availability systems
 signs: Rate or availability mismatches are found by customers | Integration failures are discovered manually | Seasonal demand exposes capacity limits
@@ -234,7 +234,7 @@ faq: Do you support multi-property or multi-branch setups? | Yes, with per-site 
 
 @industry wholesale-distribution
 title: Wholesale Distribution Systems & IT Support | Infeara
-description: IT for wholesale and distribution: ERP and warehouse systems, supplier and partner links, and dependable order-to-dispatch flows.
+description: IT for wholesale and distribution: ERP and warehouse systems, supplier and partner links, and dependable order-to-dispatch flows across depots.
 intro: Distribution runs on accurate inventory and reliable order flow. Most failures appear at the handover points between systems.
 covers: ERP and inventory systems | Warehouse and scanning infrastructure | Supplier and partner data exchange | Order-to-dispatch availability
 signs: Inventory discrepancies are resolved by stock counts | Partner orders arrive in inconsistent formats | Warehouse systems have no tested fallback

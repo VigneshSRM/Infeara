@@ -15,6 +15,7 @@ standard, **TARGET** is an internal engineering goal rather than a Google requir
 | --- | --- |
 | Canonical origin, indexability switch, robots directive | `src/main/java/com/infeara/site/seo/SeoProperties.java` |
 | Title/description length and slug helpers | `src/main/java/com/infeara/site/seo/SeoText.java` |
+| Copy length and duplicate audit of the rendered site | `preview/report.py` |
 | JSON-LD (schema.org) construction and escaping | `src/main/java/com/infeara/site/seo/JsonLd.java` |
 | Per-page canonical, social image, breadcrumb/service/article graphs | `src/main/java/com/infeara/site/seo/SeoService.java` |
 | URL variant redirects, `X-Robots-Tag` headers | `src/main/java/com/infeara/site/seo/SeoRequestFilter.java` |
@@ -59,7 +60,7 @@ two defects that no static review could catch. Both are fixed:
 Every rendered page (Thymeleaf templates in `src/main/resources/templates/`) gets:
 
 - `<title>` — authored per page and unique; capability, industry and static-page titles come from the copy library already inside the 50–62 character range, and long article/newsletter titles fall back to the shorter `| Infeara` suffix (`SeoText.titleWithSuffix`).
-- `<meta name="description">` — authored per page and unique, 120–160 characters, describing what is actually on that page.
+- `<meta name="description">` — authored per page and unique, 140–160 characters, describing what is actually on that page.
 - `<link rel="canonical">` — absolute, HTTPS in production, self-referencing, query strings and fragments removed.
 - `<meta name="robots">` — `index,follow` on production, `noindex,nofollow` on any deployment that is not cleared for indexing.
 - Open Graph (`og:site_name`, `og:type`, `og:title`, `og:description`, `og:url`, `og:image` 1200×630, `article:published_time` for articles) and a Twitter `summary_large_image` card.

@@ -3,7 +3,7 @@
 
 @capability cybersecurity/vulnerability-assessment-penetration-testing
 title: Vulnerability Assessment & Penetration Testing (VAPT)
-description: Authorized VAPT that finds, validates, and ranks exploitable weaknesses, with evidence for each finding and practical remediation guidance.
+description: Authorized VAPT that finds, validates, and ranks exploitable weaknesses, with evidence for each finding and remediation guidance your team can follow.
 intro: Scanning finds candidates; testing proves which ones matter. We validate findings within an agreed scope so your team fixes confirmed risk first.
 covers: External and internal vulnerability scanning | Controlled validation of suspected exploitable issues | Web application and API testing where in scope | Retesting of agreed critical findings
 signs: Scan reports accumulate without anyone triaging them | A customer, insurer, or partner asks for independent testing evidence | A new internet-facing service went live without a security review
@@ -43,7 +43,7 @@ faq: How does this relate to compliance? | The review records evidence that supp
 
 @capability cybersecurity/red-team-wireless-assessments
 title: Red Team & Wireless Security Assessments | Cybersecurity
-description: Objective-based red team exercises and wireless assessments that test how far an attacker could get, not just which vulnerabilities exist.
+description: Objective-based red team exercises and wireless assessments that test how far an attacker could get, not just which vulnerabilities exist, under agreed rules.
 intro: A vulnerability list says what might be wrong; a red team exercise shows what an attacker could actually reach from a defined starting point.
 covers: Objective-based attack simulation with agreed boundaries | Wireless coverage, rogue access point, and authentication testing | Social engineering where explicitly in scope | Attack-path reporting with detection observations
 signs: You want to test detection and response, not only configuration | Wireless access reaches areas it was never intended to cover | Leadership needs evidence of practical risk rather than a scanner summary
@@ -63,7 +63,7 @@ faq: How is threat intelligence used? | As prioritization input, not as a produc
 
 @capability infrastructure/infrastructure-assessment-and-modernization
 title: Infrastructure Assessment & Modernization | Infeara
-description: A structured review of servers, storage, virtualization, and dependencies, turned into a sequenced modernization plan with costs and risks.
+description: A structured review of servers, storage, virtualization, and dependencies, turned into a sequenced modernization plan with costs, risks, and dependencies.
 intro: Modernization fails when it starts with hardware. We map what runs, what depends on what, and which constraints actually force a change.
 covers: Server, storage, and virtualization inventory | Dependency and end-of-support analysis | Modernization options with cost and risk comparison | Sequenced roadmap with decision points
 signs: Refresh decisions are driven by vendor end-of-sale dates alone | Nobody can state which applications run on which hosts | Performance complaints are answered with hardware purchases
@@ -73,7 +73,7 @@ faq: Do we have to modernize everything? | No. The output often recommends keepi
 
 @capability infrastructure/server-implementation-administration-and-maintenance
 title: Server Implementation & Administration | Infeara Technologies
-description: Server build, hardening, and ongoing administration for Windows and Linux systems, delivered with documented standards and change control.
+description: Server build, hardening, and ongoing administration for Windows and Linux systems, delivered with documented build standards and change control.
 intro: Servers are easy to build and hard to keep consistent. We implement to an agreed standard, then administer the estate against it.
 covers: Server build and baseline hardening | Operating system administration and maintenance | Patch, service, and role configuration | Decommissioning and replacement
 signs: Two servers built for the same role do not match | Operating system drift has never been reviewed | Administration knowledge sits with one person
@@ -83,7 +83,7 @@ faq: Can you work in a change-controlled environment? | Yes. Work is scheduled t
 
 @capability infrastructure/storage-and-virtualization-management
 title: Storage & Virtualization Management | Infeara Technologies
-description: Capacity, performance, and lifecycle management for storage and virtualization platforms, including host design and datastore layout.
+description: Capacity, performance, and lifecycle management for storage and virtualization platforms, including host design, datastore layout, and renewal planning.
 intro: Storage and virtualization decisions constrain performance for years. We manage capacity and layout deliberately rather than by adding disks.
 covers: Host, cluster, and datastore design review | Capacity forecasting and thin-provisioning risk | Performance analysis and remediation | Firmware, driver, and lifecycle management
 signs: Datastores are near capacity with no forecast | Snapshot growth is uncontrolled | Virtual machines were sized by guesswork
@@ -93,7 +93,7 @@ faq: Can you reclaim space safely? | Usually, after identifying orphaned disks, 
 
 @capability infrastructure/infrastructure-monitoring-and-capacity-planning
 title: Infrastructure Monitoring & Capacity Planning | Infeara
-description: Monitoring that produces a signal your team can act on, with capacity forecasting tied to real growth rather than vendor thresholds.
+description: Monitoring that produces a signal your team can act on, with capacity forecasting tied to real growth rather than vendor thresholds, reviewed quarterly.
 intro: Alerting that everyone ignores is worse than no alerting. We build monitoring around user-visible behaviour and the resources that drive it.
 covers: Monitoring coverage and gap analysis | Alert thresholds, routing, and suppression | Capacity trending and forecast models | Dashboards and periodic reporting
 signs: Alert volume is high but response is low | Resource problems are discovered by users | Nobody can answer how much headroom is left
@@ -113,7 +113,7 @@ faq: Should we use immutable storage? | For ransomware resistance it is a strong
 
 @capability infrastructure/infrastructure-documentation
 title: Infrastructure Documentation & As-Builts | Infeara
-description: Accurate as-built documentation of servers, networks, and dependencies, so knowledge survives staff changes and outages.
+description: Accurate as-built documentation of servers, networks, and dependencies, so knowledge survives staff changes and outages without guesswork after every change.
 intro: Documentation is only useful if it matches reality. We rebuild the record from the systems themselves, then hand over something maintainable.
 covers: Server, network, and service inventories | Dependency and data-flow maps | Runbooks, escalation paths, and contact ownership | Documentation standards and update routine
 signs: The diagram predates the last two projects | Only one person knows how a system is wired | Recovery steps exist in someone's memory
@@ -143,7 +143,7 @@ faq: Can you monitor third-party services? | Yes, from the outside: availability
 
 @capability managed-it/incident-and-problem-management
 title: Incident & Problem Management | Infeara Technologies
-description: Structured handling of incidents with root-cause analysis, so recurring faults are fixed rather than closed and forgotten.
+description: Structured handling of incidents with root-cause analysis and recorded actions, so recurring faults are fixed rather than closed and forgotten.
 intro: Closing tickets quickly is not the same as fixing problems. We separate restoring service from understanding why it failed.
 covers: Incident triage, priority, and communication | Root-cause analysis for recurring incidents | Known-error and workaround records | Post-incident review and corrective actions
 signs: The same incident recurs on a schedule | Post-incident reviews do not produce committed actions | Priority is set by who complained loudest
@@ -153,7 +153,7 @@ faq: How quickly are incidents resolved? | Targets are set per priority in the s
 
 @capability managed-it/preventive-maintenance-and-patch-coordination
 title: Preventive Maintenance & Patch Coordination | Managed IT
-description: Planned maintenance and patch cycles coordinated with system owners, maintenance windows, validation steps, and rollback plans.
+description: Planned maintenance and patch cycles coordinated with system owners, including maintenance windows, validation steps, and rollback plans agreed in advance.
 intro: Patching is a scheduling and validation problem more than a technical one. We coordinate it with the people affected by downtime.
 covers: Patch assessment and risk classification | Maintenance window planning with stakeholders | Pre-change backup and rollback preparation | Post-patch validation and exception recording
 signs: Critical updates wait for a quiet month that never arrives | Application compatibility is discovered after deployment | Exceptions are applied without expiry dates
@@ -163,7 +163,7 @@ faq: Do you patch third-party applications? | Where they have a documented updat
 
 @capability managed-it/backup-monitoring-and-recovery-coordination
 title: Backup Monitoring & Recovery Coordination | Managed IT
-description: Daily backup verification, failure follow-up, and scheduled restore tests, so recovery capability is demonstrated rather than assumed.
+description: Daily backup verification, failure follow-up, and scheduled restore tests, so recovery capability is demonstrated rather than assumed on paper.
 intro: Backup monitoring is about more than green ticks. We follow failures to resolution and prove restores actually work.
 covers: Job verification and failure follow-up | Capacity and retention monitoring | Scheduled restore testing | Recovery coordination during real incidents
 signs: Failed jobs are retried until they succeed, without investigation | Retention is exceeded silently | Restores are attempted for the first time during an outage
@@ -173,7 +173,7 @@ faq: Who coordinates recovery in a real outage? | We coordinate if that is in sc
 
 @capability managed-it/asset-management-and-operational-reporting
 title: Asset Management & Operational Reporting | Managed IT
-description: Hardware and software asset records with lifecycle status, plus operational reporting on incidents, capacity, and recurring issues.
+description: Hardware and software asset records with lifecycle status, plus operational reporting on incidents, capacity, and recurring issues across sites.
 intro: You cannot manage what you cannot list. We maintain an asset record that matches reality and use it to drive reporting.
 covers: Hardware and software inventory maintenance | Lifecycle and warranty tracking | Licence and support position review | Operational reporting pack
 signs: Asset lists disagree with what is deployed | Warranty and support lapses are discovered after failure | Reporting is produced but never leads to a decision
@@ -183,7 +183,7 @@ faq: Is software licensing in scope? | Licence position and renewal dates are tr
 
 @capability it-outsourcing/remote-it-support
 title: Remote IT Support for Users & Systems | Infeara Technologies
-description: Remote user and systems support with defined hours, priority handling, and escalation paths, working inside your existing processes.
+description: Remote user and systems support with defined hours, priority handling, and escalation paths, working inside your existing processes and tools.
 intro: Remote support is judged on time to restore and quality of communication. Both are part of the scope, not an afterthought.
 covers: User support for access, devices, and applications | Systems troubleshooting and remediation | Ticket handling and communication | Escalation to specialist or vendor teams
 signs: Support requests go to whoever answers first | Users re-explain the same problem each time | Nobody tracks time to resolve
@@ -193,7 +193,7 @@ faq: Do you support personally owned devices? | Only where that is explicitly ag
 
 @capability it-outsourcing/infrastructure-administration-outsourcing
 title: Outsourced Infrastructure Administration | IT Outsourcing
-description: Ownership of infrastructure administration tasks with documented standards, access controls, and reporting, alongside your internal team.
+description: Ownership of infrastructure administration tasks with documented standards, access controls, and reporting, alongside your internal team and processes.
 intro: Outsourcing part of administration works when the boundary is precise. We define which systems and routines we own.
 covers: Server and platform administration | Routine maintenance and health checks | Access and configuration control | Documentation upkeep for owned systems
 signs: Administration capacity is the bottleneck for projects | Specialist platform knowledge is a single point of failure | Internal staff are consumed by routine tasks
@@ -203,7 +203,7 @@ faq: How is knowledge transferred back? | Through maintained documentation and, 
 
 @capability it-outsourcing/system-administration-support
 title: System Administration Support | Infeara Technologies
-description: Targeted system administration support for platforms, databases, or environments where your team needs additional depth.
+description: Targeted system administration support for platforms, databases, or environments where your team needs additional depth or coverage for a period.
 intro: Some environments need depth in a specific platform rather than broader support. This adds that capability to your existing team.
 covers: Platform-specific administration and tuning | Environment configuration and maintenance | Access and change management | Knowledge transfer and documentation
 signs: One platform is consistently harder to maintain than the rest | Upgrades are postponed for lack of in-house depth | Documentation for the platform is thin
@@ -213,7 +213,7 @@ faq: Do you provide out-of-hours coverage? | Where agreed. Coverage hours, respo
 
 @capability it-outsourcing/it-resource-augmentation
 title: IT Resource Augmentation & Secondments | Infeara Technologies
-description: Additional technical capacity for a defined period, working under your direction and inside your processes and standards.
+description: Additional technical capacity for a defined period, working under your direction and inside your processes, standards, and approval paths, with review points.
 intro: Augmentation adds hands and specific skills without changing who owns the outcome. Your team directs the work.
 covers: Short-term technical capacity for projects | Specialist skills for defined workstreams | Coverage during absence or transition | Knowledge sharing with internal staff
 signs: A project stalls whenever one person is unavailable | Recruitment is slower than the delivery timeline | A specialist task blocks the whole team
@@ -223,7 +223,7 @@ faq: Is there a minimum engagement? | Duration is set by the work. Short, well-d
 
 @capability it-outsourcing/application-maintenance-and-support
 title: Application Maintenance & Support | Infeara Technologies
-description: Ongoing maintenance for business applications: fixes, minor changes, compatibility work, and support, with clear release control.
+description: Ongoing maintenance for business applications: fixes, minor changes, compatibility work, and support, with clear release control and testing.
 intro: Business applications need care long after go-live. We maintain, fix, and adapt them without changing their behaviour unexpectedly.
 covers: Defect diagnosis and correction | Minor enhancements and configuration changes | Compatibility work with operating systems, databases, and browsers | Release and rollback control
 signs: A business-critical application has no active maintainer | Nobody can say which version is deployed where | Fixes are applied directly in production
@@ -233,7 +233,7 @@ faq: Can you maintain software another firm built? | Often, after a review of co
 
 @capability it-outsourcing/technical-escalation-support
 title: Technical Escalation Support | Infeara Technologies
-description: A second line for unresolved incidents and stalled technical work, providing specialist depth when first-line teams reach their limit.
+description: A second line for unresolved incidents and stalled technical work, providing specialist depth when first-line teams reach their limit or run out of time.
 intro: Some problems outlive the first attempt. This adds an experienced escalation point with vendor-facing and evidence-based troubleshooting.
 covers: Advanced troubleshooting and diagnostics | Vendor and support-case escalation | Root-cause analysis for stubborn issues | Recommendations to prevent recurrence
 signs: Incidents are open for weeks with no progress | Vendor cases stall for lack of technical evidence | The same fault recurs across different systems
@@ -253,7 +253,7 @@ faq: Can you take over existing cloud infrastructure? | Yes, starting with a rev
 
 @capability cloud-datacenter/hybrid-cloud-and-on-premises-management
 title: Hybrid Cloud & On-Premises Management | Infeara Technologies
-description: Operations across mixed environments, keeping identity, networking, backup, and monitoring coherent between cloud and on-premises systems.
+description: Operations across mixed environments, keeping identity, networking, backup, and monitoring coherent between cloud, on-premises systems, and teams.
 intro: Hybrid is a permanent state for most organizations. The work is making the seams predictable rather than treating mix as a failure.
 covers: Connectivity and routing between environments | Identity and access consistency | Backup, recovery, and monitoring across both | Workload placement review
 signs: Different teams manage cloud and on-premises with no shared view | Identity works differently in each environment | Backup coverage has gaps at the boundary
@@ -263,7 +263,7 @@ faq: Should everything eventually move to cloud? | Not necessarily. Stable workl
 
 @capability cloud-datacenter/cloud-and-datacenter-audits
 title: Cloud & Datacenter Audits for Hybrid Estates | Infeara
-description: Structured audits of cloud and datacenter environments covering architecture, resilience, security basics, operations, and cost control.
+description: Structured audits of cloud and datacenter environments covering architecture, resilience, security basics, operations, and cost control in one report.
 intro: An audit is useful when it changes decisions. We review what you run, compare it with requirements, and report what to change first.
 covers: Architecture and resilience review | Security and access configuration review | Operational process and documentation review | Cost and capacity review
 signs: The environment grew without a design review | Resilience assumptions have never been tested | Cost and capacity are managed by reaction
@@ -273,7 +273,7 @@ faq: How long does an audit take? | Usually two to four weeks depending on envir
 
 @capability cloud-datacenter/cloud-migration-planning
 title: Cloud Migration Planning & Sequencing | Infeara Technologies
-description: Migration planning by workload and dependency, with target architecture, sequencing, cutover approach, and rollback for each move.
+description: Migration planning by workload and dependency, with target architecture, sequencing, cutover approach, and a written rollback path for each move.
 intro: Migrations fail when they are sequenced by server rather than by application dependency. We plan in waves with clear exit criteria.
 covers: Workload and dependency discovery | Target architecture and sizing per workload | Wave sequencing and cutover planning | Rollback, validation, and decommissioning plans
 signs: A migration date exists but no wave plan | Application owners have not been involved | Nobody has defined what success looks like per system
@@ -283,7 +283,7 @@ faq: What about legacy applications? | Some need re-platforming, some stay on-pr
 
 @capability cloud-datacenter/cloud-cost-optimization
 title: Cloud Cost Optimization Review | Infeara Technologies
-description: Cost review that connects spend to workloads and owners, with right-sizing, commitment, and waste reduction actions you can sustain.
+description: Cost review that connects spend to workloads and owners, with right-sizing, commitment, and waste reduction actions you can sustain after we leave.
 intro: Cloud cost problems are usually ownership problems. The review attributes spend, then fixes the causes rather than the invoice.
 covers: Spend attribution by workload, team, and environment | Right-sizing and idle-resource review | Commitment and discount coverage analysis | Tagging and budget-control design
 signs: The invoice grows faster than usage | Nobody can explain the largest line items | Non-production environments run continuously
@@ -293,7 +293,7 @@ faq: Will optimization affect performance? | Right-sizing is based on observed u
 
 @capability cloud-datacenter/cloud-backup-and-recovery
 title: Cloud Backup & Recovery Design | Infeara Technologies
-description: Backup and recovery design for cloud workloads, covering retention, isolation, cross-region copies, and tested restore procedures.
+description: Backup and recovery design for cloud workloads, covering retention, isolation, cross-region copies, and tested restore procedures you can repeat.
 intro: Cloud providers protect the platform, not your data. Backup design must cover deletion, corruption, and account-level compromise.
 covers: Backup scope, schedule, and retention design | Immutable or isolated copy strategy | Cross-region and cross-account protection | Restore testing and recovery runbooks
 signs: Reliance on provider snapshots alone | Backups stored in the same account as production | Restore has never been tested
@@ -303,7 +303,7 @@ faq: How is cloud backup cost controlled? | Through tiering and retention rules 
 
 @capability network-engineering/lan-and-wan-implementation
 title: LAN & WAN Implementation | Network Engineering | Infeara
-description: Implementation of office, branch, and wide-area networks, including physical cabling coordination, addressing, and circuit handover.
+description: Implementation of office, branch, and wide-area networks, including physical cabling coordination, addressing, circuit handover, and testing.
 intro: Implementation is where design meets buildings, circuits, and providers. We coordinate the physical and logical work in the right order.
 covers: Switch, router, and access point deployment | Addressing, VLAN, and routing configuration | Circuit ordering and provider coordination | Cutover, testing, and documentation
 signs: A new site is ready but the network cutover is not planned | Provider handovers are managed by whoever is available | Addressing has grown without a scheme
@@ -313,7 +313,7 @@ faq: Can you work with our carrier? | Yes. We prepare circuit details and demarc
 
 @capability network-engineering/enterprise-network-design
 title: Enterprise Network Design & Documentation | Infeara
-description: Network architecture designed around traffic flows, segmentation, resilience, and growth, documented so it can be built and maintained.
+description: Network architecture designed around traffic flows, segmentation, resilience, and growth, documented so it can be built and maintained by your team.
 intro: Good design explains why the network looks the way it does. We document the flows, the boundaries, and the trade-offs.
 covers: Requirements and traffic-flow analysis | Topology, redundancy, and addressing design | Segmentation and security-zone design | Design documentation and build standards
 signs: The design exists only as a diagram of what was installed | Segmentation is driven by convenience | Growth has been handled by adding links without a plan
@@ -323,7 +323,7 @@ faq: Is SD-WAN in scope? | Yes, where it fits the requirement. We compare it aga
 
 @capability network-engineering/routing-switching-vlans-and-segmentation
 title: Routing, Switching, VLANs & Segmentation | Network Engineering
-description: Configuration and restructuring of routing and switching, with VLAN and segmentation design that limits how far a problem can spread.
+description: Configuration and restructuring of routing and switching, with VLAN and segmentation design that limits how far a problem can spread across sites.
 intro: Segmentation is a security control as much as a network one. Done well, it limits spread; done badly, it breaks applications.
 covers: VLAN design and inter-VLAN routing | Routing protocol configuration and review | Segmentation of servers, users, and devices | Access control between segments
 signs: Everything sits on one flat network | Segmentation was attempted and rolled back | Routing changes are made without documenting the effect
@@ -333,7 +333,7 @@ faq: Can you segment our operational technology or devices? | Where the devices 
 
 @capability network-engineering/wi-fi-infrastructure
 title: Wi-Fi Infrastructure Design & Deployment | Network Engineering
-description: Wireless survey, design, and deployment for reliable coverage and roaming, including guest isolation and authentication methods.
+description: Wireless survey, design, and deployment for reliable coverage and roaming, including guest isolation, authentication methods, and validation.
 intro: Wireless problems are usually design problems: too few access points, poor placement, or the wrong band plan.
 covers: Predictive and on-site site surveys | Access point placement and channel planning | Authentication, guest, and network isolation | Post-deployment validation and tuning
 signs: Coverage claims are based on the access point datasheet | Users drop connections when moving between rooms | Guest devices can reach internal systems
@@ -343,7 +343,7 @@ faq: Can you work with our existing access points? | Where they support the requ
 
 @capability network-engineering/firewall-deployment-and-vpn-connectivity
 title: Firewall Deployment & VPN Connectivity | Infeara Technologies
-description: Firewall implementation and rule design, plus site-to-site and remote-access VPN, with policy that is reviewable and documented.
+description: Firewall implementation and rule design, plus site-to-site and remote-access VPN, with policy that is reviewable, documented, and cleaned up.
 intro: A firewall is only as effective as its rule set. We implement policy that can be read, justified, and reviewed.
 covers: Firewall deployment and migration between platforms | Rule design, ordering, and object hygiene | Site-to-site and remote-access VPN | Policy review and change management
 signs: Rules have accumulated without review or expiry | Rule order makes behaviour hard to predict | Remote access is enabled without strong authentication
@@ -353,7 +353,7 @@ faq: What about MFA on remote access? | It is recommended for anything reaching 
 
 @capability network-engineering/network-monitoring-troubleshooting-and-documentation
 title: Network Monitoring, Troubleshooting & Documentation | Infeara
-description: Monitoring and troubleshooting for network faults, with documentation of the paths, dependencies, and thresholds that matter.
+description: Monitoring and troubleshooting for network faults, with documentation of the paths, dependencies, and thresholds that matter during an outage.
 intro: Intermittent faults are expensive to chase without evidence. We instrument the network so problems are located, not guessed.
 covers: Device and link monitoring | Flow, latency, and error analysis | Fault investigation and resolution | Topology and dependency documentation
 signs: Faults are closed as "user error" without evidence | Uptime is measured but performance is not | Documentation is out of date after every change
@@ -363,7 +363,7 @@ faq: Can you investigate historic faults? | Where logs and metrics were retained
 
 @capability facility-management/onsite-infrastructure-support
 title: Onsite IT Infrastructure Support | Infeara Technologies
-description: Onsite technical support for hardware, cabling, and server room work, scheduled per site with verified records and consistent reporting.
+description: Onsite technical support for hardware, cabling, and server room work, scheduled per site with verified records and consistent reporting to you.
 intro: Some work has to happen in the room. We provide scheduled onsite support with consistent records across sites.
 covers: Hardware installation, replacement, and inspection | Cabling and patching checks | Server room and cabinet housekeeping | Escalation of physical faults to vendors
 signs: Physical issues wait for a willing volunteer | Vendors arrive with nobody technical present | Records differ from site to site
@@ -373,7 +373,7 @@ faq: Do you cover multiple cities? | Coverage is agreed explicitly per location 
 
 @capability facility-management/server-room-operations
 title: Server Room Operations & Housekeeping | Infeara Technologies
-description: Operational management of server rooms and cabinets: power, cooling, access, cabling, and environment checks with recorded results.
+description: Operational management of server rooms and cabinets: power, cooling, access, cabling, and environment checks with recorded results and actions.
 intro: Rooms fail from accumulated small decisions: a blocked vent, a daisy-chained power strip, a cabinet nobody can access safely.
 covers: Power, cooling, and environmental checks | Cabinet layout and cable management | Access control and visitor records | Capacity and density planning
 signs: Nobody has checked cooling or power headroom recently | Cabling makes changes risky | Access records do not exist
@@ -383,7 +383,7 @@ faq: Can you plan a rack refresh? | Yes, including power and cooling implication
 
 @capability facility-management/asset-inventory-and-lifecycle-tracking
 title: IT Asset Inventory & Lifecycle Tracking | Infeara Technologies
-description: Verified hardware and software asset records with warranty, support, and replacement dates, so lifecycle decisions stop being reactive.
+description: Verified hardware and software asset records with warranty, support, and replacement dates, so lifecycle decisions stop being reactive and unplanned.
 intro: An asset register is only useful if it is verified. We reconcile records against what is actually deployed.
 covers: Physical and discovered inventory reconciliation | Warranty and support date tracking | Lifecycle and replacement planning | Disposal and data-sanitisation records
 signs: The register includes equipment that was retired years ago | Support lapses are discovered at failure | Disposal records do not exist
@@ -393,7 +393,7 @@ faq: Does this cover software assets? | Yes, including licence counts and renewa
 
 @capability facility-management/equipment-installation-and-relocation
 title: Equipment Installation & Relocation | Infeara Technologies
-description: Coordinated installation and moves for servers, network gear, and end-user hardware, including power-down, transport, and validation.
+description: Coordinated installation and moves for servers, network gear, and end-user hardware, including power-down, transport, re-cabling, and validation.
 intro: Moves go wrong at the seams between teams. We coordinate the sequence so equipment leaves and arrives in a known state.
 covers: Installation planning and site readiness | Power-down, labelling, and packing | Transport coordination and re-racking | Power-on testing and validation
 signs: A move date is set before the destination is ready | Labelling is inconsistent or absent | Validation after a move relies on users reporting problems
@@ -403,7 +403,7 @@ faq: Who handles insurance during transit? | That stays with your organization o
 
 @capability facility-management/physical-infrastructure-inspection
 title: Physical Infrastructure Inspection | Infeara Technologies
-description: Scheduled inspection of racks, power, cooling, cabling, and physical security, reported with photographs and recommended actions.
+description: Scheduled inspection of racks, power, cooling, cabling, and physical security, reported with photographs and prioritised recommended actions.
 intro: Physical risks are easy to miss until they cause an outage. Regular inspection catches them while they are still cheap to fix.
 covers: Rack, cabling, and labelling inspection | Power distribution and UPS checks | Cooling and airflow assessment | Physical access and security review
 signs: No recorded inspection has been done in the last year | Airflow is blocked by cabling or blanking panels are missing | UPS batteries have never been replaced
@@ -413,7 +413,7 @@ faq: How disruptive is an inspection? | Minimal. Most checks are visual and can 
 
 @capability facility-management/preventive-maintenance-and-health-reporting
 title: Preventive Maintenance & Health Reporting | Infeara
-description: Scheduled maintenance for physical IT infrastructure with health reporting, so maintenance is planned instead of triggered by failure.
+description: Scheduled maintenance for physical IT infrastructure with health reporting, so maintenance is planned instead of triggered by a failure. Results are reported.
 intro: Preventive maintenance is a schedule, not a repair service. We plan the work and report what the estate is doing over time.
 covers: Maintenance scheduling per asset class | Firmware, battery, and consumable replacement | Health trends and recurring faults | Reporting for management review
 signs: Maintenance happens only after something fails | UPS batteries and filters exceed service life | Health reporting does not exist
@@ -423,7 +423,7 @@ faq: What if equipment is out of warranty? | It is flagged first. Out-of-warrant
 
 @capability turnkey-projects/requirements-discovery-and-site-assessment
 title: Requirements Discovery & Site Assessment | Turnkey Projects
-description: Structured discovery of business requirements, technical constraints, and site conditions before any design or purchase decision.
+description: Structured discovery of business requirements, technical constraints, and site conditions before any design, quotation, or purchase decision.
 intro: Projects get expensive when requirements are discovered during deployment. This phase makes them explicit first.
 covers: Stakeholder interviews and requirement capture | Current-state and dependency assessment | Site, power, and environmental assessment | Constraint, risk, and assumption register
 signs: The project has a solution but no written requirements | Site readiness has not been verified | Assumptions are held by different people
@@ -433,7 +433,7 @@ faq: Can you work from our existing requirements? | Yes, and we verify them rath
 
 @capability turnkey-projects/capacity-planning-and-architecture-design
 title: Capacity Planning & Architecture Design | Infeara Technologies
-description: Architecture and capacity design based on measured demand, growth assumptions, and resilience requirements, documented for build.
+description: Architecture and capacity design based on measured demand, growth assumptions, and resilience requirements, documented ready for build and review.
 intro: Design decisions should be traceable to measured demand and agreed resilience, not to a vendor size chart.
 covers: Demand and growth modelling | Resilience and availability design | Component sizing and redundancy | Design documentation and review
 signs: Sizing is inherited from the previous system | Growth assumptions are not written down | Resilience requirements are implicit
@@ -443,7 +443,7 @@ faq: Do you design for high availability? | Where the requirement justifies the 
 
 @capability turnkey-projects/bill-of-materials-and-cost-estimation
 title: Bill of Materials & Cost Estimation | Infeara Technologies
-description: Bills of materials and total cost estimates covering hardware, licensing, installation, support, and the operating costs after go-live.
+description: Bills of materials and total cost estimates covering hardware, licensing, installation, support, and the operating costs after go-live begins.
 intro: A bill of materials is not a cost estimate. This work covers what the purchase commits you to after installation.
 covers: Hardware and software bill of materials | Licensing and support term comparison | Installation and services effort | Total cost of ownership over a defined period
 signs: The quote covers purchase but not support or licensing renewal | Options differ in ways that are hard to compare | Costs are discovered after the order
@@ -453,7 +453,7 @@ faq: How accurate are the estimates? | Accuracy improves as design detail increa
 
 @capability turnkey-projects/procurement-and-vendor-coordination
 title: Procurement & Vendor Coordination | Infeara Technologies
-description: Procurement coordination across vendors, including lead times, delivery scheduling, and the interface points between suppliers.
+description: Procurement coordination across vendors, including lead times, delivery scheduling, and the interface points between suppliers and installers.
 intro: Procurement delays are usually coordination delays. We track lead times and the dependencies between suppliers.
 covers: Order tracking and lead-time management | Delivery, inspection, and asset recording | Vendor interface and escalation | Licence and warranty registration
 signs: Two vendors each assume the other is delivering an item | Delivery dates are not linked to the deployment plan | Nobody tracks warranty registration
@@ -463,7 +463,7 @@ faq: What if a vendor delays delivery? | The project plan is re-sequenced, and a
 
 @capability turnkey-projects/server-storage-and-network-deployment
 title: Server, Storage & Network Deployment | Infeara Technologies
-description: Coordinated deployment of servers, storage, and network equipment, with change control, integration testing, and a staged cutover.
+description: Coordinated deployment of servers, storage, and network equipment, with change control, integration testing, and a staged cutover plan signed off with you.
 intro: Deployment is where design assumptions are tested by reality. We stage the work so surprises are found early.
 covers: Racking, cabling, and power connection | Firmware, configuration, and baseline build | Integration testing between components | Staged cutover and rollback
 signs: Deployment is scheduled without a test stage | Cutover happens in one night with no rollback plan | Configuration differs from the design without record
@@ -473,7 +473,7 @@ faq: How are deviations from the design handled? | They are recorded and approve
 
 @capability turnkey-projects/testing-documentation-and-handover
 title: Testing, Documentation & Handover | Infeara Technologies
-description: Acceptance testing against agreed criteria, as-built documentation, and knowledge handover so your team can operate the result.
+description: Acceptance testing against agreed criteria, as-built documentation, and knowledge handover so your team can operate and support the result, with evidence.
 intro: A project is not finished when the hardware is installed. It is finished when your team can run it without the project team.
 covers: Acceptance testing against agreed criteria | As-built and operational documentation | Runbook and escalation design | Knowledge transfer sessions
 signs: Acceptance criteria were never written down | Handover is a folder of supplier manuals | Support ownership after go-live is unclear
@@ -483,7 +483,7 @@ faq: Is post-go-live support included? | It can be, as a separate agreed scope. 
 
 @capability automation-software/it-infrastructure-automation
 title: IT Infrastructure Automation | Infeara Technologies
-description: Automation for repeatable infrastructure tasks such as provisioning, configuration, and routine checks, with logging and rollback.
+description: Automation for repeatable infrastructure tasks such as provisioning, configuration, and routine checks, with logging, approval, and rollback.
 intro: Automate what is stable and well understood. Rules, scripts, and pipelines should reduce error, not hide it.
 covers: Provisioning and configuration automation | Routine health and compliance checks | Scripted remediation with guardrails | Version control and change history
 signs: The same manual steps are repeated across systems | Scripts exist but only one person runs them | Configuration drift is discovered during audits
@@ -493,7 +493,7 @@ faq: What happens if automation makes a mistake? | Guardrails, dry-run modes, an
 
 @capability automation-software/patch-and-maintenance-workflows
 title: Patch & Maintenance Workflow Automation | Infeara Technologies
-description: Automated patch assessment, scheduling, and reporting, with approval gates and rollback so maintenance cycles are repeatable.
+description: Automated patch assessment, scheduling, and reporting, with approval gates and rollback so maintenance cycles are repeatable, auditable, and reviewed monthly.
 intro: Patch cycles fail on coordination, not on tooling. Automation handles the repetitive parts and leaves the decisions visible.
 covers: Patch assessment and grouping | Scheduled deployment with approval gates | Pre-change backup and post-change validation | Reporting and exception tracking
 signs: Patch status is compiled by hand each month | Windows and approvals are coordinated through email threads | Exceptions have no expiry
@@ -503,7 +503,7 @@ faq: Can it cover third-party applications? | Yes, where they have a supported u
 
 @capability automation-software/monitoring-and-alerting-automation
 title: Monitoring & Alerting Automation | Infeara Technologies
-description: Automated alert routing, enrichment, and first-response actions, so responders get context instead of raw threshold breaches.
+description: Automated alert routing, enrichment, and first-response actions, so responders get context instead of raw threshold breaches and preventable noise.
 intro: Alert fatigue is a design problem. Automation should add context and remove noise before a person is involved.
 covers: Alert routing rules and escalation | Context enrichment from inventory and dependency data | Automated first-response actions | Suppression and maintenance-window handling
 signs: The same alert fires repeatedly with no action | Responders look up the same information every time | Maintenance windows still generate alerts
@@ -513,7 +513,7 @@ faq: How do you avoid missing real alerts? | By separating suppression rules fro
 
 @capability automation-software/ai-assisted-operations-with-human-oversight
 title: AI-Assisted Operations With Human Oversight | Infeara
-description: Narrow, supervised use of AI for triage suggestions, summarisation, and drafting, with a person approving any action on live systems.
+description: Narrow, supervised use of AI for triage suggestions, summarisation, and drafting, with a person approving any action taken on live systems. Actions are logged.
 intro: AI is useful in narrow, supervised tasks. It is not a substitute for accountability, and nothing it suggests should reach production unchecked.
 covers: Triage and classification suggestions | Log and incident summarisation | Draft runbooks and documentation | Evaluation of accuracy and failure modes
 signs: Staff spend time summarising repetitive data | Documentation lags because writing takes time | Interest in AI without a defined use case
@@ -523,7 +523,7 @@ faq: What about data privacy? | Data handling is agreed before use: what is sent
 
 @capability automation-software/custom-business-application-development
 title: Custom Business Application Development | Infeara Technologies
-description: Purpose-built business applications and internal tools, developed against real workflows with supportable code and documented ownership.
+description: Purpose-built business applications and internal tools, developed against real workflows with supportable code, documented ownership, and handover.
 intro: Custom software should exist because a workflow genuinely differs, not because a product was inconvenient.
 covers: Workflow analysis and requirements | Application design and development | Integration with existing systems | Testing, deployment, and support planning
 signs: A spreadsheet has become business-critical | Staff re-enter the same data in several systems | An off-the-shelf tool almost fits but not quite
@@ -533,7 +533,7 @@ faq: Who owns the code? | You do, as part of the engagement. Ownership, source a
 
 @capability automation-software/workflow-digitization-integration-and-support
 title: Workflow Digitization, Integration & Support | Infeara
-description: Turning paper and spreadsheet processes into digital workflows, with integration between existing systems and ongoing support.
+description: Turning paper and spreadsheet processes into digital workflows, with integration between existing systems and ongoing support after launch, with a support plan.
 intro: Digitization is a process change with a technical component. We map the workflow before choosing the tooling.
 covers: Process mapping and exception handling | Digital forms and approval flows | Integration between existing applications | Support, change handling, and monitoring
 signs: Approvals happen over email and are hard to audit | Data is copied between systems by hand | Nobody can say where a request currently sits
