@@ -105,3 +105,8 @@
 @media(max-width:600px){.footer-links{margin-top:0}}
 
 @media(max-width:600px){.footer-links{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:24px 20px}.footer-links>div{min-width:0}}
+
+/* Field-note cards: the photograph fills the illustration band exactly. The band keeps its own
+   height and clips its content, so the image can never overlap the category, title or summary. */
+.insight-illustration img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.insight-card .insight-illustration{border-radius:2px}
