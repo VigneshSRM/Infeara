@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head(${pageTitle}, ${pageDescription})}"><title>Cybersecurity service | Infeara</title></head>
+<body>
+<div th:replace="~{fragments/site :: header}"></div>
+<main id="main" class="editorial-page">
+  <section class="service-detail-hero section-pad">
+    <div class="service-breadcrumb"><a th:href="@{/}">Home</a><span>/</span><a th:href="@{/services}">Services</a><span>/</span><a th:href="@{/services/{slug}(slug=${parentService.slug})}" th:text="${parentService.name}">Service</a><span>/</span><span th:text="${specialistService.name}">Service</span></div>
+    <div class="service-detail-hero-grid service-z-row-one">
+      <div class="service-z-hero-copy">
+        <div class="section-index"><span th:text="${specialistService.category}">CYBERSECURITY / SPECIALIST SERVICE</span><span class="index-rule"></span><span>SCOPED / PRACTICAL / DOCUMENTED</span></div>
+        <h1 th:text="${specialistService.name}">Cybersecurity service</h1>
+        <p class="service-positioning" th:text="${specialistService.positioning}">Focused service description</p>
+        <p class="service-z-summary" th:text="${specialistService.summary}">Service summary</p>
+        <a class="button button-blue" th:href="@{/contact(service=${specialistService.name})}">Discuss this service <span>↗</span></a>
+      </div>
+      <figure class="service-z-image service-z-image-first"><img th:src="@{/assets/services/{file}(file=${specialistService.heroImage.fileName})}" th:alt="${specialistService.heroImage.alt}" width="960" height="520" fetchpriority="high" decoding="async"></figure>
+    </div>
+  </section>
+  <section class="service-z-detail-section section-pad">
+    <div class="service-z-detail-grid">
+      <div class="service-photo-carousel" data-photo-carousel role="region" aria-roledescription="carousel" aria-label="Additional service photos">
+        <div class="service-photo-stage">
+          <figure class="service-z-image service-z-image-second service-photo-slide" data-photo-slide th:each="image,iter : ${specialistService.galleryImages}" th:classappend="${iter.index == 0} ? ' is-active' : ''" th:attr="aria-hidden=${iter.index != 0}">
+            <img th:src="@{/assets/services/{file}(file=${image.fileName})}" th:alt="${image.alt}" width="960" height="520" loading="lazy" decoding="async">
+          </figure>
+        </div>
+        <div class="service-photo-controls">
+          <button class="service-photo-arrow" type="button" data-photo-prev aria-label="Previous photo">←</button>
+          <div class="service-photo-dots"><button th:each="image,iter : ${specialistService.galleryImages}" type="button" class="service-photo-dot" data-photo-dot th:classappend="${iter.index == 0} ? ' is-active' : ''" th:attr="aria-label=${'Show photo ' + iter.count},aria-current=${iter.index == 0 ? 'true' : 'false'}"></button></div>
+          <span class="service-photo-count" data-photo-count aria-live="polite">01 / 02</span>
+          <button class="service-photo-arrow" type="button" data-photo-next aria-label="Next photo">→</button>
+        </div>
+      </div>
+      <div class="service-z-detail-copy"><span class="eyebrow">SCOPE / EXAMPLES</span><h2>Clear scope.<br><em>Responsible work.</em></h2><p class="service-z-explainer">The work is scoped in advance around your environment, requirements, priorities, and constraints.</p><div class="capability-list"><div th:each="capability,iter : ${specialistService.capabilities}"><span class="service-number" th:text="${#numbers.formatInteger(iter.count,2)}">01</span><span th:text="${capability}">Scope item</span></div></div><p class="scope-note" th:if="${parentService.slug == 'cybersecurity'}">Security testing is performed only with written authorization and a documented scope, rules of engagement, data-handling expectations, and reporting plan. No testing begins before approval.</p><p class="scope-note" th:if="${parentService.slug != 'cybersecurity'}">Specific platforms, boundaries, responsibilities, and validation steps are confirmed with you before work begins.</p></div>
+    </div>
+  </section>
+  <section class="related-services-section section-pad"><div class="section-heading-row"><div><div class="section-index"><span>02</span><span class="index-rule"></span><span>RELATED SERVICES</span></div><h2>Connected areas.<br><span>One clear conversation.</span></h2></div><a class="text-link" th:href="@{/services/{slug}(slug=${parentService.slug})}"><span th:text="|${parentService.name} overview|">Service overview</span> <span>↗</span></a></div><div class="related-card-row"><a class="related-card" th:each="related : ${relatedSpecialistServices}" th:href="@{/services/{parent}/{slug}(parent=${parentService.slug},slug=${related.slug})}"><span class="eyebrow" th:text="${related.category}">CATEGORY</span><h3 th:text="${related.name}">Related service</h3><span>Explore <b>↗</b></span></a></div></section>
+  <section class="page-cta section-pad"><span class="eyebrow">LET’S TALK ABOUT YOUR REQUIREMENTS</span><h2>Define the right<br><em>service scope.</em></h2><p>Tell us about your environment, requirements, and intended outcome.</p><a class="button button-coral" th:href="@{/contact(service=${specialistService.name})}">Request a consultation <span>↗</span></a></section>
+</main>
+<div th:replace="~{fragments/site :: footer}"></div>
+</body>
+</html>

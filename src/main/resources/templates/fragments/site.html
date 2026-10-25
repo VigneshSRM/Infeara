@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title, description)">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#eae6de">
+  <meta name="description" th:content="${description}"><title th:text="${title}">Infeara Technologies</title>
+  <link rel="canonical" th:href="${canonicalUrl}">
+  <link rel="icon" type="image/png" th:href="@{/assets/favicon.png}">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/site.css(v=20261025-20)}"><link rel="stylesheet" th:href="@{/css/pages.css(v=20261025-32)}">
+  <script th:src="@{/js/site.js(v=20261025-19)}" defer></script>
+</head>
+<body>
+<header class="site-header" id="top" th:fragment="header">
+
+  <div class="header-inner">
+    <a class="brand" th:href="@{/}" aria-label="Infeara Technologies home"><img th:src="@{/assets/infeara-geometric-logo.png}" alt="Infeara Technologies"></a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <div class="nav-services-wrap">
+        <a class="nav-link" th:href="@{/services}" th:classappend="${activePage == 'services'} ? 'active' : ''">Services</a>
+        <button class="nav-link services-toggle" type="button" aria-label="Open service menu" aria-expanded="false" aria-controls="services-menu"><span class="chevron" aria-hidden="true"></span></button>
+        <div class="mega-menu" id="services-menu" hidden>
+          <div class="mega-intro"><span class="eyebrow">HOW WE HELP</span><h2>Technology for what’s next.</h2><p>Browse our service areas and their dedicated detail pages.</p><a class="text-link" th:href="@{/services}">Explore all services <span aria-hidden="true">↗</span></a></div>
+          <div class="mega-service-groups"><section class="mega-service-group" th:each="group : ${serviceNavigationGroups}"><a class="mega-group-title" th:href="@{/services/{slug}(slug=${group.service.slug})}" th:text="${group.service.name}">Service area</a><a class="mega-sub-link" th:each="page : ${group.pages}" th:href="@{/services/{parent}/{slug}(parent=${page.parentSlug},slug=${page.slug})}" th:text="${page.name}">Service page</a></section></div>
+        </div>
+      </div>
+      <div class="nav-industries-wrap">
+        <a class="nav-link" th:href="@{/industries}" th:classappend="${activePage == 'industries'} ? 'active' : ''">Industries</a>
+        <button class="nav-link industries-toggle" type="button" aria-label="Open industries menu" aria-expanded="false" aria-controls="industries-menu"><span class="chevron" aria-hidden="true"></span></button>
+        <div class="mega-menu industries-menu" id="industries-menu" hidden>
+          <div class="mega-intro"><span class="eyebrow">INDUSTRIES / WORK ENVIRONMENTS</span><h2>Explore every work context.</h2><p>Browse all industry pages. These are starting points for discussion, not claims of specialized sector experience.</p><a class="text-link" th:href="@{/industries}">Explore all industries <span aria-hidden="true">↗</span></a></div>
+          <div class="industry-menu-links"><a th:each="industry : ${industryNavigation}" th:href="@{/industries/{slug}(slug=${industry.slug})}" th:text="${industry.title}">Industry</a></div>
+        </div>
+      </div>
+      <a class="nav-link" th:href="@{/careers}" th:classappend="${activePage == 'careers'} ? 'active' : ''">Careers</a>
+      <a class="nav-link" th:href="@{/clients}" th:classappend="${activePage == 'clients'} ? 'active' : ''">Our Clients</a>
+      <div class="nav-about-wrap">
+        <a class="nav-link" th:href="@{/about}" th:classappend="${activePage == 'about'} ? 'active' : ''">About</a>
+        <button class="nav-link about-toggle" type="button" aria-label="Open About menu" aria-expanded="false" aria-controls="about-menu" th:classappend="${activePage == 'insights' or activePage == 'blogs' or activePage == 'newsletters'} ? 'active' : ''"><span class="chevron" aria-hidden="true"></span></button>
+        <div class="about-menu" id="about-menu" hidden><a th:href="@{/about}" th:classappend="${activePage == 'about'} ? 'active' : ''">About Infeara <small>OUR APPROACH</small></a><a th:href="@{/insights}" th:classappend="${activePage == 'insights'} ? 'active' : ''">Insights <small>FIELD NOTES</small></a><a th:href="@{/blogs}" th:classappend="${activePage == 'blogs'} ? 'active' : ''">Blogs <small>ARTICLES</small></a><a th:href="@{/newsletters}" th:classappend="${activePage == 'newsletters'} ? 'active' : ''">Newsletters <small>UPDATES</small></a></div>
+      </div>
+    </nav>
+    <a class="button button-dark header-cta" th:href="@{/contact}">Request a consultation <span aria-hidden="true">↗</span></a>
+    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation"><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <button class="mobile-submenu-toggle" type="button" data-mobile-submenu-toggle aria-expanded="false" aria-controls="mobile-services-submenu"><span>Services</span><span class="mobile-submenu-mark" aria-hidden="true">+</span></button>
+    <div class="mobile-submenu mobile-services-submenu" id="mobile-services-submenu" hidden><a th:href="@{/services}">All services</a><details class="mobile-service-group" th:each="group : ${serviceNavigationGroups}"><summary th:text="${group.service.name}">Service area</summary><a th:href="@{/services/{slug}(slug=${group.service.slug})}">Overview</a><a th:each="page : ${group.pages}" th:href="@{/services/{parent}/{slug}(parent=${page.parentSlug},slug=${page.slug})}" th:text="${page.name}">Service page</a></details></div>
+    <button class="mobile-submenu-toggle" type="button" data-mobile-submenu-toggle aria-expanded="false" aria-controls="mobile-industries-submenu"><span>Industries</span><span class="mobile-submenu-mark" aria-hidden="true">+</span></button>
+    <div class="mobile-submenu" id="mobile-industries-submenu" hidden><a th:href="@{/industries}">All industries</a><a th:each="industry : ${industryNavigation}" th:href="@{/industries/{slug}(slug=${industry.slug})}" th:text="${industry.title}">Industry</a></div>
+    <a th:href="@{/careers}">Careers <span>OPPORTUNITIES</span></a><a th:href="@{/clients}">Our Clients <span>CLIENTS</span></a>
+    <button class="mobile-submenu-toggle" type="button" data-mobile-submenu-toggle aria-expanded="false" aria-controls="mobile-about-submenu"><span>About</span><span class="mobile-submenu-mark" aria-hidden="true">+</span></button>
+    <div class="mobile-submenu" id="mobile-about-submenu" hidden><a th:href="@{/about}">About Infeara</a><a th:href="@{/insights}">Insights <span>FIELD NOTES</span></a><a th:href="@{/blogs}">Blogs <span>ARTICLES</span></a><a th:href="@{/newsletters}">Newsletters <span>UPDATES</span></a></div>
+    <a th:href="@{/contact}">Contact <span>LET’S TALK</span></a><a class="mobile-cta" th:href="@{/contact}">Request a consultation <span>↗</span></a>
+  </div>
+</header>
+<footer class="site-footer" th:fragment="footer">
+  <div class="footer-main">
+
+    <div class="footer-links"><div><span class="footer-label">EXPLORE</span><a th:href="@{/services}">Services</a><a th:href="@{/industries}">Industries</a><a th:href="@{/careers}">Careers</a><a th:href="@{/clients}">Our Clients</a><a th:href="@{/about}">About Infeara</a></div><div><span class="footer-label">INSIGHTS &amp; UPDATES</span><a th:href="@{/insights}">Insights</a><a th:href="@{/blogs}">Blogs</a><a th:href="@{/newsletters}">Newsletters</a></div><div><span class="footer-label">GET IN TOUCH</span><a th:href="@{/contact}">Request a consultation</a><a th:href="@{/privacy}">Privacy notice</a><a th:href="@{/terms}">Terms of use</a></div></div>
+  </div>
+  <div class="footer-bottom"><span>© <span th:text="${currentYear}">2026</span> Infeara Technologies. All rights reserved.</span><span>BUILT WITH PURPOSE <span class="orange-dot"></span></span><a th:href="@{/#top}">BACK TO TOP ↑</a></div>
+</footer>
+</body></html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head(${pageTitle}, ${pageDescription})}"><title>Newsletters | Infeara Technologies</title></head>
+<body>
+<div th:replace="~{fragments/site :: header}"></div>
+<main id="main" class="editorial-page">
+  <section class="page-hero page-hero-coral newsletter-page-hero section-pad">
+    <div class="service-breadcrumb"><a th:href="@{/}">Home</a><span>/</span><a th:href="@{/about}">About</a><span>/</span><span>Newsletters</span></div>
+    <div class="section-index"><span>01</span><span class="index-rule"></span><span>INFEARA / NEWSLETTERS</span></div>
+    <div class="page-hero-grid"><h1>Newsletter<br><em>editions.</em></h1><div><p>Browse published Infeara newsletter issues and their detailed editions.</p></div></div>
+  </section>
+  <section class="newsletter-index-section section-pad">
+    <div class="section-heading-row"><div><div class="section-index"><span>02</span><span class="index-rule"></span><span>THE ARCHIVE</span></div><h2>Notes for<br><span>what’s next.</span></h2></div><p class="heading-aside" th:text="|${#lists.size(newsletterEditions)} published editions|">Published editions</p></div>
+    <div class="newsletter-grid" th:if="${!#lists.isEmpty(newsletterEditions)}">
+      <article class="newsletter-card" th:each="edition,iter : ${newsletterEditions}">
+        <div class="newsletter-card-meta"><span class="service-number" th:text="${#numbers.formatInteger(iter.count,2)}">01</span><span th:text="${edition.editionLabel}">EDITION</span></div>
+        <h3><a th:href="@{/newsletters/{slug}(slug=${edition.slug})}" th:text="${edition.title}">Newsletter title</a></h3>
+        <p th:text="${edition.excerpt}">Newsletter summary</p>
+        <div class="newsletter-card-byline"><span th:text="${edition.publishedAt}">Published date</span><span th:text="${edition.readingMinutes} + ' MIN READ'">1 MIN READ</span></div>
+        <a class="text-link" th:href="@{/newsletters/{slug}(slug=${edition.slug})}">Read edition <span>↗</span></a>
+      </article>
+    </div>
+    <div class="empty-state" th:if="${#lists.isEmpty(newsletterEditions)}"><span class="eyebrow">NEWSLETTER ARCHIVE</span><h2>No editions published yet.</h2><p>There are no newsletter editions available at this time. Published editions will appear here.</p></div>
+  </section>
+</main>
+<div th:replace="~{fragments/site :: footer}"></div>
+</body>
+</html>

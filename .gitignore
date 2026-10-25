@@ -4,6 +4,13 @@
 # Log file
 *.log
 
+# Build and local configuration
+/target/
+.env
+.env.*
+!.env.example
+.DS_Store
+
 # BlueJ files
 *.ctxt
 

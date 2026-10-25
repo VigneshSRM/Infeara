@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head(${pageTitle}, ${pageDescription})}"><title>Open Positions at Infeara</title></head>
+<body>
+<div th:replace="~{fragments/site :: header}"></div>
+<main id="main" class="editorial-page">
+  <section class="career-listing-hero section-pad">
+    <div class="service-breadcrumb"><a th:href="@{/}">Home</a><span>/</span><a th:href="@{/careers}">Careers</a><span>/</span><span>Open positions</span></div>
+    <div class="section-index"><span>01</span><span class="index-rule"></span><span>CAREERS / CURRENT OPENINGS</span></div>
+    <div class="career-listing-heading"><div><h1>Open <em>positions.</em></h1><p>Explore current roles and find an opportunity that fits your experience and interests.</p></div><a class="text-link" th:href="@{/careers}">← Back to Careers</a></div>
+  </section>
+  <section class="career-openings-section career-listing-section section-pad">
+    <div class="section-heading-row"><div><div class="section-index"><span>02</span><span class="index-rule"></span><span>FIND YOUR NEXT STEP</span></div><h2>Search current<br><span>opportunities.</span></h2></div><p class="heading-aside">Each published role includes its responsibilities, requirements, working arrangements, and application instructions.</p></div>
+    <fieldset id="career-filters" class="career-filters" th:disabled="${#lists.isEmpty(jobs)}" aria-describedby="career-filter-note">
+      <legend>Filter open positions</legend>
+      <label class="career-filter-search" for="career-search"><span>Search roles</span><input id="career-search" type="search" placeholder="Job title, skill, or keyword"></label>
+      <label for="career-department"><span>Department</span><select id="career-department"><option value="">All departments</option><option value="software development">Software Development</option><option value="cloud &amp; infrastructure">Cloud &amp; Infrastructure</option><option value="cybersecurity">Cybersecurity</option><option value="sales &amp; marketing">Sales &amp; Marketing</option></select></label>
+      <label for="career-location"><span>Location</span><input id="career-location" type="search" placeholder="City, state, or country"></label>
+      <label for="career-work-mode"><span>Work mode</span><select id="career-work-mode"><option value="">All work modes</option><option value="on-site">On-site</option><option value="hybrid">Hybrid</option><option value="remote">Remote</option></select></label>
+      <label for="career-employment-type"><span>Employment type</span><select id="career-employment-type"><option value="">All employment types</option><option value="full-time">Full-time</option><option value="part-time">Part-time</option><option value="contract">Contract</option><option value="internship">Internship</option></select></label>
+    </fieldset>
+    <p id="career-filter-note" class="career-filter-note" th:text="${#lists.isEmpty(jobs) ? 'Filters will be available when current positions are published.' : 'Refine the current openings using the filters below.'}">Filters will be available when current positions are published.</p>
+    <div class="career-job-list">
+      <p class="career-results-count" data-career-count th:if="${!#lists.isEmpty(jobs)}" aria-live="polite"></p>
+      <article class="career-job-card" data-career-job th:each="job : ${jobs}" th:attr="data-title=${job.title},data-department=${job.department},data-location=${job.location},data-work-mode=${job.workMode},data-employment-type=${job.employmentType},data-keywords=${job.searchKeywords}">
+        <div class="career-job-heading"><div><span class="eyebrow" th:text="${job.department}">DEPARTMENT</span><h3 th:text="${job.title}">Position title</h3></div><span class="career-job-type" th:text="${job.employmentType}">FULL-TIME</span></div>
+        <div class="career-job-meta"><span th:text="${job.location}">Location</span><span th:text="${job.workMode}">Work mode</span><span th:text="${job.experience}">Experience</span><span th:if="${job.salaryRange != null and !job.salaryRange.isBlank()}" th:text="${job.salaryRange}">Salary range</span><span th:text="${job.postedDate}">Posted date</span></div>
+        <p th:text="${job.summary}">Role summary</p>
+        <div class="career-job-actions"><a class="button button-outline" th:href="@{/careers/{slug}(slug=${job.slug})}">View details <span>↗</span></a><a class="button button-blue" th:href="@{/careers/{slug}(slug=${job.slug},apply='true')}">Apply now <span>↗</span></a></div>
+      </article>
+      <div class="career-empty-state" th:if="${#lists.isEmpty(jobs)}"><span class="career-empty-mark" aria-hidden="true">—</span><h3>No open positions are published right now.</h3><p>Only verified roles will be listed here. This page does not accept applications or resumes while no positions are listed.</p><a class="text-link" th:href="@{/careers}">Learn about Careers at Infeara <span>↗</span></a></div>
+      <div class="career-empty-state career-no-results" data-career-no-results th:if="${!#lists.isEmpty(jobs)}" hidden><h3>No roles match those filters.</h3><p>Try a different search or clear the filters to see all open positions.</p><button class="text-link" type="button" data-career-clear>Clear filters <span>↗</span></button></div>
+    </div>
+  </section>
+</main>
+<script th:src="@{/js/careers.js(v=20261025-1)}" defer></script>
+<div th:replace="~{fragments/site :: footer}"></div>
+</body>
+</html>
