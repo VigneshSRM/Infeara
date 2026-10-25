@@ -2,19 +2,45 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head(title, description)">
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#eae6de">
-  <meta name="description" th:content="${description}"><title th:text="${title}">Infeara Technologies</title>
+  <title th:text="${title}">Infeara Technologies</title>
+  <meta name="description" th:content="${description}">
+  <meta name="robots" th:content="${robotsMeta}">
   <link rel="canonical" th:href="${canonicalUrl}">
-  <link rel="icon" type="image/png" th:href="@{/assets/favicon.png}">
+
+  <!-- Social sharing metadata. Values mirror the visible page title, description and canonical URL. -->
+  <meta property="og:site_name" th:content="${siteName}">
+  <meta property="og:type" th:content="${ogType}">
+  <meta property="og:title" th:content="${title}">
+  <meta property="og:description" th:content="${description}">
+  <meta property="og:url" th:content="${canonicalUrl}">
+  <meta property="og:image" th:content="${ogImage}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Infeara Technologies">
+  <meta th:if="${!#strings.isEmpty(ogArticlePublishedTime)}" property="article:published_time" th:content="${ogArticlePublishedTime}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" th:content="${title}">
+  <meta name="twitter:description" th:content="${description}">
+  <meta name="twitter:image" th:content="${ogImage}">
+
+  <!-- Structured data describing this page only. Written server-side and validated at build time. -->
+  <script type="application/ld+json" th:if="${!#strings.isEmpty(jsonLd)}" th:utext="${jsonLd}"></script>
+
+  <link rel="icon" type="image/png" sizes="192x192" th:href="@{/assets/favicon-192.png}">
+  <link rel="apple-touch-icon" th:href="@{/assets/favicon-192.png}">
+  <link rel="preload" as="image" th:if="${!#strings.isEmpty(preloadImage)}" th:href="@{${preloadImage}}" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/site.css(v=20261025-20)}"><link rel="stylesheet" th:href="@{/css/pages.css(v=20261025-32)}">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" th:href="@{/css/site.css(v=20261025-21)}"><link rel="stylesheet" th:href="@{/css/pages.css(v=20261025-33)}">
   <script th:src="@{/js/site.js(v=20261025-19)}" defer></script>
 </head>
 <body>
 <header class="site-header" id="top" th:fragment="header">
 
   <div class="header-inner">
-    <a class="brand" th:href="@{/}" aria-label="Infeara Technologies home"><img th:src="@{/assets/infeara-geometric-logo.png}" alt="Infeara Technologies"></a>
+    <a class="brand" th:href="@{/}" aria-label="Infeara Technologies home"><picture><source th:srcset="@{/assets/brand/infeara-logo-460.webp}" type="image/webp"><img th:src="@{/assets/brand/infeara-logo-460.png}" alt="Infeara Technologies" width="460" height="153" fetchpriority="high" decoding="async"></picture></a>
     <nav class="desktop-nav" aria-label="Main navigation">
       <div class="nav-services-wrap">
         <a class="nav-link" th:href="@{/services}" th:classappend="${activePage == 'services'} ? 'active' : ''">Services</a>

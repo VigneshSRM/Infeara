@@ -33,7 +33,7 @@ If the Supabase environment is not configured, the public website still loads, b
 
 ## Website pages
 
-Spring MVC routes render dedicated Thymeleaf pages. The nine `/services/{slug}` parent pages each show a synchronized autoplay/manual carousel for their six “How we can help” capabilities. Every capability has its own nested detail route (`/services/{parent}/{specialist-slug}`), for 54 total pages; the six cybersecurity pages retain their custom content and the other 48 are generated from their parent service definitions. Detail pages use a Z-pattern composition with a square hero photo followed by a portrait photo carousel, plus an absolute canonical link. Set `SITE_BASE_URL` to the public HTTPS origin in production; canonical links omit query parameters. Article detail routes are generated from slugs, and the Insights list/detail pages read published content from Supabase.
+Spring MVC routes render dedicated Thymeleaf pages. The nine `/services/{slug}` parent pages each show a synchronized autoplay/manual carousel for their six “How we can help” capabilities. Every capability has its own nested detail route (`/services/{parent}/{specialist-slug}`), for 54 total pages; the six cybersecurity pages retain their custom content and the other 48 are generated from their parent service definitions. Detail pages use a Z-pattern composition with a square hero photo followed by a portrait photo carousel. Every route returns its own title, description, absolute canonical link, robots directive, Open Graph fields and JSON-LD; set `SITE_BASE_URL` to the public HTTPS origin in production and `SITE_INDEXABLE=true` when the deployment may appear in search. Article detail routes are generated from slugs, and the blog and field-note archives read published content from Supabase. See [`docs/SEO_IMPLEMENTATION.md`](docs/SEO_IMPLEMENTATION.md) for the full search configuration.
 
 - `/` — Home
 - `/services` and `/services/{slug}` — Service directory and top-level detail pages
@@ -44,7 +44,7 @@ Spring MVC routes render dedicated Thymeleaf pages. The nine `/services/{slug}` 
 - `/clients` — Client collaboration overview with conditional logo/testimonial sections
 - `/about` — About Infeara
 - `/blogs` and `/blogs/{slug}` — Blog archive and detailed article views, backed by the published `insights` content
-- `/insights` and `/insights/{slug}` — Supabase-backed field notes archive and detailed views
+- `/insights` — Supabase-backed field notes archive; article detail views live at `/blogs/{slug}` and `/insights/{slug}` permanently redirects there
 - `/newsletters` and `/newsletters/{slug}` — Newsletter archive and detailed edition views, backed by the private `newsletter_editions` table
 - `/contact` — Server-validated consultation form
 - `/privacy` and `/terms` — Legal information
@@ -52,6 +52,40 @@ Spring MVC routes render dedicated Thymeleaf pages. The nine `/services/{slug}` 
 The Java Developer example supplied for the careers brief is illustrative, not a verified vacancy, so it is not published as a job. No application form, resume upload, or applicant-data processing is enabled. Those features require a verified opening and implemented safeguards for private storage, authorized access, rate limiting, consent, retention/deletion, and malware scanning. Opening filters remain unavailable while there are no active listings.
 
 Edit published blog and field-note articles in the Supabase `insights` table. Only rows with `status = 'published'` are shown. The table is private to the server role; there is no public CMS or unauthenticated edit endpoint. Newsletter issues are served from the separate RLS-protected `newsletter_editions` table; no newsletter editions or mailing-list signup have been added yet.
+
+## Search engine optimisation
+
+The build implements the *Website SEO Standards & Implementation Guide* recorded in
+[`docs/SEO_IMPLEMENTATION.md`](docs/SEO_IMPLEMENTATION.md), which also lists each problem found and
+how it was fixed.
+
+- `/robots.txt` and `/sitemap.xml` are generated from published content. The sitemap lists only
+  canonical, indexable, successful URLs: static pages, 9 service areas, 54 capability pages,
+  24 industry pages, published articles at `/blogs/{slug}` and published newsletter editions.
+- Every page renders one unique title and description, a self-referencing absolute canonical link
+  (query strings removed), a robots directive, Open Graph and Twitter metadata, and `BreadcrumbList`
+  JSON-LD that matches the visible breadcrumb. The home and about pages add `Organization` and
+  `WebSite`, service pages add `Service`, and articles add `BlogPosting`.
+- Canonical URLs are built from `SITE_BASE_URL`, never from the request `Host` header, so a spoofed
+  host cannot change the canonical a crawler is given.
+- URL variants redirect permanently in one hop: a trailing slash and `/path/index.html` go to
+  `/path`, legacy `*.html` files go to their route, `/partners` goes to `/clients`, and
+  `/insights/{slug}` goes to `/blogs/{slug}`. Unknown paths and unknown content slugs return 404.
+- Deployments that are not cleared for indexing send `X-Robots-Tag: noindex, nofollow`, disallow
+  crawling, and are not listed in the sitemap.
+- Static assets are cached for 30 days with content versions in the URLs, text responses are
+  compressed, and each page preloads its own LCP image.
+
+Run the release gate against a running instance before deploying:
+
+```sh
+scripts/seo-smoke-test.sh http://localhost:8080
+```
+
+It verifies `robots.txt` and sitemap hygiene, that every sitemap URL returns 200, one-hop redirects
+for URL variants, a real 404 for unknown paths, and that each page has a unique title and
+description, a correct canonical, an indexable robots directive, Open Graph values and JSON-LD.
+`.github/workflows/seo.yml` runs the same gate on every push and pull request.
 
 ## Supabase setup
 
@@ -66,7 +100,8 @@ Required backend settings:
 | `SUPABASE_URL` | `https://lulmtyzgpksqnrqnloeo.supabase.co` |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only Supabase `service_role` key |
 | `PORT` | Optional; defaults to `8080` |
-| `SITE_BASE_URL` | Canonical origin for absolute page URLs; use the public HTTPS origin in production (local default: `http://localhost:8080`) |
+| `SITE_BASE_URL` | Canonical origin for absolute page URLs, Open Graph URLs and the sitemap; use the public HTTPS origin in production (local default: `http://localhost:8080`) |
+| `SITE_INDEXABLE` | `true` allows search engines to index the deployment, `false` forces `noindex` and `Disallow: /`; when unset, indexing is allowed only if `SITE_BASE_URL` is HTTPS |
 
 ## Deploy
 
