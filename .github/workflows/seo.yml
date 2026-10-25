@@ -81,6 +81,16 @@ jobs:
             echo "::notice title=Application log tail::$(tail -8 application.log | tr '\n' ' ' | cut -c1-380)"
           fi
 
+      # Publishes the gate's own output as check annotations so the result of a real run
+      # against the running server is readable from the API as well as the job log.
+      - name: Publish gate evidence
+        if: success()
+        run: |
+          grep -E "^  (ok|FAIL)|SEO release gate|Application is up" seo.log | head -18 | while IFS= read -r line; do
+            echo "::notice title=Live check::$(printf '%s' "$line" | cut -c1-360)"
+          done
+          echo "::notice title=Live check::application started and answered /api/health ($(wc -l < seo.log | tr -d ' ') gate output lines)"
+
       - name: Upload runnable jar
         if: success()
         uses: actions/upload-artifact@v4
