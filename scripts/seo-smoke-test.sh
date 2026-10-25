@@ -59,7 +59,21 @@ if [ "$status" = "200" ]; then
 else
   fail "sitemap.xml did not return 200 (status ${status})"
 fi
-grep -o '<loc>[^<]*</loc>' "$WORK_DIR/body" 2>/dev/null | sed 's#</\?loc>##g' > "$WORK_DIR/sitemap-urls" || true
+# The sitemap advertises the public origin. When the gate runs against a local port with the
+# production configuration, the URLs are mapped back onto the instance under test, so the check
+# measures this build rather than whatever is currently live on the public domain.
+grep -o '<loc>[^<]*</loc>' "$WORK_DIR/body" 2>/dev/null | sed 's#</\?loc>##g' > "$WORK_DIR/sitemap-canonical" || true
+if [ "$CANONICAL_ORIGIN" != "$BASE_URL" ]; then
+  sed "s#^${CANONICAL_ORIGIN}#${BASE_URL}#" "$WORK_DIR/sitemap-canonical" > "$WORK_DIR/sitemap-urls"
+  off_origin="$(grep -vc "^${CANONICAL_ORIGIN}" "$WORK_DIR/sitemap-canonical" || true)"
+  if [ "${off_origin:-1}" = "0" ]; then
+    pass "every sitemap URL uses the canonical origin ${CANONICAL_ORIGIN}"
+  else
+    fail "${off_origin} sitemap URL(s) do not use the canonical origin ${CANONICAL_ORIGIN}"
+  fi
+else
+  cp "$WORK_DIR/sitemap-canonical" "$WORK_DIR/sitemap-urls"
+fi
 sitemap_count="$(wc -l < "$WORK_DIR/sitemap-urls" | tr -d ' ')"
 if [ "${sitemap_count:-0}" -gt 0 ]; then
   pass "sitemap lists ${sitemap_count} URLs"
