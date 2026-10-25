@@ -110,3 +110,25 @@
    height and clips its content, so the image can never overlap the category, title or summary. */
 .insight-illustration img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
 .insight-card .insight-illustration{border-radius:2px}
+
+/* Footer: a brand column plus four link columns, so every service area, the leading industries and
+   the company pages are one click from any page. Collapses to two columns, then one. */
+.footer-main{display:grid;grid-template-columns:minmax(230px,320px) minmax(0,1fr);gap:clamp(28px,5vw,72px);padding:54px 0 48px}
+.footer-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2.6vw,40px);padding-right:0}
+.footer-links>div{display:flex;flex-direction:column;align-items:flex-start;gap:9px}
+.footer-links a{font-size:10px;line-height:1.45;color:#40505b}
+.footer-links a:hover{color:var(--blue)}
+.footer-links .footer-more{font-weight:700;color:var(--blue)}
+.footer-links .footer-more span{font-size:11px}
+.footer-cta{margin-top:16px;display:inline-flex;gap:8px;font-size:10px;font-weight:700;color:var(--blue)}
+.footer-brand-col>p{font-size:11px;line-height:1.7;color:#62707a;margin:11px 0 15px;max-width:330px}
+@media(max-width:1000px){
+  .footer-main{grid-template-columns:1fr;gap:34px}
+  .footer-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 22px}
+  .footer-brand img{width:250px}
+}
+@media(max-width:600px){
+  .footer-links{grid-template-columns:1fr 1fr;gap:22px 18px}
+  .footer-main{padding:36px 0 32px}
+  .footer-bottom{flex-wrap:wrap;gap:8px;min-height:0;padding:16px 0}
+}

@@ -33,7 +33,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
-  <link rel="stylesheet" th:href="@{/css/site.css(v=20261026-02)}"><link rel="stylesheet" th:href="@{/css/pages.css(v=20261026-01)}">
+  <link rel="stylesheet" th:href="@{/css/site.css(v=20261026-03)}"><link rel="stylesheet" th:href="@{/css/pages.css(v=20261026-01)}">
   <script th:src="@{/js/site.js(v=20261025-19)}" defer></script>
 </head>
 <body>
@@ -82,9 +82,23 @@
 </header>
 <footer class="site-footer" th:fragment="footer">
   <div class="footer-main">
-
-    <div class="footer-links"><div><span class="footer-label">EXPLORE</span><a th:href="@{/services}">Services</a><a th:href="@{/industries}">Industries</a><a th:href="@{/careers}">Careers</a><a th:href="@{/clients}">Our Clients</a><a th:href="@{/about}">About Infeara</a></div><div><span class="footer-label">INSIGHTS &amp; UPDATES</span><a th:href="@{/insights}">Insights</a><a th:href="@{/blogs}">Blogs</a><a th:href="@{/newsletters}">Newsletters</a></div><div><span class="footer-label">GET IN TOUCH</span><a th:href="@{/contact}">Request a consultation</a><a th:href="@{/privacy}">Privacy notice</a><a th:href="@{/terms}">Terms of use</a></div></div>
+    <div class="footer-brand-col">
+      <a class="footer-brand" th:href="@{/}" aria-label="Infeara Technologies home"><picture><source th:srcset="@{/assets/brand/infeara-logo-460.webp}" type="image/webp"><img th:src="@{/assets/brand/infeara-logo-460.png}" alt="Infeara Technologies" width="460" height="153" loading="lazy" decoding="async"></picture></a>
+      <p>Practical IT infrastructure, cybersecurity, cloud and automation work, with the scope, responsibilities and handover agreed before anything starts.</p>
+      <div class="footer-tagline"><span class="orange-dot"></span> DEPENDABLE BY DESIGN</div>
+      <a class="text-link footer-cta" th:href="@{/contact}">Start a conversation <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="footer-links">
+      <div><span class="footer-label">SERVICE AREAS</span><a th:each="service : ${serviceNavigation}" th:href="@{/services/{slug}(slug=${service.slug})}" th:text="${service.name}">Service</a><a class="footer-more" th:href="@{/services}">All services <span aria-hidden="true">↗</span></a></div>
+      <div><span class="footer-label">INDUSTRIES</span><a th:each="industry,iter : ${industryNavigation}" th:if="${iter.index &lt; 8}" th:href="@{/industries/{slug}(slug=${industry.slug})}" th:text="${industry.title}">Industry</a><a class="footer-more" th:href="@{/industries}">All 24 industries <span aria-hidden="true">↗</span></a></div>
+      <div><span class="footer-label">COMPANY</span><a th:href="@{/about}">About Infeara</a><a th:href="@{/clients}">How we work with clients</a><a th:href="@{/careers}">Careers</a><a th:href="@{/careers/open-positions}">Open positions</a><a th:href="@{/contact}">Contact</a></div>
+      <div><span class="footer-label">RESOURCES</span><a th:href="@{/insights}">Insights</a><a th:href="@{/blogs}">Blogs</a><a th:href="@{/newsletters}">Newsletters</a><a th:href="@{/privacy}">Privacy notice</a><a th:href="@{/terms}">Terms of use</a></div>
+    </div>
   </div>
-  <div class="footer-bottom"><span>© <span th:text="${currentYear}">2026</span> Infeara Technologies. All rights reserved.</span><span>BUILT WITH PURPOSE <span class="orange-dot"></span></span><a th:href="@{/#top}">BACK TO TOP ↑</a></div>
+  <div class="footer-bottom">
+    <span>© <span th:text="${currentYear}">2026</span> Infeara Technologies. All rights reserved.</span>
+    <span>BUILT TO GROW WITH YOU <span class="orange-dot"></span></span>
+    <a th:href="@{/#top}">BACK TO TOP <span aria-hidden="true">↑</span></a>
+  </div>
 </footer>
 </body></html>

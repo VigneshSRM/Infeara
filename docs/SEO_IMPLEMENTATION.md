@@ -91,6 +91,16 @@ scope limits, access requirements and trade-offs instead of a fixed product FAQ 
 plain visible content and are deliberately **not** marked up as `FAQPage` structured data (rule 7).
 `primaryKeyword` stays an internal mapping note and is never emitted as a meta keyword tag.
 
+### 3.2 Internal linking and imagery
+
+- The footer carries a brand column plus four link columns — every service area, the leading eight
+  industries, the company pages and the resources — so any page is one click from every other
+  major page (rule 6, internal links).
+- Field-note cards on the home page show a real photograph chosen from the article's category
+  (`Insight.imageFileName()`), cover-fitted inside a fixed-height band that clips its content, so
+  the image cannot overlap the card copy. Decorative images use `alt=""`; content images carry a
+  descriptive alt.
+
 ## 4. URL policy
 
 | Rule | Implementation |
