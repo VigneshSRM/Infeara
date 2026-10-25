@@ -61,7 +61,22 @@ jobs:
 
       - name: Run SEO release gate
         if: success()
-        run: scripts/seo-smoke-test.sh http://localhost:8080
+        run: |
+          set -o pipefail
+          scripts/seo-smoke-test.sh http://localhost:8080 2>&1 | tee seo.log
+
+      - name: Report SEO gate findings
+        if: failure() || cancelled()
+        run: |
+          if [ -f seo.log ]; then
+            grep -E "FAIL|problem groups" seo.log | head -20 | while IFS= read -r line; do
+              echo "::error title=SEO gate::$(printf '%s' "$line" | cut -c1-380)"
+            done
+            echo "::notice title=SEO gate summary::$(tail -6 seo.log | tr '\n' ' ' | cut -c1-380)"
+          fi
+          if [ -f application.log ]; then
+            echo "::notice title=Application log tail::$(tail -12 application.log | tr '\n' ' ' | cut -c1-380)"
+          fi
 
       - name: Upload runnable jar
         if: success()
@@ -79,4 +94,5 @@ jobs:
           path: |
             application.log
             build.log
+            seo.log
           if-no-files-found: warn
