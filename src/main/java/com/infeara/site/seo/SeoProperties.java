@@ -1,5 +1,6 @@
 package com.infeara.site.seo;
 
+import java.net.URI;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -25,11 +26,11 @@ public class SeoProperties {
     private final boolean indexable;
 
     public SeoProperties(
-            @Value("${seo.base-url:http://localhost:8080}") String baseUrl,
+            @Value("${seo.base-url:https://www.infeara.com}") String baseUrl,
             @Value("${seo.indexable:}") String indexableOverride) {
         String resolvedBaseUrl = baseUrl == null ? "" : baseUrl.trim();
         if (resolvedBaseUrl.isEmpty()) {
-            resolvedBaseUrl = "http://localhost:8080";
+            resolvedBaseUrl = "https://www.infeara.com";
         }
         this.baseUrl = resolvedBaseUrl.replaceAll("/+$", "");
 
@@ -40,6 +41,19 @@ public class SeoProperties {
             this.indexable = false;
         } else {
             this.indexable = this.baseUrl.startsWith("https://");
+        }
+    }
+
+    /**
+     * Host of the canonical origin, for example {@code www.infeara.com}. Empty when the base URL
+     * cannot be parsed, in which case no host redirect is attempted.
+     */
+    public String canonicalHost() {
+        try {
+            String host = URI.create(baseUrl).getHost();
+            return host == null ? "" : host.toLowerCase(Locale.ROOT);
+        } catch (IllegalArgumentException exception) {
+            return "";
         }
     }
 

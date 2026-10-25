@@ -3,7 +3,7 @@
 #
 #   docker build -t infeara-website .
 #   docker run --rm -p 8080:8080 \
-#     -e SITE_BASE_URL=http://localhost:8080 \
+#     -e SITE_BASE_URL=https://www.infeara.com \
 #     -e SITE_INDEXABLE=true \
 #     infeara-website
 #
@@ -26,7 +26,8 @@ RUN useradd --system --uid 10001 --user-group infeara
 COPY --from=build /build/target/*.jar /app/app.jar
 USER infeara
 ENV PORT=8080 \
-    SITE_BASE_URL=http://localhost:8080 \
-    SITE_INDEXABLE=false
+    SITE_BASE_URL=https://www.infeara.com
+# SITE_INDEXABLE is left unset on purpose: with an HTTPS base URL the deployment is indexable,
+# and any staging container must set SITE_INDEXABLE=false to stay out of search results.
 EXPOSE 8080
 ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75", "-jar", "/app/app.jar"]

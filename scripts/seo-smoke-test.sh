@@ -8,6 +8,11 @@
 # Usage:
 #   scripts/seo-smoke-test.sh                       # defaults to http://localhost:8080
 #   scripts/seo-smoke-test.sh https://www.example.com
+#   scripts/seo-smoke-test.sh http://localhost:8080 https://www.infeara.com
+#
+# The optional second argument is the *expected canonical origin*. Use it to test a production
+# configuration on a local port: the pages must advertise the public origin in their canonical
+# links even though the test requests arrive on localhost.
 #
 # Exit code 0 means every check passed; 1 means at least one release-blocking problem was found.
 
@@ -15,6 +20,8 @@ set -uo pipefail
 
 BASE_URL="${1:-http://localhost:8080}"
 BASE_URL="${BASE_URL%/}"
+CANONICAL_ORIGIN="${2:-$BASE_URL}"
+CANONICAL_ORIGIN="${CANONICAL_ORIGIN%/}"
 WORK_DIR="$(mktemp -d)"
 trap 'rm -rf "$WORK_DIR"' EXIT
 
@@ -30,7 +37,7 @@ http_status() {
   printf '%s' "$code"
 }
 
-echo "SEO smoke test against ${BASE_URL}"
+echo "SEO smoke test against ${BASE_URL} (expected canonical origin: ${CANONICAL_ORIGIN})"
 echo
 
 # 1. robots.txt and sitemap.xml must be reachable and must not block public content.
@@ -90,10 +97,11 @@ fi
 
 # 5. Per-page metadata: canonical, robots directive, unique titles, descriptions, JSON-LD.
 if command -v python3 >/dev/null 2>&1; then
-  python3 - "$BASE_URL" <<'PY'
+  python3 - "$BASE_URL" "$CANONICAL_ORIGIN" <<'PY'
 import json, re, sys, urllib.request
 
 base = sys.argv[1].rstrip('/')
+canonical_origin = sys.argv[2].rstrip('/')
 pages = [
     '/', '/services', '/services/cybersecurity', '/services/cybersecurity/vulnerability-assessment-penetration-testing',
     '/industries', '/industries/healthcare-life-sciences', '/about', '/clients', '/careers',
@@ -128,8 +136,8 @@ for path in pages:
         problems.append(f'{path}: missing meta description')
     if 'noindex' in robots.lower():
         problems.append(f'{path}: public page is marked noindex ({robots})')
-    if canonical != base + path:
-        problems.append(f'{path}: canonical is {canonical!r}, expected {base + path!r}')
+    if canonical != canonical_origin + path:
+        problems.append(f'{path}: canonical is {canonical!r}, expected {canonical_origin + path!r}')
     if not og_title:
         problems.append(f'{path}: missing og:title')
     # Structured data must exist whenever the page shows a breadcrumb trail, and must be

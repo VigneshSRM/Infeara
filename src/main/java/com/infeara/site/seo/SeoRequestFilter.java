@@ -1,6 +1,7 @@
 package com.infeara.site.seo;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *
  * <ul>
  *   <li>{@code /path/} and {@code /path/index.html} permanently redirect (301, one hop) to {@code /path}.</li>
+ *   <li>The bare domain ({@code infeara.com}) permanently redirects (301) to the canonical
+ *       {@code www} host, so only one hostname is ever indexed.</li>
  *   <li>Deployments that are not indexable send {@code X-Robots-Tag: noindex, nofollow}.</li>
  *   <li>JSON API responses are marked noindex.</li>
  * </ul>
@@ -32,6 +35,13 @@ public class SeoRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         String path = requestPath(request);
+        String hostRedirect = canonicalHostRedirect(request, path);
+        if (hostRedirect != null && isReadRequest(request)) {
+            response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+            response.setHeader("Location", hostRedirect);
+            response.setHeader("Cache-Control", "public, max-age=3600");
+            return;
+        }
         String canonicalPath = canonicalPath(path);
         if (canonicalPath != null && isReadRequest(request)) {
             String query = request.getQueryString();
@@ -49,6 +59,25 @@ public class SeoRequestFilter extends OncePerRequestFilter {
         if (response.getStatus() >= 400) {
             response.setHeader("X-Robots-Tag", "noindex, nofollow");
         }
+    }
+
+    /**
+     * Returns the canonical URL when the request arrived on the bare domain of a {@code www}
+     * canonical origin, otherwise {@code null}. Other hostnames are left alone: a local or preview
+     * deployment must not be redirected to production just because it shares the application.
+     */
+    private String canonicalHostRedirect(HttpServletRequest request, String path) {
+        String canonicalHost = properties.canonicalHost();
+        if (!canonicalHost.startsWith("www.")) {
+            return null;
+        }
+        String bareDomain = canonicalHost.substring("www.".length());
+        String requestHost = request.getServerName();
+        if (requestHost == null || !requestHost.toLowerCase(Locale.ROOT).equals(bareDomain)) {
+            return null;
+        }
+        String query = request.getQueryString();
+        return properties.baseUrl() + path + (query == null || query.isBlank() ? "" : "?" + query);
     }
 
     private boolean isReadRequest(HttpServletRequest request) {

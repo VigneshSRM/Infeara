@@ -110,8 +110,21 @@ Verified: the 9 service areas, 54 capability pages and 24 industry pages generat
 
 | Variable | Purpose |
 | --- | --- |
-| `SITE_BASE_URL` → `seo.base-url` | Canonical origin, for example `https://www.infeara.com`. No trailing slash. Used for canonical links, Open Graph URLs, sitemap entries and the `Sitemap:` line in `robots.txt`. |
+| `SITE_BASE_URL` → `seo.base-url` | Canonical origin. **Production is `https://www.infeara.com`** and is the default in `application.properties` and the `Dockerfile`; local work sets `http://localhost:8080`. No trailing slash. Used for canonical links, Open Graph URLs, sitemap entries, JSON-LD `@id`/`url` values and the `Sitemap:` line in `robots.txt`. |
 | `SITE_INDEXABLE` → `seo.indexable` | `true` allows indexing, `false` forces `noindex` and `Disallow: /`. Empty (default) means "indexable only when `SITE_BASE_URL` is HTTPS". Set `true` explicitly in production so the decision does not depend on the protocol of the base URL. |
+
+### One hostname only
+
+The canonical origin is `https://www.infeara.com`, so `infeara.com` must not be indexed as a
+second copy of the site. `SeoRequestFilter` answers a request whose `Host` is exactly the bare
+domain with a one-hop `301` to the same path on `www`, preserving the query string. Any other
+hostname — `localhost`, a preview URL, an internal service name — is served normally, so a test
+or staging deployment is never bounced to production. HTTPS termination and the `http → https`
+upgrade stay at the hosting layer, where the certificate is.
+
+CI verifies all of this on a real instance (`production-url-check` job): canonical on `/`,
+`og:url`, every `<loc>` in `sitemap.xml`, the `robots.txt` sitemap line, the bare-domain `301`
+and the `www` host returning `200`.
 
 ## 5.1 Running the application
 
