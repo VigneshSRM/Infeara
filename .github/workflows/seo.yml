@@ -91,6 +91,21 @@ jobs:
           done
           echo "::notice title=Live check::application started and answered /api/health ($(wc -l < seo.log | tr -d ' ') gate output lines)"
 
+      # Surfaces what the running server actually returns, so the deployed build can be
+      # inspected from the API without access to the job log.
+      - name: Publish runtime evidence
+        if: success()
+        run: |
+          echo "::notice title=Runtime::$(java -version 2>&1 | head -1) $(unzip -p target/*.jar META-INF/MANIFEST.MF 2>/dev/null | grep -i 'Spring-Boot-Version' | tr -d '\r')"
+          grep -E "Tomcat started|Started .* in [0-9]" application.log | head -2 | while IFS= read -r line; do
+            echo "::notice title=Startup::$(printf '%s' "$line" | tr '\n' ' ' | cut -c1-360)"
+          done
+          PAGE=http://localhost:8080/services/network-engineering/wi-fi-infrastructure
+          echo "::notice title=Rendered page::$(curl -fsS $PAGE | grep -o '<title>[^<]*</title>' | head -1 || true)"
+          echo "::notice title=Rendered page::$(curl -fsS $PAGE | grep -o '<meta name="description" content="[^"]*"' | head -1 | cut -c1-360 || true)"
+          echo "::notice title=Rendered page::intro/scope columns=$(curl -fsS $PAGE | grep -c 'page-copy-list' || true) faq blocks=$(curl -fsS $PAGE | grep -c 'faq-list' || true) h1 count=$(curl -fsS $PAGE | grep -c '<h1' || true)"
+          echo "::notice title=Rendered page::$(curl -fsS $PAGE | grep -o '<h2>When this work[^<]*</h2>' | head -1 || true)"
+
       - name: Upload runnable jar
         if: success()
         uses: actions/upload-artifact@v4
