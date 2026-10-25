@@ -216,34 +216,17 @@ jobs:
 
       - name: Check the public origin is used everywhere
         run: |
-          set -uo pipefail
-          failures=0
-          check() { # name, condition
-            if eval "$2"; then
-              echo "::notice title=Public origin::ok   $1"
-            else
-              echo "::error title=Public origin::FAIL $1"
-              failures=$((failures + 1))
-            fi
-          }
-          home=$(curl -fsS http://localhost:8080/)
-          check "canonical on / is https://www.infeara.com/" \
-            'printf "%s" "$home" | grep -q "<link rel=\"canonical\" href=\"https://www.infeara.com/\""'
-          check "robots meta is index,follow on /" \
-            'printf "%s" "$home" | grep -q "<meta name=\"robots\" content=\"index,follow\""'
-          check "og:url on / is the public origin" \
-            'printf "%s" "$home" | grep -q "property=\"og:url\" content=\"https://www.infeara.com/\""'
-          check "sitemap lists only https://www.infeara.com URLs" \
-            'curl -fsS http://localhost:8080/sitemap.xml | grep -o "<loc>[^<]*" | grep -vc "https://www.infeara.com" | grep -qx 0'
-          check "sitemap URL count is 103" \
-            'curl -fsS http://localhost:8080/sitemap.xml | grep -c "<loc>" | grep -qx 103'
-          check "robots.txt points at the public sitemap" \
-            'curl -fsS http://localhost:8080/robots.txt | grep -qx "Sitemap: https://www.infeara.com/sitemap.xml"'
-          check "bare domain redirects in one hop to www" \
-            'test "$(curl -sS -o /dev/null -w "%{http_code} %{redirect_url}" -H "Host: infeara.com" http://localhost:8080/services)" = "301 https://www.infeara.com/services"'
-          check "www host is not redirected" \
-            'test "$(curl -sS -o /dev/null -w "%{http_code}" -H "Host: www.infeara.com" http://localhost:8080/services)" = "200"'
-          exit $failures
+          set -o pipefail
+          python3 scripts/check-public-origin.py http://localhost:8080 https://www.infeara.com 2>&1 | tee origin.log
+
+      - name: Publish public origin findings
+        if: always()
+        run: |
+          if [ -f origin.log ]; then
+            grep -E "^  (ok|FAIL)|check\(s\) failed|All public origin" origin.log | head -20 | while IFS= read -r line; do
+              echo "::notice title=Public origin::$(printf '%s' "$line" | cut -c1-360)"
+            done
+          fi
 
       - name: Run the full gate against the production configuration
         run: scripts/seo-smoke-test.sh http://localhost:8080 https://www.infeara.com
