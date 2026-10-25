@@ -1,0 +1,159 @@
+# Page copy for the site's static pages and the nine service areas.
+# Fields: title, description, intro, covers, signs, deliverables, faq (repeatable).
+# Lists are pipe separated. Blank lines and # comments are ignored. Continuation lines are
+# joined to the previous field, so long copy can be wrapped for readability.
+
+@page /
+title: Infeara Technologies | IT Infrastructure, Security & Cloud
+description: Infeara Technologies is a technology partner for IT infrastructure, cybersecurity, cloud, and automation. Scope is agreed before work starts.
+intro: Infeara Technologies helps businesses plan, build, and support the systems they rely on, with practical scope and clear communication.
+
+@page /services
+title: Technology Services: IT, Security & Cloud | Infeara
+description: Nine service areas covering cybersecurity, infrastructure, managed IT, cloud, networks, facilities, turnkey projects, and automation.
+intro: Every service area lists the capabilities we can scope with your team, from a single focused task to a coordinated programme of work.
+
+@page /industries
+title: Technology by Industry & Work Environment | Infeara
+description: Technology considerations for 24 sectors, from healthcare and banking to logistics, manufacturing, education, and the public sector.
+intro: Industry pages describe the systems, constraints, and workflows we usually discuss with teams in each sector.
+
+@page /about
+title: About Infeara Technologies | Approach, People & Values
+description: A technology partner built around listening first, explaining options clearly, and delivering responsibly with documented handover.
+intro: Infeara was founded on a straightforward idea: businesses deserve technology support that starts by understanding the work.
+
+@page /clients
+title: How We Work With Clients & Partners | Infeara Technologies
+description: Shared context, agreed scope, and clear ownership. How engagements with Infeara Technologies are structured from first conversation to handover.
+intro: Every engagement is shaped around the systems you already run, the constraints you work within, and the outcome you need.
+
+@page /careers
+title: Careers at Infeara Technologies | Roles & Hiring Process
+description: How we hire at Infeara Technologies: role-based assessment, a respectful process, and clear ownership for every person on the team.
+intro: We are building a team that listens carefully, works through the details, and takes responsibility for what it delivers.
+
+@page /careers/open-positions
+title: Open Positions & Current Vacancies | Infeara Technologies
+description: Verified vacancies at Infeara Technologies, with role scope, work model, and the application path for each confirmed opening.
+intro: Only confirmed vacancies are listed here. When no role is open, this page stays empty rather than advertising speculative positions.
+
+@page /blogs
+title: Blog: Practical IT, Security & Cloud Guides | Infeara
+description: Practical articles on backups, patch management, cloud decisions, and daily IT operations, written for teams that need a next step.
+intro: Longer-form articles that answer a specific question and set out what to check in your own environment.
+
+@page /insights
+title: Field Notes: Technology Decisions Explained | Infeara
+description: Short field notes on the technology decisions teams face before, during, and after an infrastructure or cloud project, written from hands-on delivery work.
+intro: Notes from the working side of IT: what to confirm early, what tends to break, and what good looks like afterwards.
+
+@page /newsletters
+title: Infeara Newsletter Archive | Practical Technology Updates
+description: Published Infeara newsletter editions with short, practical updates on infrastructure, security, and operations topics. Each edition covers one theme.
+intro: Each edition covers one theme, with the questions worth raising in your own environment.
+
+@page /contact
+title: Contact Infeara Technologies | Request a Consultation
+description: Tell us what you are working toward and request a consultation. Share the systems, constraints, and outcomes that matter to your team.
+intro: A short description of your environment and goal is enough for a useful first conversation.
+
+@page /privacy
+title: Privacy Policy & Data Handling | Infeara Technologies
+description: What the Infeara enquiry form collects, why the information is held, how it is protected, and how to request a change or deletion.
+intro: This notice explains how information submitted through this website is handled.
+
+@page /terms
+title: Terms of Use & Website Conditions | Infeara Technologies
+description: The terms that apply to the Infeara Technologies website, including how content, enquiries, and links to external sites should be understood.
+intro: These terms describe general use of this website and its content.
+
+@service cybersecurity
+title: Cybersecurity Services, Audits & Testing | Infeara
+description: Security audits, vulnerability assessment and penetration testing, identity reviews, and perimeter checks, scoped with written authorization first.
+intro: Security work starts with an accurate picture of what is exposed and how it is controlled. We agree scope and rules of engagement in writing, test within that boundary, and report findings in a form your team can act on.
+covers: Vulnerability assessment and penetration testing (VAPT) | Network, application, and cloud security audits | Endpoint, firewall, and perimeter configuration reviews | Identity, access, and privileged-account reviews
+signs: Security work is directed by vendor alerts rather than a risk view of your own environment | Access rights have accumulated over time and nobody owns the review | Assurance is needed for a client, insurer, or internal audit
+deliverables: A findings register ordered by risk, with the evidence behind each item | Remediation guidance that separates quick fixes from structural work | A short walkthrough with your team so the report is understood, not just filed
+faq: Do you test production systems? | Only when the scope and rules of engagement allow it, and never without written authorization. Many engagements use a staging copy, a defined window, or a limited set of targets agreed in advance.
+faq: Will an audit disrupt our team? | Most audit work is read-only configuration review that runs alongside normal operations. Anything requiring a change window, a test account, or user involvement is scheduled with you first.
+
+@service infrastructure
+title: IT Infrastructure Services & Server Support | Infeara
+description: Server, storage, and virtualization work: assessment, implementation, administration, monitoring, backup planning, and documentation.
+intro: The infrastructure layer decides how reliable everything above it can be. We assess what you run today, then implement and maintain servers, storage, and virtualization with documentation that survives staff changes.
+covers: Infrastructure assessment and modernization planning | Server implementation, administration, and maintenance | Storage and virtualization management | Monitoring, capacity planning, backup, and recovery design
+signs: Capacity, performance, and refresh decisions are made reactively | Hardware and operating system knowledge sits with one person | Recovery steps exist on paper but have never been tested
+deliverables: A current-state record of servers, storage, dependencies, and risks | Implemented or corrected configuration with validation evidence | Documentation covering ownership, procedures, and next actions
+faq: Can you work with our existing hardware? | Yes. We start from an inventory of what is installed and supported, then recommend changes only where they remove a real constraint, such as end-of-support hardware or a capacity ceiling.
+faq: Do you replace our IT team? | No. Most engagements either add capacity alongside your team or take ownership of specific layers, such as server administration or backup verification, while your team keeps the rest.
+
+@service managed-it
+title: Managed IT Services & Daily Operations Support | Infeara
+description: Day-to-day IT operations with monitoring, preventive maintenance, patching coordination, incident ownership, and recovery checks.
+intro: Operations work is judged on the ordinary days, not the dramatic ones. We run monitoring, maintenance, and patching routines with named ownership, so issues are found and fixed before users report them.
+covers: Server and system administration | Monitoring and alert triage | Incident and problem management | Preventive maintenance and patch coordination
+signs: The same issues recur and are closed without a root cause | Patching happens when someone remembers | Nobody can say who is responsible for a given system
+deliverables: An agreed service scope with responsibilities and escalation paths | A maintenance and patching schedule with recorded outcomes | Periodic reporting on incidents, recurring problems, and capacity trends
+faq: How quickly do you respond to incidents? | Response and resolution targets are agreed in the service scope and set by business impact, so a payroll or clinical system gets priority over a low-use application. We do not publish a single figure that ignores context.
+faq: Can you take over from another provider? | Yes, and we usually start with a documented handover: asset inventory, access review, monitoring coverage, and a list of known issues to confirm or close.
+
+@service it-outsourcing
+title: IT Outsourcing & Remote Support Services | Infeara
+description: Add remote support, infrastructure administration, application maintenance, or escalation capacity without rebuilding your internal team.
+intro: Outsourcing works when the boundary is explicit. We define which systems, tasks, and response paths we own, then work inside your processes rather than around them.
+covers: Remote user and systems support | Infrastructure and system administration outsourcing | Application maintenance and support | Resource augmentation and technical escalation
+signs: Routine work competes with project work for the same few people | Specialist skills are needed for a defined period, not permanently | Escalations stall for lack of a second pair of hands
+deliverables: A responsibility matrix covering systems, tasks, and approval paths | Access provisioned to least privilege and reviewed periodically | Ticket and activity reporting against the agreed scope
+faq: Do you provide named engineers? | Where the engagement calls for it, yes. Named engineers keep context and reduce repeat questions, and we document the environment so continuity does not depend on one person.
+faq: How is access controlled? | Access is created for the agreed scope, limited to what the work needs, tied to individual accounts where the tools allow, and removed when the engagement ends.
+
+@service cloud-datacenter
+title: Cloud & Datacenter Services, Migration & Audits | Infeara
+description: Cloud and datacenter audits, migration planning, hybrid operations, cost review, and backup design across AWS, Azure, and Google Cloud.
+intro: Cloud and on-premises are operating choices, not a maturity ladder. We compare workload requirements, operating responsibility, resilience, and cost, then implement and run whichever mix fits your team.
+covers: AWS, Microsoft Azure, and Google Cloud infrastructure | Hybrid cloud and on-premises management | Cloud and datacenter audits | Migration planning, cost optimization, and backup
+signs: The monthly cloud bill is not connected to specific workloads or owners | Nobody can state the recovery time for a cloud-hosted service | A migration was planned around servers rather than applications
+deliverables: A workload-by-workload view of where each system runs and why | A migration or optimization plan with sequencing, dependencies, and risks | Cost, resilience, and backup findings with named owners
+faq: Will moving to the cloud save money? | Sometimes, but not automatically. Savings depend on workload shape, licensing, egress, and the operational effort you take on. We model the total cost over a realistic period before recommending a move.
+faq: Do you support multi-cloud environments? | Yes. Most environments we see mix providers, on-premises systems, and SaaS. The work is to keep identity, networking, backup, and monitoring coherent across them.
+
+@service network-engineering
+title: Network Engineering: LAN, WAN & Wi-Fi Design | Infeara
+description: LAN, WAN, routing, switching, VLAN segmentation, Wi-Fi, firewalls, and VPN work with monitoring and documentation included.
+intro: A network is only as good as its weakest segment and its least documented device. We design, implement, and document the path traffic takes, including the parts that usually go unrecorded.
+covers: LAN and WAN implementation | Enterprise network design | Routing, switching, VLANs, and segmentation | Wi-Fi, firewalls, VPN, and network monitoring
+signs: Intermittent faults are closed as user error because nothing shows the path | Flat networks put office devices and servers on the same segment | Configuration knowledge lives with whoever set the device up
+deliverables: Up-to-date topology, addressing, and VLAN documentation | Implemented or corrected configuration with change records | Monitoring coverage for links, devices, and critical paths
+faq: Can you work alongside our ISP and vendors? | Yes. We prepare the information providers usually need, such as circuit details, addressing, and demarcation points, and coordinate cutovers with them.
+faq: Do you replace our firewall? | Only if it no longer meets requirements or cannot be supported safely. Many engagements begin with a rule and policy review of the existing device.
+
+@service facility-management
+title: IT Facility Management & Server Room Support | Infeara
+description: Physical IT support: onsite work, server room operations, asset lifecycle tracking, equipment moves, inspections, and maintenance reporting.
+intro: Physical infrastructure fails quietly until something overheats, loses power, or cannot be found. We bring routine structure to equipment, rooms, and maintenance so the physical layer stops being a surprise.
+covers: Onsite infrastructure support | Server room operations and inspections | Asset inventory and lifecycle tracking | Equipment installation, relocation, and preventive maintenance
+signs: Asset records do not match what is actually racked | Power, cooling, and cabling changes are made without a record | Maintenance happens after a failure rather than before
+deliverables: A verified asset and location record | Inspection and maintenance reports with photographs where useful | A lifecycle view showing what needs replacing and when
+faq: Can you support multiple sites? | Yes. Work is scheduled per site with a defined scope, and findings are recorded consistently so sites remain comparable.
+faq: Do you handle equipment moves? | We plan and coordinate moves, including power-down, transport, re-racking, and validation. Specialist movers or vendors can be involved where the equipment or building requires it.
+
+@service turnkey-projects
+title: Turnkey IT Infrastructure Project Delivery | Infeara
+description: Requirements discovery, architecture, bills of materials, procurement coordination, deployment, testing, and documented handover.
+intro: Turnkey means one accountable path from requirement to handover. We sequence discovery, design, procurement, deployment, and validation so decisions are made with the right information at the right time.
+covers: Requirements discovery and site assessment | Capacity planning and architecture design | Bill of materials, cost estimation, and procurement coordination | Deployment, testing, documentation, and handover
+signs: A project has a design but no agreed acceptance criteria | Hardware is ordered before the dependencies are confirmed | Handover consists of a handover meeting and a supplier's manual
+deliverables: Agreed requirements, architecture, and acceptance criteria before purchase | Coordinated delivery with change control and site readiness | Test evidence, as-built documentation, and a knowledge transfer session
+faq: Do you supply hardware? | We prepare bills of materials and coordinate procurement, and can work through your preferred vendors or ours. Ownership and warranty terms stay with you.
+faq: Can you work with our general contractor? | Yes. On fit-out projects we agree interfaces early, covering power, cooling, cabling, access, and the sequence in which each is needed.
+
+@service automation-software
+title: IT Automation & Custom Business Software | Infeara
+description: Automation for infrastructure, patching, and monitoring, plus custom business applications and workflow digitization with human oversight.
+intro: Automation should remove repetitive work without removing accountability. We automate the routines that are stable and well understood, and build software only where an off-the-shelf tool genuinely does not fit.
+covers: Infrastructure, patch, and monitoring automation | AI-assisted operations with human approval | Custom business application development | Workflow digitization, integration, and support
+signs: Staff repeat the same manual checks every week | Data is re-entered between systems that should talk to each other | A spreadsheet has quietly become a business-critical system
+deliverables: A documented process with owners and failure handling | Working automation or software with validation and rollback steps | Runbook, access model, and support handover
+faq: Where does AI fit in operations? | In narrow, supervised places: drafting, summarising, triage suggestions, or anomaly highlighting. A person approves any action that changes a production system.
+faq: Can you take over an existing application? | Often, after a review of code quality, dependencies, access, and documentation. Where the original source or vendor support is unavailable, we will say so before committing to support.

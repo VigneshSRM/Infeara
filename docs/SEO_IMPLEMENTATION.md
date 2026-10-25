@@ -21,7 +21,10 @@ standard, **TARGET** is an internal engineering goal rather than a Google requir
 | `/sitemap.xml` generated from published content | `src/main/java/com/infeara/site/seo/SitemapController.java` |
 | `/robots.txt` | `src/main/java/com/infeara/site/seo/RobotsController.java` |
 | Static asset caching | `src/main/java/com/infeara/site/web/WebConfig.java` |
+| Authored per-page copy (title, description, body, FAQ) | `src/main/resources/content/page-copy*.txt` |
+| Copy loading, validation and lookup | `src/main/java/com/infeara/site/content/PageCopyService.java`, `PageCopy.java` |
 | Page metadata wiring and legacy redirects | `src/main/java/com/infeara/site/web/PageController.java` |
+| Reusable body sections rendered from that copy | `src/main/resources/templates/fragments/copy.html` |
 | Head markup shared by every page | `src/main/resources/templates/fragments/site.html` |
 | Release gate | `scripts/seo-smoke-test.sh`, `.github/workflows/seo.yml` |
 
@@ -55,8 +58,8 @@ two defects that no static review could catch. Both are fixed:
 
 Every rendered page (Thymeleaf templates in `src/main/resources/templates/`) gets:
 
-- `<title>` — unique, page specific, brand suffix added only when the result stays close to 60 characters; long article and newsletter titles fall back to the shorter `| Infeara` suffix (`SeoText.titleWithSuffix`).
-- `<meta name="description">` — unique, built from that page's own summary.
+- `<title>` — authored per page and unique; capability, industry and static-page titles come from the copy library already inside the 50–62 character range, and long article/newsletter titles fall back to the shorter `| Infeara` suffix (`SeoText.titleWithSuffix`).
+- `<meta name="description">` — authored per page and unique, 120–160 characters, describing what is actually on that page.
 - `<link rel="canonical">` — absolute, HTTPS in production, self-referencing, query strings and fragments removed.
 - `<meta name="robots">` — `index,follow` on production, `noindex,nofollow` on any deployment that is not cleared for indexing.
 - Open Graph (`og:site_name`, `og:type`, `og:title`, `og:description`, `og:url`, `og:image` 1200×630, `article:published_time` for articles) and a Twitter `summary_large_image` card.
@@ -64,6 +67,28 @@ Every rendered page (Thymeleaf templates in `src/main/resources/templates/`) get
 - Exactly one `<h1>` per page (verified across all 19 templates).
 
 `Noindex` is never used to hide thin content: consent, legal and careers pages are normal indexable pages.
+
+### 3.1 Page copy library
+
+Every indexable page draws its search-facing metadata and its body copy from
+`src/main/resources/content/`:
+
+| File | Covers |
+| --- | --- |
+| `page-copy-services.txt` | the 13 static routes and the 9 service areas |
+| `page-copy-capabilities.txt` | the 54 capability pages (`parent/slug` keys) |
+| `page-copy-industries.txt` | the 24 industry pages |
+
+Each entry supplies `title`, `description`, `intro`, `covers`, `signs`, `deliverables` and two or
+more `faq` pairs. `PageCopyService` loads the files at startup and fails the application if any
+route in `WebsiteContent` has no copy, if a title or description is empty, longer than the search
+snippet limit, or a duplicate of another page. That check is what keeps rule 4.1 (unique metadata)
+and rule 5 (no boilerplate body copy) true over time rather than only at launch.
+
+`signs`, `deliverables` and `faq` render through `templates/fragments/copy.html`. The answers state
+scope limits, access requirements and trade-offs instead of a fixed product FAQ set, so they are
+plain visible content and are deliberately **not** marked up as `FAQPage` structured data (rule 7).
+`primaryKeyword` stays an internal mapping note and is never emitted as a meta keyword tag.
 
 ## 4. URL policy
 

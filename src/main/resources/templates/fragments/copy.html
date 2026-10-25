@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--
+  Per-page body copy loaded from content/page-copy*.txt. Every page supplies its own strings, so
+  no two pages share a template paragraph. Nothing here is eligible for FAQPage markup: the
+  answers state limits and trade-offs rather than a fixed product FAQ set, so they are rendered
+  as visible content only.
+-->
+<th:block th:fragment="sections(copy, eyebrow, signsHeading, deliverablesHeading, index)">
+  <section class="page-copy-section section-pad" th:if="${copy != null and copy.hasSections()}">
+    <div class="section-index"><span th:text="${index}">02</span><span class="index-rule"></span><span th:text="${eyebrow}">SERVICE DETAILS</span></div>
+    <div class="page-copy-columns">
+      <div class="page-copy-column" th:if="${!copy.signs.isEmpty()}">
+        <h2 th:text="${signsHeading}">What usually prompts this work.</h2>
+        <ul class="page-copy-list">
+          <li th:each="item,iter : ${copy.signs}"><span class="service-number" th:text="${#numbers.formatInteger(iter.count,2)}">01</span><span th:text="${item}">Signal</span></li>
+        </ul>
+      </div>
+      <div class="page-copy-column" th:if="${!copy.deliverables.isEmpty()}">
+        <h2 th:text="${deliverablesHeading}">What you receive.</h2>
+        <ul class="page-copy-list">
+          <li th:each="item,iter : ${copy.deliverables}"><span class="service-number" th:text="${#numbers.formatInteger(iter.count,2)}">01</span><span th:text="${item}">Deliverable</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</th:block>
+
+<th:block th:fragment="faqs(copy, index, subject)">
+  <section class="page-faq-section section-pad" th:if="${copy != null and !copy.faqs.isEmpty()}">
+    <div class="section-index"><span th:text="${index}">03</span><span class="index-rule"></span><span>COMMON QUESTIONS</span></div>
+    <div class="page-faq-grid">
+      <div class="page-faq-intro">
+        <h2>Questions about<br><em th:text="${subject}">this work</em>.</h2>
+      </div>
+      <div class="faq-list">
+        <details th:each="item : ${copy.faqs}">
+          <summary><span th:text="${item.question}">Question</span><span class="faq-plus" aria-hidden="true"></span></summary>
+          <p th:text="${item.answer}">Answer</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</th:block>
+
+</body>
+</html>

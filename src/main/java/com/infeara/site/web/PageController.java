@@ -11,6 +11,8 @@ import com.infeara.site.content.InsightService;
 import com.infeara.site.content.IndustryPage;
 import com.infeara.site.content.NewsletterEdition;
 import com.infeara.site.content.NewsletterService;
+import com.infeara.site.content.PageCopy;
+import com.infeara.site.content.PageCopyService;
 import com.infeara.site.content.ServicePage;
 import com.infeara.site.content.SpecialistServicePage;
 import com.infeara.site.content.WebsiteContent;
@@ -43,16 +45,34 @@ public class PageController {
     private final InsightService insightService;
     private final NewsletterService newsletterService;
     private final ConsultationService consultationService;
+    private final PageCopyService copyService;
     private final SeoService seo;
 
     public PageController(WebsiteContent content, InsightService insightService,
                           NewsletterService newsletterService, ConsultationService consultationService,
-                          SeoService seo) {
+                          PageCopyService copyService, SeoService seo) {
         this.content = content;
         this.insightService = insightService;
         this.newsletterService = newsletterService;
         this.consultationService = consultationService;
+        this.copyService = copyService;
         this.seo = seo;
+    }
+
+    /**
+     * Applies the authored title, description and body copy for one page. The copy file is the
+     * single source for what a page says, so a route cannot silently fall back to shared
+     * template copy.
+     */
+    private PageCopy pageCopy(Model model, PageCopy copy) {
+        model.addAttribute("pageTitle", SeoText.clean(copy.seoTitle()));
+        model.addAttribute("pageDescription", SeoText.description(copy.metaDescription()));
+        model.addAttribute("copy", copy);
+        return copy;
+    }
+
+    private void staticPageCopy(Model model, String path) {
+        pageCopy(model, copyService.forPath(path));
     }
 
     /**
@@ -83,9 +103,7 @@ public class PageController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("pageTitle", "Infeara Technologies | A Technology Partner for What’s Next");
-        model.addAttribute("pageDescription", SeoText.description(
-                "A collaborative technology partner for IT infrastructure, cybersecurity, cloud, automation, and custom software, built on practical, clearly scoped delivery."));
+        staticPageCopy(model, "/");
         model.addAttribute("jsonLd", seo.homeGraph());
         model.addAttribute("services", content.featuredServices());
         model.addAttribute("technologyLogos", technologyLogos());
@@ -95,9 +113,7 @@ public class PageController {
 
     @GetMapping("/services")
     public String services(Model model) {
-        model.addAttribute("pageTitle", "Technology Services | Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "Explore Infeara Technologies services across cybersecurity, infrastructure, managed IT, cloud, networks, and software, each with a scope agreed with your team."));
+        staticPageCopy(model, "/services");
         model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
                 seo.crumb("Home", "/"),
                 seo.crumb("Services", "/services"))));
@@ -113,8 +129,7 @@ public class PageController {
         model.addAttribute("specialistServices", content.specialistServices(slug));
         model.addAttribute("relatedServices", content.services().stream()
                 .filter(item -> !item.slug().equals(slug)).limit(3).toList());
-        model.addAttribute("pageTitle", SeoText.title(service.name()));
-        model.addAttribute("pageDescription", SeoText.description(service.positioning(), service.summary()));
+        pageCopy(model, copyService.forService(slug));
         model.addAttribute("jsonLd", seo.serviceGraph(
                 List.of(seo.crumb("Home", "/"), seo.crumb("Services", "/services"),
                         seo.crumb(service.name(), null)),
@@ -130,11 +145,10 @@ public class PageController {
                 .orElseThrow(() -> notFound("Service"));
         String canonical = seo.canonical("/services/" + parentSlug + "/" + slug);
         model.addAttribute("specialistService", service);
+        pageCopy(model, copyService.forCapability(parentSlug, slug));
         model.addAttribute("parentService", parent);
         model.addAttribute("relatedSpecialistServices", content.specialistServices(parentSlug).stream()
                 .filter(item -> !item.slug().equals(slug)).limit(3).toList());
-        model.addAttribute("pageTitle", SeoText.title(service.name()));
-        model.addAttribute("pageDescription", SeoText.description(service.positioning(), service.summary()));
         model.addAttribute("jsonLd", seo.serviceGraph(
                 List.of(seo.crumb("Home", "/"), seo.crumb("Services", "/services"),
                         seo.crumb(parent.name(), "/services/" + parentSlug),
@@ -146,9 +160,7 @@ public class PageController {
 
     @GetMapping("/industries")
     public String industries(Model model) {
-        model.addAttribute("pageTitle", "Industries & Work Environments | Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "Explore business environments and technology challenges Infeara can help address, as starting points for a conversation about your context and requirements."));
+        staticPageCopy(model, "/industries");
         model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
                 seo.crumb("Home", "/"),
                 seo.crumb("Industries", "/industries"))));
@@ -166,11 +178,9 @@ public class PageController {
         model.addAttribute("industryNumber", content.industries().indexOf(industry) + 1);
         model.addAttribute("industryImage", industry.imageFileName());
         model.addAttribute("industryImageAlt", industry.imageAlt());
-        model.addAttribute("considerations", industry.considerations());
         model.addAttribute("relatedServices", industry.relatedServiceSlugs().stream()
                 .map(serviceSlug -> content.service(serviceSlug).orElseThrow()).toList());
-        model.addAttribute("pageTitle", SeoText.title(industry.title()));
-        model.addAttribute("pageDescription", SeoText.description(industry.summary(), industry.challenge()));
+        pageCopy(model, copyService.forIndustry(slug));
         model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
                 seo.crumb("Home", "/"),
                 seo.crumb("Industries", "/industries"),
@@ -181,9 +191,7 @@ public class PageController {
 
     @GetMapping("/careers")
     public String careers(Model model) {
-        model.addAttribute("pageTitle", "Careers at Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "Learn about working at Infeara Technologies, how we hire, what the team owns, and what a respectful recruitment process looks like for every candidate."));
+        staticPageCopy(model, "/careers");
         model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
                 seo.crumb("Home", "/"),
                 seo.crumb("Careers", null))));
@@ -193,9 +201,7 @@ public class PageController {
 
     @GetMapping("/careers/open-positions")
     public String careerOpenPositions(Model model) {
-        model.addAttribute("pageTitle", "Open Positions | Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "Browse current career openings at Infeara Technologies. Only verified positions are listed, so every role shown here is a confirmed vacancy."));
+        staticPageCopy(model, "/careers/open-positions");
         model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
                 seo.crumb("Home", "/"),
                 seo.crumb("Careers", "/careers"),
@@ -206,9 +212,7 @@ public class PageController {
 
     @GetMapping("/about")
     public String about(Model model) {
-        model.addAttribute("pageTitle", "About Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "A collaborative technology partner built around practical problem-solving and human partnership: listen first, explain clearly, and deliver responsibly."));
+        staticPageCopy(model, "/about");
         model.addAttribute("jsonLd", seo.organizationAndBreadcrumbGraph(List.of(
                 seo.crumb("Home", "/"),
                 seo.crumb("About Infeara", null))));
@@ -218,9 +222,7 @@ public class PageController {
 
     @GetMapping("/clients")
     public String clients(Model model) {
-        model.addAttribute("pageTitle", "Our Clients | Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "Explore how Infeara Technologies approaches client collaboration and technology work, with shared context, agreed scope, and clear ownership from day one."));
+        staticPageCopy(model, "/clients");
         model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
                 seo.crumb("Home", "/"),
                 seo.crumb("Our clients", null))));
@@ -231,9 +233,7 @@ public class PageController {
 
     @GetMapping("/newsletters")
     public String newsletters(Model model) {
-        model.addAttribute("pageTitle", "Newsletters | Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "Browse published Infeara Technologies newsletter editions: short, practical updates on technology questions worth asking, written for business teams."));
+        staticPageCopy(model, "/newsletters");
         model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
                 seo.crumb("Home", "/"),
                 seo.crumb("About", "/about"),
@@ -248,7 +248,7 @@ public class PageController {
                 .orElseThrow(() -> notFound("Newsletter edition"));
         model.addAttribute("edition", edition);
         model.addAttribute("pageTitle", SeoText.titleWithSuffix(edition.title(), "Infeara Newsletters"));
-        model.addAttribute("pageDescription", SeoText.description(edition.excerpt(), ""));
+        model.addAttribute("pageDescription", SeoText.description(edition.excerpt(), edition.content()));
         model.addAttribute("ogType", "article");
         model.addAttribute("ogArticlePublishedTime", seo.isoDate(edition.publishedAt()));
         model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
@@ -263,9 +263,7 @@ public class PageController {
                         @RequestParam(required = false) String category, Model model) {
         List<Insight> published = insightService.findPublished();
         List<Insight> filtered = filterArticles(published, q, category);
-        model.addAttribute("pageTitle", "Blogs | Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "Practical blog articles on infrastructure, cybersecurity, cloud, automation, and business technology, written to give teams a clear next step."));
+        staticPageCopy(model, "/blogs");
         model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
                 seo.crumb("Home", "/"),
                 seo.crumb("Blogs", null))));
@@ -284,7 +282,7 @@ public class PageController {
         model.addAttribute("relatedBlogs", insightService.findPublished().stream()
                 .filter(item -> !item.slug().equals(slug)).limit(2).toList());
         model.addAttribute("pageTitle", SeoText.titleWithSuffix(blog.title(), "Infeara Blog"));
-        model.addAttribute("pageDescription", SeoText.description(blog.excerpt(), ""));
+        model.addAttribute("pageDescription", SeoText.description(blog.excerpt(), blog.content()));
         model.addAttribute("ogType", "article");
         model.addAttribute("ogArticlePublishedTime", seo.isoDate(blog.publishedAt()));
         model.addAttribute("jsonLd", seo.articleGraph(
@@ -298,9 +296,7 @@ public class PageController {
                            @RequestParam(required = false) String category, Model model) {
         List<Insight> published = insightService.findPublished();
         List<Insight> filtered = filterArticles(published, q, category);
-        model.addAttribute("pageTitle", "Insights | Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "Practical notes on infrastructure, cybersecurity, cloud, automation, and business technology for the decisions teams face during an implementation."));
+        staticPageCopy(model, "/insights");
         model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
                 seo.crumb("Home", "/"),
                 seo.crumb("Insights", null))));
@@ -357,17 +353,13 @@ public class PageController {
 
     @GetMapping("/privacy")
     public String privacy(Model model) {
-        model.addAttribute("pageTitle", "Privacy Notice | Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "How Infeara Technologies handles information submitted through the website: what the enquiry form collects, why, and how to request a change or deletion."));
+        staticPageCopy(model, "/privacy");
         return "privacy";
     }
 
     @GetMapping("/terms")
     public String terms(Model model) {
-        model.addAttribute("pageTitle", "Terms of Use | Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "Terms for using the Infeara Technologies website, including how to understand its content, enquiries, and links to external sites."));
+        staticPageCopy(model, "/terms");
         return "terms";
     }
 
@@ -413,9 +405,7 @@ public class PageController {
     }
 
     private void addContactMetadata(Model model) {
-        model.addAttribute("pageTitle", "Contact Infeara Technologies");
-        model.addAttribute("pageDescription", SeoText.description(
-                "Tell Infeara Technologies what you are working toward and request a consultation. Share the systems, constraints, and outcomes that matter."));
+        staticPageCopy(model, "/contact");
     }
 
     private List<Insight> filterArticles(List<Insight> articles, String query, String category) {

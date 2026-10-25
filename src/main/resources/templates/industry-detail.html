@@ -24,18 +24,19 @@
       <div class="industry-context-copy">
         <span class="eyebrow">UNDERSTAND THE CONTEXT</span>
         <h2>Technology should fit<br><em>the work being done.</em></h2>
-        <p th:text="|Organizations in the ${industry.title} context bring together particular teams, systems, locations, and working practices. A useful starting point is to map the systems and dependencies behind the work, identify the operational constraints that matter, and agree a scope that fits the organization rather than assuming a standard pattern.|">Industry context</p>
-        <p><span th:text="${industry.challenge}">Technology considerations</span> These considerations are starting points for discussion, not assumptions about your particular organization.</p>
+        <p th:text="${copy.intro}">Industry context</p>
       </div>
       <div class="industry-considerations">
         <div class="section-index"><span>01</span><span class="index-rule"></span><span>TECHNOLOGY CONSIDERATIONS</span></div>
         <h2>Areas to explore.</h2>
-        <ul><li th:each="consideration,iter : ${considerations}"><span class="industry-consideration-number" th:text="${#numbers.formatInteger(iter.count,2)}">01</span><span th:text="${consideration}">Consideration</span></li></ul>
+        <ul><li th:each="consideration,iter : ${copy.covers}"><span class="industry-consideration-number" th:text="${#numbers.formatInteger(iter.count,2)}">01</span><span th:text="${consideration}">Consideration</span></li></ul>
       </div>
     </div>
   </section>
+  <div th:replace="~{fragments/copy :: sections(${copy}, 'SECTOR DETAIL', 'Where teams usually get stuck.', 'How we support this sector.', '02')}"></div>
+  <div th:replace="~{fragments/copy :: faqs(${copy}, '03', ${industry.title})}"></div>
   <section class="related-services-section section-pad">
-    <div class="section-heading-row"><div><div class="section-index"><span>02</span><span class="index-rule"></span><span>CONNECTED SERVICE AREAS</span></div><h2>Explore relevant<br><span>technology support.</span></h2></div><a class="text-link" th:href="@{/services}">All services <span>↗</span></a></div>
+    <div class="section-heading-row"><div><div class="section-index"><span>04</span><span class="index-rule"></span><span>CONNECTED SERVICE AREAS</span></div><h2>Explore relevant<br><span>technology support.</span></h2></div><a class="text-link" th:href="@{/services}">All services <span>↗</span></a></div>
     <div class="related-card-row"><a class="related-card" th:each="service : ${relatedServices}" th:href="@{/services/{slug}(slug=${service.slug})}"><span class="eyebrow" th:text="${service.category}">CATEGORY</span><h3 th:text="${service.name}">Service</h3><span>Explore <b>↗</b></span></a></div>
   </section>
   <section class="page-cta section-pad"><span class="eyebrow">EVERY ORGANIZATION IS DIFFERENT</span><h2>Start with your<br><em>requirements.</em></h2><p>Share the context, constraints, and priorities that matter to your team.</p><a class="button button-coral" th:href="@{/contact}">Request a consultation <span>↗</span></a></section>
