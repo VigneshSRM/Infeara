@@ -1,0 +1,6 @@
+# robots.txt for Infeara Technologies
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: http://localhost:8080/sitemap.xml
