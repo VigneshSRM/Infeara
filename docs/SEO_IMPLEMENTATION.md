@@ -84,6 +84,10 @@ mvn spring-boot:run        # in one shell
 scripts/seo-smoke-test.sh  # in another shell, against http://localhost:8080
 ```
 
+Or, without a local JDK: `docker build -t infeara-website . && docker run --rm -p 8080:8080 infeara-website`,
+then run the script against `http://localhost:8080`. CI (`.github/workflows/seo.yml`) builds the jar,
+starts it, runs the same gate, and uploads the runnable jar as a workflow artifact.
+
 The script fails the release when:
 
 - `robots.txt` is missing, disallows the whole site, or does not declare a sitemap;

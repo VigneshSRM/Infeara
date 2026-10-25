@@ -103,6 +103,27 @@ Required backend settings:
 | `SITE_BASE_URL` | Canonical origin for absolute page URLs, Open Graph URLs and the sitemap; use the public HTTPS origin in production (local default: `http://localhost:8080`) |
 | `SITE_INDEXABLE` | `true` allows search engines to index the deployment, `false` forces `noindex` and `Disallow: /`; when unset, indexing is allowed only if `SITE_BASE_URL` is HTTPS |
 
+## Run with Docker
+
+Java 27 and Maven are both required, so the quickest reproducible way to run the site is the
+included container:
+
+```sh
+docker build -t infeara-website .
+docker run --rm -p 8080:8080 \
+  -e SITE_BASE_URL=http://localhost:8080 \
+  -e SITE_INDEXABLE=true \
+  infeara-website
+```
+
+Then open <http://localhost:8080> and check the SEO gate with
+`scripts/seo-smoke-test.sh http://localhost:8080`. Add `SUPABASE_URL` and
+`SUPABASE_SERVICE_ROLE_KEY` to enable enquiry submissions and the Supabase-backed archive.
+
+Every push and pull request runs `.github/workflows/seo.yml`, which builds the application, starts
+it, runs the SEO release gate, and uploads the built jar as the `infeara-website-jar` artifact so it
+can be downloaded and started locally with `java -jar`.
+
 ## Deploy
 
 Deploy the Maven/Spring Boot application on a Java 27 host, set the environment variables above, configure `SITE_BASE_URL` to the production HTTPS origin, and serve it over HTTPS. The Thymeleaf templates and static assets are packaged inside the app, so the same origin serves all page routes and `/api/consultations`. Keep the service-role key in the host's secret settings and rotate it if it is ever exposed.
