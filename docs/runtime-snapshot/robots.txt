@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: http://localhost:8080/sitemap.xml
+Sitemap: https://www.infeara.com/sitemap.xml
