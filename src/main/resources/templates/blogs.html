@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head(${pageTitle}, ${pageDescription})}"><title>Blogs | Infeara Technologies</title></head>
+<body>
+<div th:replace="~{fragments/site :: header}"></div>
+<main id="main" class="editorial-page blog-page">
+  <section class="blog-page-hero page-hero page-hero-coral section-pad">
+    <div class="service-breadcrumb"><a th:href="@{/}">Home</a><span>/</span><a th:href="@{/about}">About</a><span>/</span><span>Blogs</span></div>
+    <div class="blog-hero-layout">
+      <div class="blog-hero-heading">
+        <div class="section-index"><span>01</span><span class="index-rule"></span><span>PRACTICAL TECHNOLOGY / BLOG</span></div>
+        <h1>Technology,<br><em>made clearer.</em></h1>
+      </div>
+      <div class="blog-hero-aside">
+        <p>Ideas and practical guides for the systems, security, and decisions behind everyday work.</p>
+        <a class="text-link" href="#blog-library">Explore the articles <span>↓</span></a>
+        <span class="blog-hero-count"><b th:text="${#lists.size(blogs)}">03</b> PUBLISHED ARTICLES</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="blog-library-section section-pad" id="blog-library">
+    <div class="blog-library-heading">
+      <div><span class="eyebrow">THE INFEARA BLOG</span><h2>Useful context.<br><em>Clear next steps.</em></h2></div>
+      <p>Browse articles by topic or search for a question you are working through. Content is general information; check it against your environment and current documentation.</p>
+    </div>
+
+    <form class="blog-filter" method="get" th:action="@{/blogs}">
+      <label class="blog-search"><span>Search articles</span><input type="search" name="q" th:value="${query}" placeholder="Try backup, patching, or cloud" autocomplete="off"><b aria-hidden="true">⌕</b></label>
+      <label class="blog-category-filter"><span>Topic</span><select name="category"><option value="">All topics</option><option th:each="category : ${categories}" th:value="${category}" th:text="${category}" th:selected="${category == selectedCategory}">Topic</option></select></label>
+      <button class="button button-dark" type="submit">Search articles <span>↗</span></button>
+      <a class="blog-reset-link" th:href="@{/blogs}">Reset</a>
+    </form>
+
+    <div class="blog-results-row"><span>ARTICLE ARCHIVE</span><span th:text="|${#lists.size(blogs)} results|">3 results</span></div>
+
+    <article class="blog-featured-card" th:each="featured,stat : ${blogs}" th:if="${stat.first}">
+      <div class="blog-featured-copy">
+        <div class="blog-featured-kicker"><span>FEATURED ARTICLE</span><span th:text="${featured.readingMinutes} + ' MIN READ'">4 MIN READ</span></div>
+        <span class="blog-category-pill" th:text="${featured.category}">INFRASTRUCTURE</span>
+        <h2><a th:href="@{/blogs/{slug}(slug=${featured.slug})}" th:text="${featured.title}">Featured blog title</a></h2>
+        <p th:text="${featured.excerpt}">Featured article summary.</p>
+        <div class="blog-featured-footer"><span th:text="${featured.publishedAt}">25 Oct 2026</span><a th:href="@{/blogs/{slug}(slug=${featured.slug})}">Read the article <b>↗</b></a></div>
+      </div>
+      <div class="blog-featured-art" aria-hidden="true"><span>FIELD<br>NOTES</span><b>01</b><i></i></div>
+    </article>
+
+    <div class="blog-card-grid" th:if="${#lists.size(blogs) > 1}">
+      <article class="blog-card" th:each="blog,iter : ${blogs}" th:if="${iter.index > 0}">
+        <div class="blog-card-art" aria-hidden="true"><span th:text="${#numbers.formatInteger(iter.count,2)}">02</span><i></i><b th:text="${blog.category}">INFRASTRUCTURE</b></div>
+        <div class="blog-card-content">
+          <div class="blog-card-meta"><span th:text="${blog.category}">CATEGORY</span><span th:text="${blog.readingMinutes} + ' MIN'">4 MIN</span></div>
+          <h3><a th:href="@{/blogs/{slug}(slug=${blog.slug})}" th:text="${blog.title}">Article title</a></h3>
+          <p th:text="${blog.excerpt}">Article summary.</p>
+          <div class="blog-card-footer"><span th:text="${blog.publishedAt}">25 Oct 2026</span><a th:href="@{/blogs/{slug}(slug=${blog.slug})}" aria-label="Read article">↗</a></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="blog-empty-state" th:if="${#lists.isEmpty(blogs)}"><span class="eyebrow">NO MATCHING ARTICLES</span><h2>Try another search.</h2><p>Clear the filters to see all published articles, or browse the service pages for more information.</p><a class="button button-outline" th:href="@{/blogs}">Show all blogs <span>↗</span></a></div>
+  </section>
+</main>
+<div th:replace="~{fragments/site :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head(${pageTitle}, ${pageDescription})}"><title>Careers at Infeara</title></head>
+<body>
+<div th:replace="~{fragments/site :: header}"></div>
+<main id="main" class="editorial-page">
+  <section class="career-hero section-pad">
+    <div class="career-cover-image" aria-hidden="true"><img th:src="@{/assets/hero/inner-pages-cover.jpg}" alt="" width="1792" height="592"></div>
+    <div class="career-hero-content">
+      <div class="service-breadcrumb"><a th:href="@{/}">Home</a><span>/</span><span>Careers</span></div>
+      <div class="career-hero-copy">
+        <div class="section-index section-index-light"><span>01</span><span class="index-rule"></span><span>CAREERS / INFEARA</span></div>
+        <h1>Make technology<br>matter with <em>Infeara.</em></h1>
+        <p>We bring infrastructure, cybersecurity, cloud, operations, and software together around real business needs. Explore how our teams work—and see current opportunities on the separate openings page.</p>
+        <div class="career-hero-actions"><a class="button button-coral" th:href="@{/careers/open-positions}">Explore open positions <span>↗</span></a><a class="text-link career-contact-link" th:href="@{/contact}">Ask a careers question <span>↗</span></a></div>
+      </div>
+      <span class="career-art-caption">PRACTICAL TECHNOLOGY / PEOPLE FIRST</span>
+    </div>
+  </section>
+
+  <section class="career-responsibilities-section section-pad">
+    <div class="career-responsibilities-visual"><img th:src="@{/assets/careers/team-responsibilities.png}" alt="Technology colleagues collaborating over a network and cloud architecture diagram" width="1200" height="900" loading="lazy" decoding="async"><span>THOUGHTFUL WORK, SHARED RESPONSIBILITY</span></div>
+    <div class="career-responsibilities-copy"><div class="section-index"><span>02</span><span class="index-rule"></span><span>HOW WE CONTRIBUTE</span></div><h2>Different skills.<br><span>One shared purpose.</span></h2><p>Our work connects technical disciplines and the people who depend on them. Team responsibilities can span planning, implementation, protection, and ongoing improvement—always shaped by the requirements of each role and engagement.</p><ol class="career-responsibility-list"><li><span>01</span><div><b>Build reliable foundations</b><small>Plan and support infrastructure, networks, cloud platforms, and systems.</small></div></li><li><span>02</span><div><b>Protect what matters</b><small>Apply careful security practices, clear authorization, and responsible handling.</small></div></li><li><span>03</span><div><b>Improve how work gets done</b><small>Find practical ways to streamline operations, integrate tools, and automate repeat tasks.</small></div></li><li><span>04</span><div><b>Collaborate and document</b><small>Communicate clearly, share context, and make decisions and handovers understandable.</small></div></li></ol></div>
+  </section>
+
+
+
+  <section class="career-values-section section-pad">
+    <div class="section-heading-row"><div><div class="section-index"><span>03</span><span class="index-rule"></span><span>WORKING TOGETHER</span></div><h2>Thoughtful work.<br><span>Shared progress.</span></h2></div><p class="heading-aside">A good role is clear about the work, the people involved, and the support available.</p></div>
+    <div class="career-values-grid"><article><span>01 / LIFE AT INFEARA</span><h3>Curiosity and collaboration</h3><p>Our work brings different technical disciplines together. We value clear communication, practical problem-solving, and respect for the people who rely on the systems we support.</p></article><article><span>02 / WHY JOIN</span><h3>Room to contribute and grow</h3><p>Roles may involve infrastructure, security, cloud, operations, or software. Each published opening will describe its actual scope, required experience, and role-specific learning expectations.</p></article></div>
+  </section>
+
+  <section class="career-process-section section-pad">
+    <div class="section-heading-row"><div><div class="section-index"><span>04</span><span class="index-rule"></span><span>HIRING PROCESS</span></div><h2>What to expect<br><span>when roles open.</span></h2></div><p class="heading-aside">A recruitment process may include these steps. The sequence and format vary by role; active listings will explain the relevant process.</p></div>
+    <ol class="career-process-list"><li><span>01</span><b>Application review</b><small>We review the information submitted for the role.</small></li><li><span>02</span><b>Initial conversation</b><small>A chance to discuss the position and your experience.</small></li><li><span>03</span><b>Role discussion</b><small>A role-specific technical or work-sample discussion, where relevant.</small></li><li><span>04</span><b>Final conversation</b><small>Discuss expectations, team context, and next steps.</small></li><li><span>05</span><b>Outcome</b><small>Any next steps are discussed with candidates as appropriate.</small></li></ol>
+  </section>
+
+  <section class="career-equity-section section-pad"><div class="career-equity-copy"><span class="eyebrow">FAIR AND RESPECTFUL HIRING</span><h2>Opportunity should be<br><em>grounded in the role.</em></h2><p>Infeara aims to assess candidates fairly against the requirements of each position and provide a respectful hiring experience. If an adjustment would help you participate in a recruitment conversation, you can raise it through the contact form.</p><a class="button button-outline" th:href="@{/contact}">Ask a question <span>↗</span></a></div><figure class="career-equity-mark"><img th:src="@{/assets/careers/fair-respectful-hiring.png}" alt="Circular illustration of people supporting one another on a shared path" width="1024" height="1024" loading="lazy" decoding="async"></figure></section>
+  <section class="career-openings-cta section-pad"><div><span class="eyebrow">YOUR NEXT STEP</span><h2>See what’s<br><em>open.</em></h2><p>Current roles, if available, are listed on the dedicated openings page.</p></div><a class="button button-coral" th:href="@{/careers/open-positions}">Explore open positions <span>↗</span></a></section>
+</main>
+<div th:replace="~{fragments/site :: footer}"></div>
+</body>
+</html>

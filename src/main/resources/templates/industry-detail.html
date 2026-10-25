@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head(${pageTitle}, ${pageDescription})}"><title>Industry | Infeara Technologies</title></head>
+<body>
+<div th:replace="~{fragments/site :: header}"></div>
+<main id="main" class="editorial-page">
+  <section class="industry-detail-hero section-pad">
+    <div class="service-breadcrumb"><a th:href="@{/}">Home</a><span>/</span><a th:href="@{/industries}">Industries</a><span>/</span><span th:text="${industry.title}">Industry</span></div>
+    <div class="industry-detail-hero-grid">
+      <div class="industry-detail-copy">
+        <div class="section-index section-index-light"><span th:text="${#numbers.formatInteger(industryNumber,2)}">01</span><span class="index-rule"></span><span>INDUSTRY / OPERATING CONTEXT</span></div>
+        <h1 th:text="${industry.title}">Industry</h1>
+        <p class="industry-detail-lede" th:text="${industry.summary}">Industry summary</p>
+        <a class="button button-coral" th:href="@{/contact}">Discuss your environment <span>↗</span></a>
+      </div>
+      <figure class="industry-detail-visual">
+        <img class="industry-hero-photo" th:src="@{/assets/industries/{file}(file=${industryImage})}" th:alt="${industryImageAlt}" width="1536" height="1024" fetchpriority="high" decoding="async">
+        <figcaption class="industry-visual-label">A view of the working environment</figcaption>
+      </figure>
+    </div>
+  </section>
+  <section class="industry-detail-content section-pad">
+    <div class="industry-detail-grid">
+      <div class="industry-context-copy">
+        <span class="eyebrow">UNDERSTAND THE CONTEXT</span>
+        <h2>Technology should fit<br><em>the work being done.</em></h2>
+        <p th:text="|Organizations in the ${industry.title} context bring together particular teams, systems, locations, and working practices. A useful starting point is to map the systems and dependencies behind the work, identify the operational constraints that matter, and agree a scope that fits the organization rather than assuming a standard pattern.|">Industry context</p>
+        <p><span th:text="${industry.challenge}">Technology considerations</span> These considerations are starting points for discussion, not assumptions about your particular organization.</p>
+      </div>
+      <div class="industry-considerations">
+        <div class="section-index"><span>01</span><span class="index-rule"></span><span>TECHNOLOGY CONSIDERATIONS</span></div>
+        <h2>Areas to explore.</h2>
+        <ul><li th:each="consideration,iter : ${considerations}"><span class="industry-consideration-number" th:text="${#numbers.formatInteger(iter.count,2)}">01</span><span th:text="${consideration}">Consideration</span></li></ul>
+      </div>
+    </div>
+  </section>
+  <section class="related-services-section section-pad">
+    <div class="section-heading-row"><div><div class="section-index"><span>02</span><span class="index-rule"></span><span>CONNECTED SERVICE AREAS</span></div><h2>Explore relevant<br><span>technology support.</span></h2></div><a class="text-link" th:href="@{/services}">All services <span>↗</span></a></div>
+    <div class="related-card-row"><a class="related-card" th:each="service : ${relatedServices}" th:href="@{/services/{slug}(slug=${service.slug})}"><span class="eyebrow" th:text="${service.category}">CATEGORY</span><h3 th:text="${service.name}">Service</h3><span>Explore <b>↗</b></span></a></div>
+  </section>
+  <section class="page-cta section-pad"><span class="eyebrow">EVERY ORGANIZATION IS DIFFERENT</span><h2>Start with your<br><em>requirements.</em></h2><p>Share the context, constraints, and priorities that matter to your team.</p><a class="button button-coral" th:href="@{/contact}">Request a consultation <span>↗</span></a></section>
+</main>
+<div th:replace="~{fragments/site :: footer}"></div>
+</body>
+</html>

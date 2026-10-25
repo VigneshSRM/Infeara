@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head(${pageTitle}, ${pageDescription})}"><title>Newsletter Edition | Infeara Technologies</title></head>
+<body>
+<div th:replace="~{fragments/site :: header}"></div>
+<main id="main" class="editorial-page">
+  <section class="article-hero newsletter-article-hero section-pad">
+    <div class="service-breadcrumb"><a th:href="@{/}">Home</a><span>/</span><a th:href="@{/newsletters}">Newsletters</a><span>/</span><span th:text="${edition.editionLabel}">Edition</span></div>
+    <div class="article-hero-inner">
+      <div class="newsletter-detail-meta"><span th:text="${edition.editionLabel}">EDITION</span><span th:text="${edition.publishedAt}">Published date</span><span th:text="${edition.readingMinutes} + ' MIN READ'">1 MIN READ</span></div>
+      <h1 th:text="${edition.title}">Newsletter title</h1>
+      <p class="article-excerpt" th:text="${edition.excerpt}">Newsletter summary</p>
+    </div>
+  </section>
+  <section class="article-content-section section-pad">
+    <aside class="article-callout"><span class="eyebrow">INFEARA NEWSLETTER</span><p>This edition is provided for general information. Check recommendations against your environment and current documentation.</p><a class="text-link" th:href="@{/newsletters}">All editions <span>↗</span></a></aside>
+    <article class="newsletter-edition-body" th:text="${edition.content}">Newsletter edition content</article>
+  </section>
+</main>
+<div th:replace="~{fragments/site :: footer}"></div>
+</body>
+</html>
