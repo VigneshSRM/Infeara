@@ -126,7 +126,8 @@ jobs:
           curl -fsS http://localhost:8080/robots.txt -o "$OUT/robots.txt"
           curl -fsS http://localhost:8080/sitemap.xml -o "$OUT/sitemap.xml"
           # The page returned for an unknown URL, captured the way a browser asks for it.
-          curl -fsS -H 'Accept: text/html' http://localhost:8080/this-page-does-not-exist -o "$OUT/404.html"
+          # -f would fail on the 404 status, which is the point of this request.
+          curl -sS -H 'Accept: text/html' http://localhost:8080/this-page-does-not-exist -o "$OUT/404.html"
           {
             echo "# Pages served by the running application"
             echo
