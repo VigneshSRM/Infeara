@@ -96,9 +96,11 @@ jobs:
       - name: Publish 404 evidence
         if: success()
         run: |
-          code=$(curl -sS -o notfound.html -w '%{http_code}' http://localhost:8080/this-page-does-not-exist)
-          echo "::notice title=404 check::status $code, $(wc -c < notfound.html) bytes, content-type $(curl -sSI http://localhost:8080/this-page-does-not-exist | grep -i '^content-type' | tr -d '\r')"
-          echo "::notice title=404 check::body starts: $(head -c 220 notfound.html | tr -d '\n' | tr -s ' ')"
+          code=$(curl -sS -H 'Accept: text/html' -o notfound.html -w '%{http_code}' http://localhost:8080/this-page-does-not-exist)
+          type=$(curl -sSI -H 'Accept: text/html' http://localhost:8080/this-page-does-not-exist | grep -i '^content-type' | tr -d '\r')
+          echo "::notice title=404 page::status $code, $(wc -c < notfound.html) bytes, $type"
+          echo "::notice title=404 page::$(head -c 200 notfound.html | tr -d '\n' | tr -s ' ')"
+          grep -qi 'infeara' notfound.html || { echo "::error title=404 page::body is not the branded page"; exit 1; }
 
       - name: Publish runtime evidence
         if: success()
@@ -123,6 +125,8 @@ jobs:
           rm -rf "$OUT"; mkdir -p "$OUT"
           curl -fsS http://localhost:8080/robots.txt -o "$OUT/robots.txt"
           curl -fsS http://localhost:8080/sitemap.xml -o "$OUT/sitemap.xml"
+          # The page returned for an unknown URL, captured the way a browser asks for it.
+          curl -fsS -H 'Accept: text/html' http://localhost:8080/this-page-does-not-exist -o "$OUT/404.html"
           {
             echo "# Pages served by the running application"
             echo
@@ -131,6 +135,7 @@ jobs:
             echo "snapshot of what the server returned, not a rendering of the templates."
             echo
             echo "Preview the whole site locally with \`python3 scripts/serve-runtime-snapshot.py\`."
+            echo "\`404.html\` is the page the application returns for an unknown URL."
             echo
             echo "| Path | Status | Bytes | Title |"
             echo "| --- | --- | --- | --- |"
