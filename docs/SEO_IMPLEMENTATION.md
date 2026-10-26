@@ -132,6 +132,7 @@ two pages, which keeps the policy true as pages are added.
 | Retired page | `/partners` and `/partners.html` → 301 `/clients` |
 | Duplicate article view | `/insights/{slug}` → 301 `/blogs/{slug}` |
 | Lowercase, hyphenated, descriptive slugs | Content slugs come from `WebsiteContent` / `insights.slug`; `SeoText.slug` is the shared derivation for generated pages |
+| Administration area | `/cms` and `/cms/**` are never crawlable: `Disallow: /cms/` in robots.txt, `X-Robots-Tag: noindex, nofollow`, a `noindex` meta tag, and no sitemap entry (see `docs/CMS_SECURITY.md`) |
 | Unknown URLs | Real 404 from Spring MVC (`ResponseStatusException` for unknown service/industry/article slugs); no SPA-style 200 fallback |
 
 Verified: the 9 service areas, 54 capability pages and 24 industry pages generated from

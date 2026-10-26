@@ -18,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *   <li>The bare domain ({@code infeara.com}) permanently redirects (301) to the canonical
  *       {@code www} host, so only one hostname is ever indexed.</li>
  *   <li>Deployments that are not indexable send {@code X-Robots-Tag: noindex, nofollow}.</li>
- *   <li>JSON API responses are marked noindex.</li>
+ *   <li>JSON API responses and the content-manager area are marked noindex.</li>
  * </ul>
  */
 @Component
@@ -51,7 +51,7 @@ public class SeoRequestFilter extends OncePerRequestFilter {
             response.setHeader("Cache-Control", "public, max-age=3600");
             return;
         }
-        if (!properties.isIndexable() || path.startsWith("/api/")) {
+        if (!properties.isIndexable() || path.startsWith("/api/") || isContentManager(path)) {
             response.setHeader("X-Robots-Tag", "noindex, nofollow");
         }
         chain.doFilter(request, response);
@@ -59,6 +59,11 @@ public class SeoRequestFilter extends OncePerRequestFilter {
         if (response.getStatus() >= 400) {
             response.setHeader("X-Robots-Tag", "noindex, nofollow");
         }
+    }
+
+    /** The content-management area is utility pages and behind a sign-in: never indexable. */
+    private static boolean isContentManager(String path) {
+        return path.equals("/cms") || path.startsWith("/cms/");
     }
 
     /**

@@ -29,6 +29,7 @@ public class RobotsController {
         if (properties.isIndexable()) {
             body.append("Allow: /\n");
             body.append("Disallow: /api/\n");
+            body.append("Disallow: /cms/\n");
             body.append('\n');
             body.append("Sitemap: ").append(properties.absolute("/sitemap.xml")).append('\n');
         } else {

@@ -115,6 +115,29 @@ class Handler(BaseHTTPRequestHandler):
 
         return self.send_body(404, missing_page(path, self.pages), "text/html; charset=utf-8")
 
+    def do_POST(self):  # noqa: N802
+        """Explains itself instead of failing: the preview serves recorded bodies, not an app."""
+        path = self.path.split("?")[0].split("#")[0]
+        if path in ("/cms/login", "/cms/logout"):
+            body = (
+                "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">"
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+                "<title>Sign-in is verified in CI, not in this preview</title>"
+                "<style>body{font:15px/1.7 system-ui;margin:70px auto;max-width:620px;"
+                "padding:0 24px;color:#24313d}code{background:#f2efe8;padding:2px 6px}"
+                "h1{font-size:22px;letter-spacing:-.02em}a{color:#226192}</style></head><body>"
+                "<h1>This preview serves recorded pages</h1>"
+                "<p>The sign-in page you just submitted is the exact HTML the running application "
+                "returned, served as a static snapshot, so there is no server here to authenticate "
+                "you.</p>"
+                "<p>The real sign-in is exercised on every push by <code>scripts/check-cms-login.sh</code> "
+                "against the application running on Java 27: CSRF rejection, generic errors, lockout, "
+                "the hardened session cookie, the workspace and sign-out.</p>"
+                "<p><a href=\"/cms/login\">Back to the sign-in page</a></p></body></html>"
+            ).encode("utf-8")
+            return self.send_body(200, body, "text/html; charset=utf-8")
+        return self.send_body(405, b"Method not allowed", "text/plain; charset=utf-8")
+
     def redirect(self, location):
         self.send_response(301)
         self.send_header("Location", location)
