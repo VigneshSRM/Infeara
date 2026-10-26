@@ -88,6 +88,11 @@ class Handler(BaseHTTPRequestHandler):
         if preferred is not None:
             return self.redirect(preferred)
 
+        # The workspace needs a signed-in session, so it is not part of a recorded snapshot. The
+        # application redirects an anonymous caller to the sign-in page, and so does the preview.
+        if path == "/cms":
+            return self.redirect("/cms/login")
+
         if path.startswith(("/css/", "/js/", "/assets/")):
             target = os.path.join(STATIC, path.lstrip("/"))
             if os.path.isfile(target):
