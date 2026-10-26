@@ -88,13 +88,11 @@ public class CmsSecurityConfig {
                             if (!lockedOut && exception instanceof BadCredentialsException) {
                                 attempts.recordFailure(ClientAddress.of(request), request.getParameter("username"));
                             }
-                            String submittedPassword = request.getParameter("password");
-                            log.info("CMS sign-in rejected: lockedOut={} type={} cause={} user=[{}] passwordLength={} passwordSignedIn={}",
-                                    lockedOut, exception.getClass().getSimpleName(),
+                            // The account name and the outcome are audited; the secret never is.
+                            log.info("CMS sign-in rejected: lockedOut={} type={} cause={} user=[{}]", lockedOut,
+                                    exception.getClass().getSimpleName(),
                                     exception.getCause() == null ? "none" : exception.getCause().getClass().getSimpleName(),
-                                    request.getParameter("username"),
-                                    submittedPassword == null ? -1 : submittedPassword.length(),
-                                    submittedPassword != null && !submittedPassword.isBlank());
+                                    request.getParameter("username"));
                             response.sendRedirect(request.getContextPath() + (lockedOut ? LOCKED : REJECTED));
                         }))
                 .logout(logout -> logout

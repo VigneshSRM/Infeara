@@ -26,19 +26,27 @@ import org.springframework.stereotype.Service;
  *   <li>Lockout is checked before the account is looked up, so locking applies even to names that
  *       do not exist and the lockout itself reveals nothing.</li>
  * </ul>
+ *
+ * <p>A <em>fresh</em> {@link UserDetails} is returned for every authentication attempt. Spring
+ * Security erases the credentials of the authenticated principal once a sign-in succeeds, and that
+ * erasure reaches the {@code User} object itself; handing out one shared instance would therefore
+ * empty the stored password after the first successful sign-in and reject every later one.</p>
  */
 @Service
 public class CmsUserDetailsService implements UserDetailsService {
     private static final Logger log = LoggerFactory.getLogger(CmsUserDetailsService.class);
     private static final int MINIMUM_PLAIN_SECRET_LENGTH = 12;
+    private static final String ROLE = "CMS_ADMIN";
 
     private final LoginAttemptService attempts;
-    private final UserDetails account;
+    private final String accountName;
+    private final String passwordHash;
 
     public CmsUserDetailsService(CmsProperties properties, PasswordEncoder passwordEncoder,
                                  LoginAttemptService attempts) {
         this.attempts = attempts;
-        this.account = buildAccount(properties, passwordEncoder);
+        this.accountName = properties.resolvedUsername();
+        this.passwordHash = resolveHash(properties, passwordEncoder);
     }
 
     @Override
@@ -46,43 +54,50 @@ public class CmsUserDetailsService implements UserDetailsService {
         if (attempts.isLocked(ClientAddress.current(), username)) {
             throw new LockedException("Too many failed sign-in attempts");
         }
-        if (username == null || username.isBlank() || account == null || !sameName(account.getUsername(), username.strip())) {
-            log.info("CMS sign-in rejected: no account matches [{}] (accountConfigured={})", username, account != null);
+        if (username == null || username.isBlank() || passwordHash == null
+                || !sameName(accountName, username.strip())) {
+            log.info("CMS sign-in rejected: no account matches [{}] (accountConfigured={})",
+                    username, passwordHash != null);
             throw new UsernameNotFoundException("No such account");
         }
-        return account;
+        return User.withUsername(accountName)
+                .password(passwordHash)
+                .roles(ROLE)
+                .build();
     }
 
     /** True when the deployment has configured an account, used to explain a closed door honestly. */
     public boolean isConfigured() {
-        return account != null;
+        return passwordHash != null;
     }
 
-    private static UserDetails buildAccount(CmsProperties properties, PasswordEncoder passwordEncoder) {
+    /**
+     * Returns the hash to verify against, or {@code null} when this instance has no account. A
+     * supplied BCrypt hash is used as it stands; a plain secret is hashed in memory, and only if it
+     * is long enough to be worth accepting.
+     */
+    private static String resolveHash(CmsProperties properties, PasswordEncoder passwordEncoder) {
         String secret = properties.resolvedSecret();
         if (secret == null) {
             log.warn("CMS sign-in is disabled: no CMS_ADMIN_PASSWORD_HASH or CMS_ADMIN_PASSWORD is set, "
                     + "so /cms stays closed on this instance");
             return null;
         }
-        String hash = secret;
-        if (!properties.usesPreHashedSecret()) {
-            if (secret.length() < MINIMUM_PLAIN_SECRET_LENGTH) {
-                log.error("CMS sign-in is disabled: CMS_ADMIN_PASSWORD is shorter than {} characters. "
-                        + "Supply a longer secret, or a BCrypt hash in CMS_ADMIN_PASSWORD_HASH",
-                        MINIMUM_PLAIN_SECRET_LENGTH);
-                return null;
-            }
-            hash = passwordEncoder.encode(secret);
-            log.warn("CMS sign-in is using a plain secret from the environment; prefer CMS_ADMIN_PASSWORD_HASH "
-                    + "so the secret is never readable by the application process");
+        if (properties.usesPreHashedSecret()) {
+            log.info("CMS account [{}] is active with a BCrypt hash from the environment",
+                    properties.resolvedUsername());
+            return secret;
         }
-        log.info("CMS account [{}] is active; stored credential is {} characters, plain secret length {}",
-                properties.resolvedUsername(), hash.length(), secret.length());
-        return User.withUsername(properties.resolvedUsername())
-                .password(hash)
-                .roles("CMS_ADMIN")
-                .build();
+        if (secret.length() < MINIMUM_PLAIN_SECRET_LENGTH) {
+            log.error("CMS sign-in is disabled: CMS_ADMIN_PASSWORD is shorter than {} characters. "
+                    + "Supply a longer secret, or a BCrypt hash in CMS_ADMIN_PASSWORD_HASH",
+                    MINIMUM_PLAIN_SECRET_LENGTH);
+            return null;
+        }
+        log.warn("CMS account [{}] is active; the plain secret from the environment is hashed in memory. "
+                + "Prefer CMS_ADMIN_PASSWORD_HASH so the secret is never readable by this process",
+                properties.resolvedUsername());
+        return passwordEncoder.encode(secret);
     }
 
     /** Length-independent comparison, so a wrong name cannot be spotted by how fast it is rejected. */

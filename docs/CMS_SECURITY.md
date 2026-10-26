@@ -38,6 +38,12 @@ all land on the same page with the same sentence. The submitted name is compared
 constant-time comparison, and unknown names take the same path as wrong passwords, so neither
 timing nor wording reveals which usernames are real.
 
+**The account object is rebuilt for every attempt.** Spring Security erases the credentials of the
+authenticated principal once a sign-in succeeds, and that erasure reaches the stored `UserDetails`.
+Returning one cached instance would empty the stored hash after the first successful sign-in and
+reject every later one with a generic "bad credentials" — a fault that only a real second sign-in
+reveals, which is why the gate signs in twice.
+
 **Sessions are hardened.** The identifier changes at sign-in (session fixation protection), the
 cookie is `HttpOnly` and `SameSite=Lax`, it is named `CMS_SESSION` rather than advertising the
 server, it is marked `Secure` automatically when the request arrives over TLS, and the idle timeout
