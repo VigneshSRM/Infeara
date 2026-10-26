@@ -102,10 +102,11 @@ for variant in "/services/" "/robots.txt/" "/industries/healthcare-life-sciences
 done
 
 # 4. Unknown URLs must not return a generic 200 page.
-code="$(curl -sS -o /dev/null -w '%{http_code}' "$BASE_URL/this-page-does-not-exist" 2>/dev/null)" || code="000"
+# The body is kept, so the page served for an unknown URL can be inspected as well.
+code="$(curl -sS -o "$WORK_DIR/not-found" -w '%{http_code}' "$BASE_URL/this-page-does-not-exist" 2>/dev/null)" || code="000"
 if [ "$code" = "404" ] || [ "$code" = "410" ]; then
   pass "unknown URL returns ${code}"
-  if grep -q 'error-shell' "$WORK_DIR/body" && grep -qi 'Page not found' "$WORK_DIR/body"; then
+  if grep -q 'error-shell' "$WORK_DIR/not-found" && grep -qi 'Page not found' "$WORK_DIR/not-found"; then
     pass "unknown URL serves the branded 404 page"
   else
     fail "unknown URL served a default error page instead of the branded 404"
