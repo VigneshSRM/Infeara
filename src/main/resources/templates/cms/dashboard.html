@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workspace | Infeara Content Manager</title>
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" type="image/png" sizes="192x192" th:href="@{/assets/favicon-192.png}">
+  <link rel="stylesheet" th:href="@{/css/cms.css(v=20261026-01)}">
+</head>
+<body class="cms-page cms-page-workspace">
+<header class="cms-bar">
+  <a class="cms-brand cms-brand-small" th:href="@{/}" aria-label="Infeara Technologies — view the website">
+    <img th:src="@{/assets/brand/infeara-logo-460.png}" alt="Infeara Technologies" width="460" height="153">
+  </a>
+  <div class="cms-bar-account">
+    <span class="cms-bar-user" th:text="${accountName}">cms-admin</span>
+    <!-- Signing out is a state change, so it is a POST carrying a CSRF token rather than a link. -->
+    <form action="/cms/logout" method="post" class="cms-signout">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+      <button type="submit">Sign out</button>
+    </form>
+  </div>
+</header>
+
+<main class="cms-main cms-main-work" id="main">
+  <p class="cms-eyebrow"><span class="cms-dot" aria-hidden="true"></span>Signed in</p>
+  <h1 class="cms-title cms-title-work">Content manager</h1>
+  <p class="cms-lede cms-lede-work">
+    You are signed in as <strong th:text="${accountName}">cms-admin</strong>.
+    This workspace confirms the session and shows what the site currently holds; editing screens are
+    a separate piece of work.
+  </p>
+
+  <div class="cms-panels">
+    <section class="cms-panel">
+      <h2>Session</h2>
+      <dl class="cms-pairs">
+        <div><dt>Signed in at</dt><dd th:text="${sessionStarted}">26 Oct 2026, 09:00</dd></div>
+        <div><dt>Idle timeout</dt><dd th:text="${sessionTimeout}">15 minutes</dd></div>
+        <div><dt>Roles</dt><dd th:text="${roleSummary}">ROLE_CMS_ADMIN</dd></div>
+      </dl>
+    </section>
+
+    <section class="cms-panel">
+      <h2>Controls in force</h2>
+      <ul class="cms-checks">
+        <li>Passwords are verified with BCrypt at cost 12, with a separate salt per password.</li>
+        <li th:text="|Lockout after ${lockoutThreshold} failed attempts for ${lockoutMinutes} minutes, doubling after that.|">
+          Lockout after 5 failed attempts for 15 minutes, doubling after that.
+        </li>
+        <li>Every state-changing request needs a CSRF token, and the session identifier changes at sign-in.</li>
+        <li>The session cookie is HttpOnly and SameSite=Lax; this area is excluded from search engines.</li>
+        <li>A strict Content-Security-Policy denies third-party origins and inline code.</li>
+        <li th:text="${secretStoredAsHash ? 'The account password is held as a BCrypt hash supplied by the environment.' : 'The account password arrives as a plain secret and is hashed in memory at start-up.'}">
+          The account password is held as a BCrypt hash supplied by the environment.
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="cms-panel cms-panel-wide">
+    <h2>What the site holds</h2>
+    <ul class="cms-stats">
+      <li th:each="stat : ${stats}">
+        <span class="cms-stat-value" th:text="${stat.value}">0</span>
+        <span class="cms-stat-label" th:text="${stat.label}">Service areas</span>
+        <span class="cms-stat-detail" th:text="${stat.detail}">top-level offers</span>
+      </li>
+    </ul>
+  </section>
+</main>
+
+<footer class="cms-foot cms-foot-work">
+  <p>Session activity is audited. Sign out when you have finished.</p>
+  <p><a th:href="@{/}">View the public website</a></p>
+</footer>
+</body>
+</html>

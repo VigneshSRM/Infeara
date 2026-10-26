@@ -1,0 +1,291 @@
+name: SEO release gate
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  seo-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Java 27
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '27'
+          cache: maven
+
+      - name: Build
+        run: |
+          set -o pipefail
+          mvn -B -DskipTests package 2>&1 | tee build.log
+
+      # Compiler diagnostics are reported as check annotations so they stay readable from the
+      # API even when job logs are inaccessible.
+      - name: Report build diagnostics
+        if: failure()
+        run: |
+          if [ -f build.log ]; then
+            grep -E "ERROR|error:|BUILD FAILURE|Could not resolve" build.log | head -20 | while IFS= read -r line; do
+              echo "::error title=Maven::$(printf '%s' "$line" | tr '\n' ' ' | cut -c1-380)"
+            done
+            echo "::notice title=Maven tail::$(tail -25 build.log | tr '\n' ' ' | cut -c1-380)"
+          else
+            echo "::error::build.log was not produced"
+          fi
+
+      # The content manager has no default account. This run creates a throwaway one, so the
+      # sign-in can be exercised end to end without a credential existing in the repository.
+      - name: Generate throwaway CMS credential
+        if: success()
+        run: |
+          {
+            echo "CMS_ADMIN_USERNAME=cms-ci-admin"
+            echo "CMS_ADMIN_PASSWORD=$(openssl rand -base64 24 | tr -d '\n')"
+          } >> "$GITHUB_ENV"
+
+      - name: Start application
+        if: success()
+        env:
+          SITE_BASE_URL: https://www.infeara.com
+          SITE_INDEXABLE: 'true'
+        run: |
+          nohup java -jar target/*.jar > application.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl -fsS http://localhost:8080/api/health > /dev/null; then
+              echo "Application is up after ${attempt} attempt(s)."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Application failed to start."
+          tail -n 200 application.log
+          exit 1
+
+      - name: Run SEO release gate
+        if: success()
+        run: |
+          set -o pipefail
+          scripts/seo-smoke-test.sh http://localhost:8080 https://www.infeara.com 2>&1 | tee seo.log
+
+      - name: Run CMS sign-in gate
+        if: success()
+        run: |
+          set -o pipefail
+          scripts/check-cms-login.sh http://localhost:8080 2>&1 | tee cms.log
+
+      - name: Report SEO gate findings
+        if: failure() || cancelled()
+        run: |
+          if [ -f seo.log ]; then
+            grep -E "FAIL|problem groups" seo.log | head -20 | while IFS= read -r line; do
+              echo "::error title=SEO gate::$(printf '%s' "$line" | cut -c1-380)"
+            done
+            echo "::notice title=SEO gate summary::$(tail -6 seo.log | tr '\n' ' ' | cut -c1-380)"
+          fi
+          if [ -f cms.log ]; then
+            grep -E "FAIL|CMS sign-in gate" cms.log | head -12 | while IFS= read -r line; do
+              echo "::error title=CMS sign-in::$(printf '%s' "$line" | cut -c1-380)"
+            done
+          fi
+          if [ -f application.log ]; then
+            grep -E "Exception|Caused by|TemplateInput|ERROR" application.log | head -6 | while IFS= read -r line; do
+              echo "::error title=Application::$(printf '%s' "$line" | cut -c1-380)"
+            done
+            echo "::notice title=Application log tail::$(tail -8 application.log | tr '\n' ' ' | cut -c1-380)"
+          fi
+
+      - name: Publish CMS gate evidence
+        if: always() && hashFiles('cms.log') != ''
+        run: |
+          grep -E "^  (ok|FAIL)|CMS sign-in gate" cms.log | head -24 | while IFS= read -r line; do
+            case "$line" in
+              *FAIL*) printf '::error title=CMS sign-in::%s\n' "$(printf '%s' "$line" | cut -c1-360)" ;;
+              *) printf '::notice title=CMS sign-in::%s\n' "$(printf '%s' "$line" | cut -c1-360)" ;;
+            esac
+          done
+
+      # Publishes the gate's own output as check annotations so the result of a real run
+      # against the running server is readable from the API as well as the job log.
+      - name: Publish gate evidence
+        if: success()
+        run: |
+          grep -E "^  (ok|FAIL)|SEO release gate|Application is up" seo.log | head -18 | while IFS= read -r line; do
+            echo "::notice title=Live check::$(printf '%s' "$line" | cut -c1-360)"
+          done
+          echo "::notice title=Live check::application started and answered /api/health ($(wc -l < seo.log | tr -d ' ') gate output lines)"
+
+      # Surfaces what the running server actually returns, so the deployed build can be
+      # inspected from the API without access to the job log.
+      - name: Publish 404 evidence
+        if: success()
+        run: |
+          code=$(curl -sS -H 'Accept: text/html' -o notfound.html -w '%{http_code}' http://localhost:8080/this-page-does-not-exist)
+          type=$(curl -sSI -H 'Accept: text/html' http://localhost:8080/this-page-does-not-exist | grep -i '^content-type' | tr -d '\r')
+          echo "::notice title=404 page::status $code, $(wc -c < notfound.html) bytes, $type"
+          echo "::notice title=404 page::$(head -c 200 notfound.html | tr -d '\n' | tr -s ' ')"
+          grep -qi 'infeara' notfound.html || { echo "::error title=404 page::body is not the branded page"; exit 1; }
+
+      - name: Publish runtime evidence
+        if: success()
+        run: |
+          echo "::notice title=Runtime::$(java -version 2>&1 | head -1) $(unzip -p target/*.jar META-INF/MANIFEST.MF 2>/dev/null | grep -i 'Spring-Boot-Version' | tr -d '\r')"
+          grep -E "Tomcat started|Started .* in [0-9]" application.log | head -2 | while IFS= read -r line; do
+            echo "::notice title=Startup::$(printf '%s' "$line" | tr '\n' ' ' | cut -c1-360)"
+          done
+          PAGE=http://localhost:8080/services/network-engineering/wi-fi-infrastructure
+          echo "::notice title=Rendered page::$(curl -fsS $PAGE | grep -o '<title>[^<]*</title>' | head -1 || true)"
+          echo "::notice title=Rendered page::$(curl -fsS $PAGE | grep -o '<meta name="description" content="[^"]*"' | head -1 | cut -c1-360 || true)"
+          echo "::notice title=Rendered page::intro/scope columns=$(curl -fsS $PAGE | grep -c 'page-copy-list' || true) faq blocks=$(curl -fsS $PAGE | grep -c 'faq-list' || true) h1 count=$(curl -fsS $PAGE | grep -c '<h1' || true)"
+          echo "::notice title=Rendered page::$(curl -fsS $PAGE | grep -o '<h2>When this work[^<]*</h2>' | head -1 || true)"
+
+      # Saves what the running application actually served, so the rendered output can be
+      # inspected without access to the job log or the artifact storage.
+      - name: Record runtime snapshot
+        if: success()
+        run: |
+          set -euo pipefail
+          OUT=docs/runtime-snapshot
+          rm -rf "$OUT"; mkdir -p "$OUT"
+          curl -fsS http://localhost:8080/robots.txt -o "$OUT/robots.txt"
+          curl -fsS http://localhost:8080/sitemap.xml -o "$OUT/sitemap.xml"
+          # The page returned for an unknown URL, captured the way a browser asks for it.
+          # -f would fail on the 404 status, which is the point of this request.
+          curl -sS -H 'Accept: text/html' http://localhost:8080/this-page-does-not-exist -o "$OUT/404.html"
+          # The content-manager sign-in page, captured for the same reason: it is a real response
+          # from the running application, and it is the one page the sitemap deliberately omits.
+          mkdir -p "$OUT/cms/login"
+          curl -sS -H 'Accept: text/html' http://localhost:8080/cms/login -o "$OUT/cms/login/index.html"
+          echo "::notice title=Snapshot::captured the content-manager sign-in page"
+          {
+            echo "# Pages served by the running application"
+            echo
+            echo "Written by \`.github/workflows/seo.yml\` from the live Spring Boot application on Java 27."
+            echo "Every file below is the exact response body for that path, so this directory is a"
+            echo "snapshot of what the server returned, not a rendering of the templates."
+            echo
+            echo "Preview the whole site locally with \`python3 scripts/serve-runtime-snapshot.py\`."
+            echo "\`404.html\` is the page the application returns for an unknown URL."
+            echo
+            echo "| Path | Status | Bytes | Title |"
+            echo "| --- | --- | --- | --- |"
+          } > "$OUT/README.md"
+          count=0
+          while IFS= read -r url; do
+            path="$(printf '%s' "$url" | sed 's#^[a-zA-Z][a-zA-Z0-9+.-]*://[^/]*##')"
+            [ -z "$path" ] && path="/"
+            case "$path" in *"?"*) continue ;; esac
+            dir="$OUT$path"; [ "$path" = "/" ] && dir="$OUT"
+            mkdir -p "$dir"
+            code=$(curl -s -o "$dir/index.html" -w '%{http_code}' "http://localhost:8080$path")
+            if [ "$code" != "200" ]; then
+              rm -rf "$dir"
+              echo "::warning title=Snapshot::$path returned $code and was skipped"
+              continue
+            fi
+            bytes=$(wc -c < "$dir/index.html")
+            title=$(sed -n 's:.*<title>\([^<]*\)</title>.*:\1:p' "$dir/index.html" | head -1)
+            echo "| \`$path\` | $code | $bytes | $title |" >> "$OUT/README.md"
+            count=$((count + 1))
+          done <<< "$(grep -o '<loc>[^<]*</loc>' "$OUT/sitemap.xml" | sed 's/<[^>]*>//g')"
+          echo "Recorded $count routes."
+          echo "::notice title=Snapshot::recorded $count routes from the running application into docs/runtime-snapshot"
+
+      - name: Commit runtime snapshot
+        if: success() && github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/runtime-snapshot
+          if git diff --cached --quiet; then
+            echo "Snapshot unchanged."
+            exit 0
+          fi
+          git commit -m "Record the pages served by the running application [skip ci]"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Upload runnable jar
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: infeara-website-jar
+          path: target/*.jar
+          if-no-files-found: warn
+
+      - name: Upload application log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-log
+          path: |
+            application.log
+            build.log
+            seo.log
+            cms.log
+          if-no-files-found: warn
+
+  # Runs the same application with the production configuration, so the canonical origin and the
+  # one-host redirect can be verified without deploying.
+  production-url-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Java 27
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '27'
+          cache: maven
+
+      - name: Build
+        run: mvn -B -DskipTests package
+
+      - name: Start with production configuration
+        env:
+          SITE_BASE_URL: https://www.infeara.com
+          SITE_INDEXABLE: 'true'
+        run: |
+          nohup java -jar target/*.jar > production.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl -fsS http://localhost:8080/api/health > /dev/null; then
+              echo "Application is up after ${attempt} attempt(s)."
+              exit 0
+            fi
+            sleep 2
+          done
+          tail -n 100 production.log
+          exit 1
+
+      - name: Check the public origin is used everywhere
+        run: |
+          set -o pipefail
+          python3 scripts/check-public-origin.py http://localhost:8080 https://www.infeara.com 2>&1 | tee origin.log
+
+      - name: Publish public origin findings
+        if: always()
+        run: |
+          if [ -f origin.log ]; then
+            grep -E "^  (ok|FAIL)|check\(s\) failed|All public origin" origin.log | head -20 | while IFS= read -r line; do
+              echo "::notice title=Public origin::$(printf '%s' "$line" | cut -c1-360)"
+            done
+          fi
+
+      - name: Run the full gate against the production configuration
+        run: scripts/seo-smoke-test.sh http://localhost:8080 https://www.infeara.com
+
+      - name: Report application failures
+        if: failure()
+        run: |
+          if [ -f production.log ]; then
+            grep -E "Exception|ERROR|Caused by" production.log | head -8 | while IFS= read -r line; do
+              echo "::error title=Application::$(printf '%s' "$line" | cut -c1-380)"
+            done
+          fi

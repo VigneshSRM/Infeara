@@ -42,7 +42,17 @@ public record IndustryPage(String slug, String title, String summary, String cha
         };
     }
 
+    /**
+     * Sector photograph for this industry, framed for this page only. scripts/generate-page-images.py
+     * derives one file per industry from the studio photography, so no two industry pages show the
+     * same image.
+     */
     public String imageFileName() {
+        return "pages/" + slug + ".webp";
+    }
+
+    /** Base photograph the industry page is cropped from, used to keep the alt text accurate. */
+    private String baseFileName() {
         return switch (slug) {
             case "healthcare-life-sciences", "pharmaceuticals-biotechnology" -> "healthcare-life-sciences.jpg";
             case "banking-financial-services", "insurance", "professional-services", "legal-services" -> "finance-professional-services.jpg";
@@ -59,7 +69,7 @@ public record IndustryPage(String slug, String title, String summary, String cha
     }
 
     public String imageAlt() {
-        return switch (imageFileName()) {
+        return switch (baseFileName()) {
             case "healthcare-life-sciences.jpg" -> "Research scientist working in a modern laboratory.";
             case "finance-professional-services.jpg" -> "Professionals reviewing information together in a modern office.";
             case "retail-distribution.jpg" -> "Operations staff scanning a parcel in an organized fulfillment space.";

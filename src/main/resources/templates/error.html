@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${status == 404 ? 'Page not found | Infeara Technologies' : 'Something went wrong | Infeara Technologies'}">Page not found | Infeara Technologies</title>
+  <meta name="robots" content="noindex,follow">
+  <link rel="icon" type="image/png" sizes="192x192" th:href="@{/assets/favicon-192.png}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap">
+  <link rel="stylesheet" th:href="@{/css/site.css(v=20261026-03)}">
+  <link rel="stylesheet" th:href="@{/css/pages.css(v=20261026-01)}">
+  <style>
+    /* Self-contained: this page is served for error responses, where the shared header model
+       (navigation, year) is not available. */
+    .error-shell{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+      padding:64px var(--gutter);background:var(--ivory)}
+    .error-inner{max-width:640px;margin:0 auto}
+    .error-brand{display:block;width:min(230px,60vw);margin-bottom:34px}
+    .error-code{font:700 12px var(--display);letter-spacing:.18em;color:var(--coral-deep);margin:0 0 14px}
+    .error-shell h1{font:600 clamp(30px,5vw,46px)/1.08 var(--display);letter-spacing:-.045em;margin:0 0 16px;color:var(--ink)}
+    .error-shell h1 em{font-style:normal;color:var(--coral-deep)}
+    .error-shell p{font-size:14px;line-height:1.75;color:#56636c;max-width:470px;margin:0 0 26px}
+    .error-actions{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center}
+    .error-links{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 26px}
+    .error-links a{font-size:11px;font-weight:600;color:var(--blue)}
+  </style>
+</head>
+<body>
+<main id="main" class="error-shell">
+  <div class="error-inner">
+    <a class="error-brand" th:href="@{/}" aria-label="Infeara Technologies home">
+      <picture>
+        <source th:srcset="@{/assets/brand/infeara-logo-460.webp}" type="image/webp">
+        <img th:src="@{/assets/brand/infeara-logo-460.png}" alt="Infeara Technologies" width="460" height="153">
+      </picture>
+    </a>
+    <p class="error-code" th:text="${status == 404 ? 'ERROR 404' : 'SOMETHING WENT WRONG'}">ERROR 404</p>
+    <h1 th:if="${status == 404}">That page has <em>moved on.</em></h1>
+    <h1 th:unless="${status == 404}">We hit an <em>unexpected error.</em></h1>
+    <p th:if="${status == 404}">The address you followed is not on this site. It may have been renamed, or the link may have a small typo. These pages are the quickest way back.</p>
+    <p th:unless="${status == 404}">The page could not be rendered just now. Please try again in a moment, or start from the home page.</p>
+    <div class="error-actions">
+      <a class="button button-blue" th:href="@{/}">Back to the home page <span aria-hidden="true">↗</span></a>
+      <a class="text-link" th:href="@{/contact}">Report a broken link <span aria-hidden="true">↗</span></a>
+    </div>
+    <nav class="error-links" aria-label="Popular pages">
+      <a th:href="@{/services}">All services</a>
+      <a th:href="@{/industries}">Industries</a>
+      <a th:href="@{/insights}">Insights</a>
+      <a th:href="@{/blogs}">Blogs</a>
+      <a th:href="@{/about}">About Infeara</a>
+      <a th:href="@{/contact}">Contact</a>
+    </nav>
+  </div>
+</main>
+</body>
+</html>

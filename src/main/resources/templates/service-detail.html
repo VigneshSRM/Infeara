@@ -24,20 +24,19 @@
       <div class="service-photo-carousel service-specialist-photo-carousel" role="region" aria-roledescription="carousel" th:attr="data-specialist-photo-carousel=${service.slug},aria-label=${service.name + ' service photography'}">
         <div class="service-photo-stage">
           <figure class="service-z-image service-z-image-second service-photo-slide" data-specialist-photo-slide th:each="specialist,iter : ${specialistServices}" th:classappend="${iter.index == 0} ? ' is-active' : ''" th:attr="aria-hidden=${iter.index != 0}">
-            <img th:src="@{/assets/services/{file}(file=${specialist.images[1].fileName})}" th:alt="${specialist.images[1].alt}" width="960" height="520" loading="lazy" decoding="async">
+            <img th:src="@{/assets/services/pages/{parent}-{slug}-thumb.webp(parent=${service.slug},slug=${specialist.slug})}" th:alt="${specialist.name + ' carousel illustration'}" width="960" height="520" loading="lazy" decoding="async">
           </figure>
         </div>
       </div>
       <div class="service-z-detail-copy">
         <span class="eyebrow">SCOPE / EXAMPLES</span>
         <h2>How we can<br><em>help.</em></h2>
-        <p class="service-z-explainer">Service scope is agreed together after we understand your environment and goals. The following are examples of areas we can discuss.</p>
+        <p class="service-z-explainer" th:text="${copy.intro}">Service scope is agreed together after we understand your environment and goals.</p>
         <div class="specialist-service-carousel" role="region" aria-roledescription="carousel" th:attr="data-specialist-carousel=${service.slug},aria-label=${service.name + ' services'}">
           <div class="specialist-service-viewport" aria-live="off">
             <article class="specialist-service-slide" data-specialist-slide th:each="specialist,iter : ${specialistServices}" th:classappend="${iter.index == 0} ? ' is-active' : ''" th:attr="aria-hidden=${iter.index != 0}">
               <div class="specialist-slide-meta"><span class="service-number" th:text="${#numbers.formatInteger(iter.count,2)}">01</span><span th:text="${specialist.category}">SERVICE AREA</span></div>
               <h3 th:text="${specialist.name}">Cybersecurity service</h3>
-              <p th:text="${specialist.positioning}">Service description</p>
               <a class="text-link" th:href="@{/services/{parent}/{slug}(parent=${service.slug},slug=${specialist.slug})}">Explore service <span>↗</span></a>
             </article>
           </div>
@@ -53,7 +52,9 @@
       </div>
     </div>
   </section>
-  <section class="related-services-section section-pad"><div class="section-heading-row"><div><div class="section-index"><span>02</span><span class="index-rule"></span><span>RELATED CAPABILITIES</span></div><h2>Connected services.<br><span>One clear conversation.</span></h2></div><a class="text-link" th:href="@{/services}">All services <span>↗</span></a></div><div class="related-card-row"><a class="related-card" th:each="related : ${relatedServices}" th:href="@{/services/{slug}(slug=${related.slug})}"><span class="eyebrow" th:text="${related.category}">CATEGORY</span><h3 th:text="${related.name}">Service</h3><span>Explore <b>↗</b></span></a></div></section>
+  <div th:replace="~{fragments/copy :: sections(${copy}, 'SERVICE DETAIL', 'When this work is worth reviewing.', 'What you receive.', '02')}"></div>
+  <div th:replace="~{fragments/copy :: faqs(${copy}, '03', ${service.name})}"></div>
+  <section class="related-services-section section-pad"><div class="section-heading-row"><div><div class="section-index"><span>04</span><span class="index-rule"></span><span>RELATED CAPABILITIES</span></div><h2>Connected services.<br><span>One clear conversation.</span></h2></div><a class="text-link" th:href="@{/services}">All services <span>↗</span></a></div><div class="related-card-row"><a class="related-card" th:each="related : ${relatedServices}" th:href="@{/services/{slug}(slug=${related.slug})}"><span class="eyebrow" th:text="${related.category}">CATEGORY</span><h3 th:text="${related.name}">Service</h3><span>Explore <b>↗</b></span></a></div></section>
   <section class="page-cta section-pad"><span class="eyebrow">LET’S TALK ABOUT YOUR REQUIREMENTS</span><h2>Make the next step<br><em>clearer.</em></h2><p>Tell us a little about the challenge and we’ll explore a suitable scope with you.</p><a class="button button-coral" th:href="@{/contact(service=${service.name})}">Request a consultation <span>↗</span></a></section>
 </main>
 <div th:replace="~{fragments/site :: footer}"></div>

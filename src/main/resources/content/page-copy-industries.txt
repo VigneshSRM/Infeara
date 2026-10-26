@@ -1,0 +1,243 @@
+# Page copy for the 24 industry pages.
+# Fields: title, description, intro, covers (typical systems), signs (where teams get stuck),
+# deliverables (how we support the sector), faq (repeatable).
+
+@industry agriculture-agritech
+title: Agriculture & Agritech IT Support | Infeara Technologies
+description: Technology for farms, agri-businesses, and agritech teams: field connectivity, sensor and telemetry data, ERP, and resilience through peak seasons.
+intro: Agricultural operations mix remote sites, seasonal peaks, and systems that must work with intermittent connectivity. Planning around those conditions matters more than the hardware chosen.
+covers: Field and remote-site connectivity | Sensor, telemetry, and weather data feeds | Farm management, ERP, and inventory systems | Office and packhouse networks
+signs: Data from the field arrives late or not at all | Connectivity decisions assume a stable office link | Seasonal peaks expose capacity that was never sized for them
+deliverables: A connectivity and data-flow plan for remote locations | Systems sized for seasonal peaks rather than average load | Recovery steps that work when a site is offline
+faq: Can you support sites with poor connectivity? | Yes. Designs typically include local buffering so data is retained at the site and synchronised when the link returns, rather than assuming a permanent connection.
+faq: Do you work with agritech software vendors? | Yes, we integrate and support around their platforms, and coordinate with the vendor when a fault sits inside their application.
+
+@industry automotive-transportation
+title: Automotive & Transportation Technology | Infeara Technologies
+description: IT for automotive and transport operations: workshop and dealer systems, fleet connectivity, plant networks, and vehicle-adjacent data flows.
+intro: Transport operations depend on systems that move with the vehicle and systems that stay in the building. Keeping both visible is the usual challenge.
+covers: Workshop, dealer, and parts systems | Fleet connectivity and telematics data | Plant and depot networks | Diagnostics equipment and device management
+signs: Vehicle and office data are reconciled manually | Depot connectivity varies by site with no standard | Diagnostic devices sit outside the security baseline
+deliverables: A site-by-site connectivity and systems record | Standardised device and diagnostic-tool management | Data flows between fleet, workshop, and finance documented
+faq: Can you support depots and workshops? | Yes, with per-site scopes so connectivity, devices, and support expectations are explicit rather than assumed to match head office.
+faq: Do you integrate telematics platforms? | Where the provider offers an interface. Otherwise data exchange is handled through exports with the limitation documented.
+
+@industry banking-financial-services
+title: Banking & Financial Services Technology | Infeara Technologies
+description: Infrastructure, security, and operations support for banks, NBFCs, and financial services teams with strict access, audit, and downtime expectations.
+intro: Financial services environments combine tight access control, audit evidence, and little tolerance for downtime. Every change needs to be explainable.
+covers: Core and surrounding application hosting | Identity, privileged access, and segregation of duties | Branch and office network connectivity | Backup, recovery, and retention controls
+signs: Access reviews happen once a year, if at all | Evidence for auditors is assembled from memory | Branch networks drift from the standard
+deliverables: A control-mapped infrastructure and access record | Evidence packs that support audit and review | Change procedures with approval and rollback
+faq: Do you support regulated environments? | Yes, working within your control framework and evidence requirements. We do not certify compliance; the review and attestation stay with your auditors or compliance function.
+faq: Can work be done without production access? | For many tasks, yes. Where production access is required, it is scoped, time-bound, logged, and approved through your process.
+
+@industry construction-engineering
+title: Construction & Engineering IT | Infeara Technologies
+description: IT for construction and engineering firms: site connectivity, project platforms, design file access, and device security across distributed teams.
+intro: Construction teams work from sites that change monthly, with large design files and subcontractors who need access but not permanence.
+covers: Site and temporary-office connectivity | Project and document management platforms | CAD and design file storage and transfer | Device management for field teams
+signs: Design files are shared through personal cloud accounts | Site connectivity is ordered late and delays mobilisation | Subcontractor access is never removed
+deliverables: A site mobilisation and connectivity checklist | Document systems sized for large file workflows | Time-bound access for subcontractors with removal records
+faq: How quickly can a new site be connected? | It depends on carrier lead times, which is why connectivity is planned at mobilisation. Temporary options can bridge the gap and are stated in the plan.
+faq: Can you support field devices? | Yes, including standard builds, remote wipe, and replacement processes so devices leaving the office remain manageable.
+
+@industry education-edtech
+title: Education & EdTech IT Support | Infeara Technologies
+description: Campus and online learning infrastructure: networks, identity, device fleets, and assessment systems with term-time reliability in mind throughout.
+intro: Education environments swing between quiet periods and term-time peaks, with students, staff, and guests sharing the same infrastructure.
+covers: Campus and classroom networking | Identity and access for staff, students, and guests | Device fleets and shared equipment | Learning platforms and assessment systems
+signs: Guest and student networks share controls with administrative systems | Term start exposes capacity limits | Shared devices have no consistent rebuild process
+deliverables: Segmented network design for staff, students, and guests | Capacity plans aligned to term peaks | Device lifecycle and rebuild procedures
+faq: Can you support online assessments? | Yes, with attention to window stability, bandwidth, and fallback arrangements agreed before exam periods rather than during them.
+faq: Do you work with our LMS provider? | Yes, integrating identity and access around it, and escalating platform issues with the provider when the cause sits with them.
+
+@industry energy-utilities
+title: Energy & Utilities Technology Support | Infeara Technologies
+description: IT for energy and utility operations: control-network separation, field communications, monitoring data, and recovery for critical systems and remote sites.
+intro: Energy and utility environments separate operational technology from business IT for good reason. The work is keeping that boundary intact while data still flows.
+covers: Segmentation between IT and operational networks | Field and substation communications | Metering, SCADA-adjacent, and monitoring data flows | Resilience and recovery for critical systems
+signs: Operational and business networks are connected for convenience | Remote-site access paths are undocumented | Recovery plans assume the control network and IT fail independently
+deliverables: A segmented design with documented boundaries | Data-flow records between operational and business systems | Recovery plans tested for critical systems
+faq: Do you work on SCADA or OT systems directly? | We work around them: network boundaries, data flows, and supporting IT. Changes to control systems are delivered with your OT specialists or the system vendor.
+faq: How is remote access to field sites handled? | Through controlled paths with logging and time limits, rather than standing connections that nobody reviews.
+
+@industry fmcg
+title: FMCG Operations & Supply Chain Technology | Infeara
+description: Technology for fast-moving consumer goods operations: plant connectivity, supply-chain systems, distributor links, and endpoint control at scale.
+intro: FMCG operations run on tight margins and fast cycles, so system downtime converts directly into distribution delays.
+covers: Plant and warehouse connectivity | ERP, distribution, and order systems | Distributor and partner integration | Endpoint management across offices and plants
+signs: Order flow depends on one system with no tested fallback | Distributor data arrives in inconsistent formats | Plant devices are managed differently from office devices
+deliverables: Documented dependencies for order-to-dispatch flows | Integration patterns for partner and distributor data | A consistent endpoint standard across sites
+faq: Can you support plant-floor systems? | Business IT around them, yes. Machine control and process automation are handled with your automation vendor, with clear interface boundaries.
+faq: How do you handle distributor connectivity? | Through agreed interfaces and file or API exchange, with validation so bad data does not enter the ERP silently.
+
+@industry government-public-sector
+title: Public Sector & Government IT | Infeara Technologies
+description: Infrastructure and support for public sector teams, with procurement discipline, access control, record retention, and service continuity planning.
+intro: Public sector technology work carries obligations beyond uptime: records must be retained, access must be justified, and change must be documented.
+covers: Application hosting and service continuity | Identity and access management | Network and site connectivity | Record retention and backup controls
+signs: Access rights outlast the role they were granted for | Retention rules are unclear or inconsistently applied | Service continuity plans are untested
+deliverables: Documented access justification and review | Retention-aligned backup configuration | Continuity plans with named owners
+faq: Can you work within public procurement rules? | Yes. We work from your tender or framework terms and provide the documentation those processes require.
+faq: Do you handle citizen data? | Only within the scope and controls you define. Data handling, residency, and retention are agreed in writing before work begins.
+
+@industry healthcare-life-sciences
+title: Healthcare & Life Sciences IT | Infeara Technologies
+description: Clinical and laboratory IT support: system availability, controlled access, medical device networks, and recovery for patient-facing services.
+intro: Healthcare systems are judged by availability at the point of care. Access control and recovery planning therefore carry clinical consequences.
+covers: Clinical application hosting and availability | Segmented networks for medical devices | Identity and role-based access | Backup and recovery for clinical systems
+signs: Medical devices share a network with general office systems | Access is granted broadly because roles change quickly | Recovery time for clinical systems has never been agreed
+deliverables: A segmented network design protecting clinical devices | Role-based access with review records | Recovery objectives agreed per clinical system
+faq: Do you work with medical device vendors? | Yes, coordinating network and access requirements with the vendor, since devices are typically supported only by their manufacturer.
+faq: How is downtime managed? | Through agreed recovery objectives and documented fallback procedures for each clinical system, tested before they are needed.
+
+@industry hospitality-food-services
+title: Hospitality & Food Service Technology | Infeara Technologies
+description: IT for hotels, restaurants, and food service groups: property networks, POS, guest Wi-Fi, and multi-site support with brand-standard consistency.
+intro: Hospitality runs on guest-facing systems that must be simple to use and reliable at peak service times, often across many small sites.
+covers: Guest and staff Wi-Fi with isolation | POS and property management systems | Multi-site connectivity and support | Payment device networks
+signs: Guest networks are not isolated from business systems | Sites configure equipment differently | Payment devices sit outside the security review
+deliverables: A site-standard configuration template | Segmented guest, staff, and payment networks | A repeatable support model per site
+faq: Can you support franchise or managed sites? | Yes, with per-site scopes and standards that respect brand requirements and any existing vendor agreements.
+faq: Is guest Wi-Fi security in scope? | Yes, including isolation, authentication options, and bandwidth policy so guest traffic cannot reach business systems.
+
+@industry information-technology-saas
+title: SaaS & Technology Company IT & Operations | Infeara
+description: Cloud, security, and internal IT for SaaS and technology companies: landing zones, CI/CD-adjacent infrastructure, and least-privilege access.
+intro: Technology companies often build for customers while their own internal IT matures unevenly. The usual gap is controls, not capability.
+covers: Cloud landing zones and account structure | Customer-facing infrastructure and availability | Identity and least-privilege access | Internal IT and device management
+signs: Internal IT lags behind what you ship to customers | Cloud cost and access are owned by nobody | Customer environments share credentials with internal tools
+deliverables: A structured cloud and access model | Separation between customer and internal environments | Cost, access, and monitoring ownership defined
+faq: Do you replace our platform team? | No. We usually fill specific gaps: security reviews, cloud structure, or internal IT, working with your engineers rather than around them.
+faq: Can you support customer-facing SLAs? | We can operate within them where the scope is defined, including monitoring and escalation. The contractual commitment stays with your organization.
+
+@industry insurance
+title: Insurance Technology & IT Support | Infeara Technologies
+description: IT for insurers, brokers, and MGAs: claims and policy systems, document workflows, access control, and resilience for regulated data and reporting.
+intro: Insurance workflows are document-heavy and time-sensitive, with regulatory expectations around access and retention.
+covers: Policy, claims, and broker systems | Document management and retention | Identity and role-based access | Backup and continuity for regulated records
+signs: Claims data is shared through email attachments | Access follows the org chart rather than the role | Retention rules differ between systems
+deliverables: Role-based access mapping with review evidence | Document workflow and retention alignment | Continuity plans for claims-critical systems
+faq: Do you integrate with broker platforms? | Where interfaces are available. Otherwise exchange is documented with validation and an agreed manual fallback.
+faq: How is client data protected during support work? | Through least-privilege access, time-bound elevation, logging, and the handling rules your organization sets.
+
+@industry legal-services
+title: Legal Services Technology & IT | Infeara Technologies
+description: IT for law firms and legal teams: document management, matter systems, secure remote access, and confidentiality controls for client data at all times.
+intro: Legal work depends on confidentiality and document integrity. Access must be precise and removable without disrupting active matters.
+covers: Document management and matter systems | Secure remote and mobile access | Confidentiality and access controls | Backup and retention for client files
+signs: Matter files sit on shared drives with broad access | Remote access is convenient rather than controlled | Departing staff retain access longer than needed
+deliverables: Matter-based access structures | Controlled remote access with logging | Retention-aligned backup and file recovery
+faq: Can you help during a matter closure or staff departure? | Yes. Access removal, file handover, and retention checks are handled as a defined process with a record.
+faq: Is e-discovery in scope? | No. We support the infrastructure and access around it; legal hold and review are handled by your legal team or a specialist provider.
+
+@industry logistics-supply-chain
+title: Logistics & Supply Chain Technology | Infeara Technologies
+description: IT for logistics and supply chain operations: warehouse systems, EDI and partner links, fleet connectivity, and recovery for dispatch flows.
+intro: Logistics systems are only useful if the data is current. Partner interfaces and warehouse networks carry most of the operational risk.
+covers: Warehouse management and scanning systems | EDI and partner integration | Fleet and depot connectivity | Dispatch and tracking uptime
+signs: Partner files fail silently and are found days later | Warehouse Wi-Fi drops in the picking aisles | Dispatch depends on a single system with no fallback
+deliverables: Monitored integration with failure alerts | Wireless coverage validated for the working environment | Recovery procedures for dispatch-critical systems
+faq: Can you monitor EDI exchanges? | Yes, with volume, failure, and delay alerting so a missing file is caught before the partner calls.
+faq: Do you design warehouse wireless? | Yes, with on-site surveys that account for racking, metal density, and moving equipment rather than office assumptions.
+
+@industry manufacturing-industrial
+title: Manufacturing & Industrial IT | Infeara Technologies
+description: IT for manufacturing operations: plant networks, OT and IT separation, ERP and MES integration, and resilience on the production floor during shifts.
+intro: Manufacturing environments need business IT and production systems to exchange data without compromising either side.
+covers: Plant and office network separation | ERP, MES, and production data integration | Shop-floor device management | Resilience for production-critical systems
+signs: Production systems share a flat network with office devices | Data between MES and ERP is reconciled manually | Shop-floor endpoints are unmanaged
+deliverables: A documented IT and OT boundary | Integration records with validation points | Endpoint standards suitable for the shop floor
+faq: Do you touch PLC or machine control systems? | We work at the boundary: networks, access, and data flows. Changes inside control systems are delivered with your automation vendor.
+faq: Can you work during production shutdowns? | Yes, and shutdown windows are often the practical time for network or system changes. Planning accounts for that constraint.
+
+@industry media-entertainment
+title: Media & Entertainment Technology | Infeara Technologies
+description: IT for media and entertainment teams: high-throughput storage, large-file workflows, rendering capacity, and secure contributor access from anywhere.
+intro: Media workflows are constrained by transfer and storage performance more than by compute, and by freelancers who need access without permanence.
+covers: High-throughput storage and asset management | Large-file transfer and remote editing | Render and compute capacity | Time-bound access for contributors
+signs: Editors wait on file transfers between sites | Storage growth outpaces any forecast | Contributor accounts are never removed
+deliverables: Storage and transfer design matched to working file sizes | Capacity model with growth thresholds | Time-bound contributor access with removal records
+faq: Can you support remote editing? | Where bandwidth and latency allow, with proxy workflows and local caching. The design states the limits rather than assuming it will feel local.
+faq: How is archive storage handled? | Through tiering aligned to reuse patterns, with restore times documented so archive cost does not hide access delay.
+
+@industry non-profit-organizations
+title: Non-Profit Technology Support | Infeara Technologies
+description: Cost-aware IT for non-profits: donor and program systems, identity, remote teams, and recovery planning within tight budgets and small teams.
+intro: Non-profit technology decisions carry a budget constraint and a mission risk at the same time. Priorities need to be chosen deliberately.
+covers: Donor and fundraising platforms | Program and case management systems | Identity and remote access | Backup and continuity planning
+signs: Systems were donated or discounted and never reviewed | Data sits in several platforms that do not reconcile | Recovery depends on a volunteer's knowledge
+deliverables: A costed priority list for systems and risk | Consolidated identity and access | A recovery plan that matches budget reality
+faq: Can you work with donated or discounted software? | Yes, and we will be explicit about support limits, since donated platforms often have no vendor support path.
+faq: How do you handle limited budgets? | By sequencing: fix the risks that would stop service delivery first, and defer the rest with a documented rationale.
+
+@industry pharmaceuticals-biotechnology
+title: Pharmaceutical & Biotech IT Support | Infeara Technologies
+description: IT for pharma and biotech: validated-system support, controlled access, laboratory data integrity, and audit-ready records with full traceability.
+intro: Pharmaceutical environments need systems that can be explained years after they were configured, with change control that survives audit.
+covers: Laboratory and quality system hosting | Controlled access and audit trails | Data integrity and retention | Network separation for instruments
+signs: Change history is incomplete for critical systems | Instrument PCs sit outside the managed estate | Access reviews rely on memory
+deliverables: Documented configuration baselines per system | Access and change records suitable for review | Data retention aligned to your procedures
+faq: Do you perform computer system validation? | Validation is owned by your quality function. We provide configuration documentation, change records, and evidence that supports it.
+faq: Can you support laboratory instruments? | The IT around them, yes: workstation builds, access, backup, and network separation, coordinated with the instrument vendor.
+
+@industry professional-services
+title: Professional Services Technology | Infeara Technologies
+description: IT for consulting, accounting, and advisory firms: secure collaboration, document workflows, client isolation, and reliable remote work every day.
+intro: Professional services firms sell expertise, so the systems that carry client information are the business. Access should follow engagements, not seniority alone.
+covers: Document management and workflow systems | Client and matter isolation | Remote and mobile working | Identity and access governance
+signs: Client data is separated by folder permissions alone | Onboarding a new engagement takes manual setup | Remote access is broad and rarely reviewed
+deliverables: Engagement-based access structures | Documented remote access with logging | Joiner, mover, and leaver processes
+faq: Can you support hybrid teams? | Yes, with access designed for location independence and devices that remain manageable outside the office.
+faq: How is client separation achieved? | Through permission structures and, where required, separate environments. The design states which approach is used and where the limits are.
+
+@industry real-estate-property-management
+title: Real Estate & Property IT Support | Infeara Technologies
+description: IT for property and real estate firms: CRM platforms, multi-site connectivity, building systems, and support across managed locations and tenants.
+intro: Property businesses run many small sites and one large dependency: whether the systems at each building work when a tenant or client needs them.
+covers: Property and CRM platforms | Multi-site and building connectivity | Access control and CCTV integration | Support across managed locations
+signs: Each building is set up differently | Building systems are integrated without security review | Site issues are resolved by whoever is local
+deliverables: A per-site standard and asset record | Controlled integration for building systems | A repeatable support model across sites
+faq: Can you integrate access control or CCTV? | Where the systems expose a supported interface. Otherwise we maintain separation and document the manual process.
+faq: Do you support tenant-facing networks? | Where that is in scope, with separation between tenant, building-management, and corporate traffic.
+
+@industry retail-e-commerce
+title: Retail & E-commerce Technology | Infeara Technologies
+description: IT for retail and online sellers: POS and store networks, e-commerce platforms, payment flows, and readiness for peak trading periods and seasonal spikes.
+intro: Retail systems face predictable peaks with unpredictable consequences. Peak readiness is a planning exercise, not a hardware purchase.
+covers: POS and store networking | E-commerce platform and integrations | Payment and order flows | Peak capacity and failover planning
+signs: Peak trading readiness is assessed after the season | Store networks differ from site to site | Order and payment failures surface in customer complaints
+deliverables: A peak-readiness assessment with load expectations | Standardised store configuration | Monitored order and payment flows with alerting
+faq: Can you prepare us for a seasonal peak? | Yes, with load expectations, capacity checks, and rehearsed failover. Testing happens before the peak, not during it.
+faq: Do you support store networks? | Yes, including POS isolation, guest Wi-Fi separation, and a standard build per store format.
+
+@industry telecommunications
+title: Telecommunications Technology & IT | Infeara Technologies
+description: IT for telecom operators and service providers: network operations support, OSS/BSS integration, and infrastructure for service delivery at scale.
+intro: Telecom environments combine network operations, billing systems, and strict availability expectations across distributed sites.
+covers: Network operations and monitoring support | OSS and BSS application hosting | Datacenter and edge infrastructure | Service-delivery continuity
+signs: Monitoring covers the network but not the services on it | BSS changes carry operational risk with no test stage | Capacity planning is separated from service demand
+deliverables: Service-level monitoring aligned to customer commitments | Change procedures with test and rollback | Capacity models tied to service growth
+faq: Do you operate network elements? | We support the IT and monitoring around them and coordinate with your NOC and vendors. Element-level operations stay with your engineering teams unless separately agreed.
+faq: Can you help with OSS/BSS integration? | Yes, at the integration and hosting layer, working alongside the application vendor.
+
+@industry travel-tourism
+title: Travel & Tourism Technology & IT Support | Infeara
+description: IT for travel and tourism businesses: booking platforms, availability integrations, payment flows, and support across distributed sites and agents.
+intro: Travel systems live on integrations: availability, pricing, and payments all depend on partners whose interfaces change without notice.
+covers: Booking engines and channel integrations | Payment and refund workflows | Property and branch connectivity | Customer-facing availability systems
+signs: Rate or availability mismatches are found by customers | Integration failures are discovered manually | Seasonal demand exposes capacity limits
+deliverables: Monitored partner integrations with alerting | Documented booking and payment flows including failure paths | Peak capacity planning
+faq: Can you monitor partner integrations? | Yes, including response times and failure rates, so a partner outage is visible before it becomes a customer complaint.
+faq: Do you support multi-property or multi-branch setups? | Yes, with per-site standards and a central view of connectivity and systems.
+
+@industry wholesale-distribution
+title: Wholesale Distribution Systems & IT Support | Infeara
+description: IT for wholesale and distribution: ERP and warehouse systems, supplier and partner links, and dependable order-to-dispatch flows across depots.
+intro: Distribution runs on accurate inventory and reliable order flow. Most failures appear at the handover points between systems.
+covers: ERP and inventory systems | Warehouse and scanning infrastructure | Supplier and partner data exchange | Order-to-dispatch availability
+signs: Inventory discrepancies are resolved by stock counts | Partner orders arrive in inconsistent formats | Warehouse systems have no tested fallback
+deliverables: Documented dependencies across the order path | Validated data exchange with partners | Recovery steps for warehouse-critical systems
+faq: Can you integrate supplier catalogues? | Yes, with validation and exception handling so incomplete or invalid data does not enter the ERP unnoticed.
+faq: How is warehouse Wi-Fi handled? | With coverage designed for racking and moving equipment, validated on site rather than estimated from a floor plan.
