@@ -182,7 +182,18 @@ post_sign_in "$WORK_DIR/admin.jar" "$WORK_DIR/admin.html" "$WORK_DIR/admin.txt" 
 if location_of "$WORK_DIR/admin.txt" | grep -qE '/cms$'; then
   pass "the correct credentials are sent to the workspace"
 else
-  fail "the correct credentials did not reach the workspace (location: $(location_of "$WORK_DIR/admin.txt"))"
+  # One retry with a brand new session: a failure that reproduces names a real problem, and a
+  # failure that does not reproduce is still reported rather than hidden.
+  curl -sS -o "$WORK_DIR/admin2.html" -c "$WORK_DIR/admin2.jar" "${BASE_URL}/cms/login" > /dev/null
+  post_sign_in "$WORK_DIR/admin2.jar" "$WORK_DIR/admin2.html" "$WORK_DIR/admin2.txt" "$USERNAME" "$PASSWORD"
+  second="$(location_of "$WORK_DIR/admin2.txt")"
+  if printf '%s' "$second" | grep -qE '/cms$'; then
+    fail "the correct credentials were rejected once and accepted on a retry (first: $(location_of "$WORK_DIR/admin.txt"), retry: ${second})"
+    cp "$WORK_DIR/admin2.jar" "$WORK_DIR/admin.jar"
+    cp "$WORK_DIR/admin2.html" "$WORK_DIR/admin.html"
+  else
+    fail "the correct credentials did not reach the workspace (first: $(location_of "$WORK_DIR/admin.txt"), retry: ${second})"
+  fi
 fi
 if grep -qi '^set-cookie: CMS_SESSION=' "$WORK_DIR/admin.txt" && grep -qi 'httponly' "$WORK_DIR/admin.txt"; then
   pass "the session cookie is named CMS_SESSION and is HttpOnly"

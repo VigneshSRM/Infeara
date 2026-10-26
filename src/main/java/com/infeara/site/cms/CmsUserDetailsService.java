@@ -47,6 +47,7 @@ public class CmsUserDetailsService implements UserDetailsService {
             throw new LockedException("Too many failed sign-in attempts");
         }
         if (username == null || username.isBlank() || account == null || !sameName(account.getUsername(), username.strip())) {
+            log.info("CMS sign-in rejected: no account matches [{}] (accountConfigured={})", username, account != null);
             throw new UsernameNotFoundException("No such account");
         }
         return account;
@@ -76,6 +77,8 @@ public class CmsUserDetailsService implements UserDetailsService {
             log.warn("CMS sign-in is using a plain secret from the environment; prefer CMS_ADMIN_PASSWORD_HASH "
                     + "so the secret is never readable by the application process");
         }
+        log.info("CMS account [{}] is active; stored credential is {} characters, plain secret length {}",
+                properties.resolvedUsername(), hash.length(), secret.length());
         return User.withUsername(properties.resolvedUsername())
                 .password(hash)
                 .roles("CMS_ADMIN")
