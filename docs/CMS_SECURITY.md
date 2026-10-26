@@ -111,7 +111,8 @@ not a second source of truth about who may sign in, and it disappears on restart
 ## How it is proven
 
 `scripts/check-cms-login.sh` runs against the live application on every push, after the SEO gate.
-It creates no fixtures — it drives the real endpoints with curl:
+It creates no fixtures — it drives the real endpoints with curl. It is
+27 checks, and the list below is generated from the script itself:
 
 ```
 ok   sign-in page returns 200
@@ -130,6 +131,7 @@ ok   the workspace redirects an anonymous caller to the sign-in page
 ok   a sign-in post without a CSRF token is refused with 403
 ok   a wrong password is sent back to the form with a generic error
 ok   a failed sign-in does not open the workspace
+ok   one failed attempt does not block the account
 ok   an unknown username is rejected with the same generic error
 ok   the correct credentials are sent to the workspace
 ok   the session cookie is named CMS_SESSION and is HttpOnly
@@ -140,7 +142,6 @@ ok   a GET request cannot sign a session out
 ok   a signed-out session is returned to the sign-in page
 ok   the workspace is closed again after signing out
 ok   repeated failures lock the account instead of allowing endless guessing
-ok   the lockout does not block a different account
 ```
 
 The CI run generates a throwaway credential for that run only (`openssl rand`), so no password is

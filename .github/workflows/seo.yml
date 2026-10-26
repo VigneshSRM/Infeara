@@ -56,7 +56,6 @@ jobs:
         env:
           SITE_BASE_URL: https://www.infeara.com
           SITE_INDEXABLE: 'true'
-          SERVER_ERROR_INCLUDE_MESSAGE: always
         run: |
           nohup java -jar target/*.jar > application.log 2>&1 &
           for attempt in $(seq 1 60); do
@@ -211,45 +210,6 @@ jobs:
           fi
           git commit -m "Record the pages served by the running application [skip ci]"
           git push origin "HEAD:${GITHUB_REF_NAME}"
-
-      - name: Commit server diagnostics
-        if: failure()
-        run: |
-          {
-            echo '# CI server diagnostics'
-            echo
-            echo 'Written by the workflow when a gate fails, because job logs are not readable here.'
-            echo
-            echo '## Response for /cms/login'
-            echo
-            echo '```'
-            curl -sS -i http://localhost:8080/cms/login | head -c 1200 || true
-            echo
-            echo '```'
-            echo
-            echo '## First lines of the server log'
-            echo
-            echo '```'
-            head -60 application.log 2>/dev/null || true
-            echo '```'
-            echo
-            echo '## Exception detail'
-            echo
-            echo '```'
-            grep -n -m 2 -B 4 -A 24 'Exception\|Caused by' application.log 2>/dev/null | head -90 || true
-            echo '```'
-            echo
-            echo '## CMS gate output'
-            echo
-            echo '```'
-            tail -40 cms.log 2>/dev/null || echo 'no cms.log'
-            echo '```'
-          } > docs/ci-diagnostics.md
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/ci-diagnostics.md
-          git commit -m "Record CI diagnostics [skip ci]" || true
-          git push origin "HEAD:${GITHUB_REF_NAME}" || true
 
       - name: Upload runnable jar
         if: success()
