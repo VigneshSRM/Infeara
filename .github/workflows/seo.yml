@@ -56,6 +56,7 @@ jobs:
         env:
           SITE_BASE_URL: https://www.infeara.com
           SITE_INDEXABLE: 'true'
+          SERVER_ERROR_INCLUDE_MESSAGE: always
         run: |
           nohup java -jar target/*.jar > application.log 2>&1 &
           for attempt in $(seq 1 60); do
@@ -210,6 +211,40 @@ jobs:
           fi
           git commit -m "Record the pages served by the running application [skip ci]"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Commit server diagnostics
+        if: failure()
+        run: |
+          {
+            echo '# CI server diagnostics'
+            echo
+            echo 'Written by the workflow when a gate fails, because job logs are not readable here.'
+            echo
+            echo '## Response for /cms/login'
+            echo
+            echo '```'
+            curl -sS -o /dev/null -w 'status %{http_code}, %{size_download} bytes\n' http://localhost:8080/cms/login || true
+            curl -sS http://localhost:8080/cms/login | head -c 2000 || true
+            echo
+            echo '```'
+            echo
+            echo '## Server log, around the failure'
+            echo
+            echo '```'
+            grep -n -m 2 -A 30 "Servlet.service\|TemplateInputException\|SpelEvaluationException\|Exception evaluating" application.log 2>/dev/null | head -80 || true
+            echo '```'
+            echo
+            echo '## CMS gate output'
+            echo
+            echo '```'
+            tail -40 cms.log 2>/dev/null || echo 'no cms.log'
+            echo '```'
+          } > docs/ci-diagnostics.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/ci-diagnostics.md
+          git commit -m "Record CI diagnostics [skip ci]" || true
+          git push origin "HEAD:${GITHUB_REF_NAME}" || true
 
       - name: Upload runnable jar
         if: success()
