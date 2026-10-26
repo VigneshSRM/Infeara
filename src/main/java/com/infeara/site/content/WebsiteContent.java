@@ -202,39 +202,18 @@ public class WebsiteContent {
                 "Plan and complete the selected work with suitable validation",
                 "Document decisions, findings, and handover steps"
         );
-        List<String> photos = capabilityPhotos(parent.slug());
-        int index = parent.capabilities().indexOf(capability);
+        // Each capability page has its own two images, derived from the studio photography by
+        // scripts/generate-page-images.py, so a photograph is never repeated page to page.
+        String capabilitySlug = slugify(name);
         String alt = "Technology environment relevant to " + name.toLowerCase(java.util.Locale.ROOT);
         List<ServiceImage> images = List.of(
-                new ServiceImage(parent.images().get(0).fileName(), alt, name),
-                new ServiceImage(photos.get(index), alt, name),
-                new ServiceImage(photos.get((index + 1) % photos.size()), alt, name)
+                new ServiceImage("pages/" + parent.slug() + "-" + capabilitySlug + "-1.webp", alt, name),
+                new ServiceImage("pages/" + parent.slug() + "-" + capabilitySlug + "-2.webp", alt, name)
         );
-        return new SpecialistServicePage(parent.slug(), slugify(name), name,
+        return new SpecialistServicePage(parent.slug(), capabilitySlug, name,
                 parent.category() + " / SERVICE SCOPE", positioning, summary, scope, images);
     }
 
-    private List<String> capabilityPhotos(String parentSlug) {
-        return switch (parentSlug) {
-            case "infrastructure" -> List.of("infrastructure-overview.jpg", "infrastructure-detail.jpg",
-                    "cloud-datacenter-overview.jpg", "managed-it-overview.jpg", "cloud-datacenter-detail.jpg", "managed-it-detail.jpg");
-            case "managed-it" -> List.of("managed-it-overview.jpg", "managed-it-detail.jpg",
-                    "infrastructure-overview.jpg", "infrastructure-detail.jpg", "it-outsourcing-overview.jpg", "it-outsourcing-detail.jpg");
-            case "it-outsourcing" -> List.of("it-outsourcing-overview.jpg", "it-outsourcing-detail.jpg",
-                    "managed-it-overview.jpg", "cybersecurity-overview.jpg", "cloud-datacenter-detail.jpg", "infrastructure-detail.jpg");
-            case "cloud-datacenter" -> List.of("cloud-datacenter-overview.jpg", "cloud-datacenter-detail.jpg",
-                    "infrastructure-overview.jpg", "infrastructure-detail.jpg", "managed-it-overview.jpg", "managed-it-detail.jpg");
-            case "network-engineering" -> List.of("infrastructure-detail.jpg", "cybersecurity-detail.jpg",
-                    "managed-it-detail.jpg", "infrastructure-overview.jpg", "it-outsourcing-detail.jpg", "cloud-datacenter-overview.jpg");
-            case "facility-management" -> List.of("infrastructure-overview.jpg", "infrastructure-detail.jpg",
-                    "managed-it-detail.jpg", "managed-it-overview.jpg", "it-outsourcing-detail.jpg", "cloud-datacenter-overview.jpg");
-            case "turnkey-projects" -> List.of("infrastructure-detail.jpg", "infrastructure-overview.jpg",
-                    "it-outsourcing-detail.jpg", "cloud-datacenter-overview.jpg", "managed-it-detail.jpg", "managed-it-overview.jpg");
-            case "automation-software" -> List.of("managed-it-overview.jpg", "cloud-datacenter-detail.jpg",
-                    "it-outsourcing-detail.jpg", "cybersecurity-overview.jpg", "infrastructure-detail.jpg", "managed-it-detail.jpg");
-            default -> throw new IllegalArgumentException("No capability photography configured for " + parentSlug);
-        };
-    }
 
     private String slugify(String value) {
         return value.toLowerCase(java.util.Locale.ROOT)

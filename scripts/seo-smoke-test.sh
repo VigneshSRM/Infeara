@@ -115,7 +115,19 @@ else
   fail "unknown URL should return 404/410 but returned ${code}"
 fi
 
-# 5. Per-page metadata: canonical, robots directive, unique titles, descriptions, JSON-LD.
+# 5. Page imagery: no content image may appear on more than one page. Reusing one photograph
+# across dozens of pages is the visual equivalent of template copy, so it is treated as a defect.
+if command -v python3 >/dev/null 2>&1; then
+  python3 "$(dirname "$0")/check-page-images.py" "$BASE_URL" > "$WORK_DIR/images.log" 2>&1
+  if [ $? -eq 0 ]; then
+    pass "every content image is used on one page only ($(head -1 "$WORK_DIR/images.log"))"
+  else
+    fail "the same content image appears on more than one page"
+    grep -E "FAIL shared image" "$WORK_DIR/images.log" | head -5
+  fi
+fi
+
+# 6. Per-page metadata: canonical, robots directive, unique titles, descriptions, JSON-LD.
 if command -v python3 >/dev/null 2>&1; then
   python3 - "$BASE_URL" "$CANONICAL_ORIGIN" <<'PY'
 import json, re, sys, urllib.request

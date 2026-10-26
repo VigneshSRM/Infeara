@@ -29,7 +29,9 @@ public record Insight(
     public String imageFileName() {
         String specific = slug == null ? null : ARTICLE_IMAGES.get(slug);
         if (specific != null) {
-            return specific;
+            // Generated per article by scripts/generate-page-images.py, so the three field notes do
+            // not repeat the photographs used on the service pages.
+            return "editorial/pages/" + slug + ".webp";
         }
         String key = category == null ? "" : category.toLowerCase(java.util.Locale.ROOT);
         if (key.contains("cyber") || key.contains("secur")) {
