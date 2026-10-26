@@ -102,8 +102,10 @@ for variant in "/services/" "/robots.txt/" "/industries/healthcare-life-sciences
 done
 
 # 4. Unknown URLs must not return a generic 200 page.
-# The body is kept, so the page served for an unknown URL can be inspected as well.
-code="$(curl -sS -o "$WORK_DIR/not-found" -w '%{http_code}' "$BASE_URL/this-page-does-not-exist" 2>/dev/null)" || code="000"
+# The body is kept, and the request asks for HTML the way a browser and a crawler do: with
+# "Accept: */*" Spring answers with its JSON error body, which is not what a visitor sees.
+code="$(curl -sS -H 'Accept: text/html' -o "$WORK_DIR/not-found" -w '%{http_code}' \
+  "$BASE_URL/this-page-does-not-exist" 2>/dev/null)" || code="000"
 if [ "$code" = "404" ] || [ "$code" = "410" ]; then
   pass "unknown URL returns ${code}"
   if grep -q 'error-shell' "$WORK_DIR/not-found" && grep -qi 'Page not found' "$WORK_DIR/not-found"; then
