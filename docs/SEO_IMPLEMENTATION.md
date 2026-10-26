@@ -96,15 +96,16 @@ plain visible content and are deliberately **not** marked up as `FAQPage` struct
 - The footer carries a brand column plus four link columns — every service area, the leading eight
   industries, the company pages and the resources — so any page is one click from every other
   major page (rule 6, internal links).
-- Field-note cards on the home page show a real photograph chosen from the article's category
+- Field-note cards on the home page show their own generated illustration
   (`Insight.imageFileName()`), cover-fitted inside a fixed-height band that clips its content, so
-  the image cannot overlap the card copy. Decorative images use `alt=""`; content images carry a
-  descriptive alt.
+  the image cannot overlap the card copy. Each carries an alt naming the note it illustrates; the
+  only empty alt values left are on decoration marked `aria-hidden`, and the gate rejects any
+  other content image without usable alt text.
 
 ### 3.3 Page imagery is unique per page
 
-The site has 228 content images for 87 content pages, and none is shared between pages. The
-sources are 28 studio photographs; `scripts/generate-page-images.py` derives one file per page
+The site renders 202 distinct content images across its 103 pages and shares none of them between
+pages. The files are generated from 28 studio photographs; `scripts/generate-page-images.py` derives one file per page
 with its own zoom, framing, mirror and colour grade, seeded from the page's slug so the output is
 stable across runs:
 
