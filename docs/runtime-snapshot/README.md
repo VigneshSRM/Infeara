@@ -5,6 +5,7 @@ Every file below is the exact response body for that path, so this directory is 
 snapshot of what the server returned, not a rendering of the templates.
 
 Preview the whole site locally with `python3 scripts/serve-runtime-snapshot.py`.
+`404.html` is the page the application returns for an unknown URL.
 
 | Path | Status | Bytes | Title |
 | --- | --- | --- | --- |
