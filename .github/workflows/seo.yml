@@ -93,6 +93,13 @@ jobs:
 
       # Surfaces what the running server actually returns, so the deployed build can be
       # inspected from the API without access to the job log.
+      - name: Publish 404 evidence
+        if: success()
+        run: |
+          code=$(curl -sS -o notfound.html -w '%{http_code}' http://localhost:8080/this-page-does-not-exist)
+          echo "::notice title=404 check::status $code, $(wc -c < notfound.html) bytes, content-type $(curl -sSI http://localhost:8080/this-page-does-not-exist | grep -i '^content-type' | tr -d '\r')"
+          echo "::notice title=404 check::body starts: $(head -c 220 notfound.html | tr -d '\n' | tr -s ' ')"
+
       - name: Publish runtime evidence
         if: success()
         run: |
