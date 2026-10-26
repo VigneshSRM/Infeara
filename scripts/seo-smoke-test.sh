@@ -199,6 +199,24 @@ for path in pages:
         types = {node.get('@type') for node in parsed.get('@graph', [])}
         if shows_breadcrumb and 'BreadcrumbList' not in types:
             problems.append(f'{path}: breadcrumb is visible but JSON-LD has no BreadcrumbList')
+    # Every content image needs descriptive alt text. An empty alt is only correct for a
+    # decorative image, which has to say so with aria-hidden or role="img" + aria-label on an
+    # ancestor; otherwise the image is invisible to a crawler and to a screen reader.
+    for match in re.finditer(r'<img\b[^>]*>', html, re.I):
+        tag = match.group(0)
+        source = attr(tag, r'src="([^"]*)"') or 'inline image'
+        # Logo strips are decoration that repeats the brand: they are excluded here for the same
+        # reason the image-uniqueness check excludes them.
+        if '/assets/technologies/' in source or '/assets/brand/' in source:
+            continue
+        alt = re.search(r'\balt="([^"]*)"', tag, re.I)
+        if alt is None:
+            problems.append(f'{path}: image without an alt attribute ({source})')
+        elif not alt.group(1).strip():
+            before = html[max(0, match.start() - 400):match.start()]
+            if 'aria-hidden="true"' not in before and 'role="img"' not in before:
+                problems.append(f'{path}: content image has an empty alt ({source})')
+
     if title.lower() in titles:
         problems.append(f'{path}: duplicate title shared with {titles[title.lower()]}')
     else:

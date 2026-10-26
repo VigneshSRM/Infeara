@@ -277,3 +277,23 @@ Still open (measurement, not code): run PageSpeed Insights mobile and desktop on
 | Content | Met within available facts — no invented clients, certifications, addresses or outcomes; each service and industry page keeps its own scope, context and internal links. |
 | Structured data | Met — `Organization`, `WebSite`, `BreadcrumbList`, `Service`, `BlogPosting` only, matching visible content; no ratings, offers, addresses or awards are claimed. |
 | Monitoring | Partially met — automated gate and cadence documented; Search Console verification and analytics still need an account-level decision. |
+
+## 7. What the release gate enforces
+
+`scripts/seo-smoke-test.sh <base-url> <canonical-origin>` runs against a live instance and fails
+the build on any of the following:
+
+| Check | Rule |
+| --- | --- |
+| robots.txt | returns 200, does not disallow the site, declares the sitemap |
+| sitemap.xml | returns 200, lists only canonical `https://www.infeara.com` URLs, 103 entries, all 200 |
+| canonical path | variant URLs (`/services/`, `/index.html`, `/blogs.html`) redirect in one hop |
+| unknown URL | returns 404 with the branded page, not a soft 200 |
+| metadata | every sitemap URL has a unique title, a unique description, a self-referencing canonical, `index,follow`, Open Graph, Twitter card and valid JSON-LD |
+| structured data | parseable JSON, `BreadcrumbList` wherever a breadcrumb is visible |
+| alt text | every content image has descriptive alt text; an empty alt only passes when an ancestor marks the image as decoration |
+| images | no content image is used on more than one page (`scripts/check-page-images.py`) |
+
+The metadata and alt checks walk all 103 sitemap URLs rather than a sample; the image check crawls
+the same set. CI additionally captures the page served for an unknown URL and fails if it is not
+the branded page.
