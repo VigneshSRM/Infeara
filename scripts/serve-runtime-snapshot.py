@@ -91,7 +91,8 @@ class Handler(BaseHTTPRequestHandler):
         # The workspace needs a signed-in session, so it is not part of a recorded snapshot. The
         # application redirects an anonymous caller to the sign-in page, and so does the preview.
         if path == "/cms":
-            return self.redirect("/cms/login")
+            # 302, as the application answers an anonymous caller, not a permanent move.
+            return self.redirect("/cms/login", status=302)
 
         if path.startswith(("/css/", "/js/", "/assets/")):
             target = os.path.join(STATIC, path.lstrip("/"))
@@ -143,8 +144,8 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_body(200, body, "text/html; charset=utf-8")
         return self.send_body(405, b"Method not allowed", "text/plain; charset=utf-8")
 
-    def redirect(self, location):
-        self.send_response(301)
+    def redirect(self, location, status=301):
+        self.send_response(status)
         self.send_header("Location", location)
         self.send_header("Content-Length", "0")
         self.send_header("X-Source", "CI runtime snapshot")
