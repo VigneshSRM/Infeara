@@ -20,8 +20,8 @@ Preview the whole site locally with `python3 scripts/serve-runtime-snapshot.py`.
 | `/insights` | 200 | 34157 | Field Notes: Technology Decisions Explained | Infeara |
 | `/newsletters` | 200 | 31569 | Infeara Newsletter Archive | Practical Technology Updates |
 | `/contact` | 200 | 40559 | Contact Infeara Technologies | Request a Consultation |
-| `/privacy` | 200 | 32319 | Privacy Policy &amp; Data Handling | Infeara Technologies |
-| `/terms` | 200 | 31956 | Terms of Use &amp; Website Conditions | Infeara Technologies |
+| `/privacy` | 200 | 32594 | Privacy Policy &amp; Data Handling | Infeara Technologies |
+| `/terms` | 200 | 32229 | Terms of Use &amp; Website Conditions | Infeara Technologies |
 | `/services/cybersecurity` | 200 | 43867 | Cybersecurity Services, Audits &amp; Testing | Infeara |
 | `/services/infrastructure` | 200 | 43646 | IT Infrastructure Services &amp; Server Support | Infeara |
 | `/services/managed-it` | 200 | 43389 | Managed IT Services &amp; Daily Operations Support | Infeara |
