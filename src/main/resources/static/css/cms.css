@@ -230,7 +230,7 @@ a { color: inherit; text-decoration: none; }
   border-color: var(--cms-blue);
 }
 
-.cms-field input[aria-invalid="true"] { border-color: var(--cms-coral-deep); }
+.cms-field input.cms-input-invalid { border-color: var(--cms-coral-deep); }
 
 .cms-reveal {
   border: 0;
