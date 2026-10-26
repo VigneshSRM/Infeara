@@ -16,7 +16,7 @@ for path in paths:
     body = html.split("</head>")[-1]
     for src in set(re.findall(r'<img[^>]*src="(/assets/[^"]+)"', body)):
         # The logo and the technology marquee are site furniture, not page imagery.
-        if "/brand/" in src or "/technologies/" in src:
+        if any(part in src for part in ("/brand/", "/technologies/", "infeara-mark", "infeara-geometric-logo")):
             continue
         use[src].append(path)
 

@@ -103,7 +103,7 @@ plain visible content and are deliberately **not** marked up as `FAQPage` struct
 
 ### 3.3 Page imagery is unique per page
 
-The site has 174 content images for 87 content pages, and none is shared between pages. The
+The site has 228 content images for 87 content pages, and none is shared between pages. The
 sources are 28 studio photographs; `scripts/generate-page-images.py` derives one file per page
 with its own zoom, framing, mirror and colour grade, seeded from the page's slug so the output is
 stable across runs:
@@ -112,6 +112,7 @@ stable across runs:
 | --- | --- |
 | 9 service areas | `services/pages/service-<slug>-1..3.webp` |
 | 54 capability pages | `services/pages/<parent>-<slug>-1..2.webp` |
+| service page carousels | `services/pages/<parent>-<slug>-thumb.webp` |
 | 6 cybersecurity pages | `services/pages/cybersecurity-<slug>-1..2.webp` |
 | 24 industry pages | `industries/pages/<slug>.webp` |
 | 3 field notes | `editorial/pages/<slug>.webp` |

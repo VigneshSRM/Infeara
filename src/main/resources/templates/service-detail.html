@@ -24,7 +24,7 @@
       <div class="service-photo-carousel service-specialist-photo-carousel" role="region" aria-roledescription="carousel" th:attr="data-specialist-photo-carousel=${service.slug},aria-label=${service.name + ' service photography'}">
         <div class="service-photo-stage">
           <figure class="service-z-image service-z-image-second service-photo-slide" data-specialist-photo-slide th:each="specialist,iter : ${specialistServices}" th:classappend="${iter.index == 0} ? ' is-active' : ''" th:attr="aria-hidden=${iter.index != 0}">
-            <img th:src="@{/assets/services/{file}(file=${specialist.images[1].fileName})}" th:alt="${specialist.images[1].alt}" width="960" height="520" loading="lazy" decoding="async">
+            <img th:src="@{/assets/services/pages/{parent}-{slug}-thumb.webp(parent=${service.slug},slug=${specialist.slug})}" th:alt="${specialist.name + ' carousel illustration'}" width="960" height="520" loading="lazy" decoding="async">
           </figure>
         </div>
       </div>

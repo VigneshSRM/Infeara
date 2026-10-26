@@ -174,6 +174,16 @@ def main():
             total += save(image, os.path.join(ASSETS, "services", name))
             written.append(("services", name))
 
+    # Thumbnails for the capability carousel on each service area page: the carousel is a preview of
+    # the linked capability page, so it gets its own small image rather than republishing that page's.
+    for parent, slug in capability_pages():
+        seed = seed_for("thumb/" + parent + "/" + slug)
+        source = all_photos[(seed >> 9) % len(all_photos)]
+        image = derive(source, (480, 260), seed, grade_for(seed))
+        name = "pages/%s-%s-thumb.webp" % (parent, slug)
+        total += save(image, os.path.join(ASSETS, "services", name))
+        written.append(("services", name))
+
     for slug in industry_pages():
         seed = seed_for("industry/" + slug)
         # The sector photograph is chosen by the same mapping the application uses; if a sector has
