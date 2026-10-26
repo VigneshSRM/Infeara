@@ -110,6 +110,7 @@ if [ "$code" = "404" ] || [ "$code" = "410" ]; then
     pass "unknown URL serves the branded 404 page"
   else
     fail "unknown URL served a default error page instead of the branded 404"
+    printf '       body starts: %s\n' "$(head -c 200 "$WORK_DIR/not-found" | tr -d '\n')"
   fi
 else
   fail "unknown URL should return 404/410 but returned ${code}"

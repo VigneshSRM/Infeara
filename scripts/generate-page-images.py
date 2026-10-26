@@ -109,6 +109,19 @@ def industry_pages():
     return re.findall(r"@industry (\S+)", text)
 
 
+def service_overviews():
+    """The nine service area pages, each with three of its own images."""
+    path = os.path.join(REPO, "src", "main", "java", "com", "infeara", "site", "content", "WebsiteContent.java")
+    text = open(path, encoding="utf-8").read()
+    return re.findall(r'new ServicePage\("([a-z-]+)"', text)
+
+
+def cybersecurity_pages():
+    path = os.path.join(REPO, "src", "main", "java", "com", "infeara", "site", "content", "WebsiteContent.java")
+    text = open(path, encoding="utf-8").read()
+    return re.findall(r'new SpecialistServicePage\("cybersecurity", "([a-z0-9-]+)"', text)
+
+
 def field_notes():
     path = os.path.join(REPO, "src", "main", "java", "com", "infeara", "site", "content", "Insight.java")
     text = open(path, encoding="utf-8").read()
@@ -138,6 +151,26 @@ def main():
             source = all_photos[(s >> 3) % len(all_photos)]
             image = derive(source, CAPABILITY_SIZE, s, grade_for(s))
             name = "pages/%s-%s-%d.webp" % (parent, slug, index + 1)
+            total += save(image, os.path.join(ASSETS, "services", name))
+            written.append(("services", name))
+
+    for slug in service_overviews():
+        seed = seed_for("service/" + slug)
+        for index in range(3):
+            s = seed + index * 6151
+            source = all_photos[(s >> 5) % len(all_photos)]
+            image = derive(source, CAPABILITY_SIZE, s, grade_for(s))
+            name = "pages/service-%s-%d.webp" % (slug, index + 1)
+            total += save(image, os.path.join(ASSETS, "services", name))
+            written.append(("services", name))
+
+    for slug in cybersecurity_pages():
+        seed = seed_for("cyber/" + slug)
+        for index in range(2):
+            s = seed + index * 4289
+            source = all_photos[(s >> 7) % len(all_photos)]
+            image = derive(source, CAPABILITY_SIZE, s, grade_for(s))
+            name = "pages/cybersecurity-%s-%d.webp" % (slug, index + 1)
             total += save(image, os.path.join(ASSETS, "services", name))
             written.append(("services", name))
 

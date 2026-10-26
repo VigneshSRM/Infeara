@@ -101,6 +101,25 @@ plain visible content and are deliberately **not** marked up as `FAQPage` struct
   the image cannot overlap the card copy. Decorative images use `alt=""`; content images carry a
   descriptive alt.
 
+### 3.3 Page imagery is unique per page
+
+The site has 174 content images for 87 content pages, and none is shared between pages. The
+sources are 28 studio photographs; `scripts/generate-page-images.py` derives one file per page
+with its own zoom, framing, mirror and colour grade, seeded from the page's slug so the output is
+stable across runs:
+
+| Pages | Generated file |
+| --- | --- |
+| 9 service areas | `services/pages/service-<slug>-1..3.webp` |
+| 54 capability pages | `services/pages/<parent>-<slug>-1..2.webp` |
+| 6 cybersecurity pages | `services/pages/cybersecurity-<slug>-1..2.webp` |
+| 24 industry pages | `industries/pages/<slug>.webp` |
+| 3 field notes | `editorial/pages/<slug>.webp` |
+
+Industry pages are cropped from their own sector photograph so the alt text stays accurate.
+`scripts/check-page-images.py` runs in the release gate and fails if any content image appears on
+two pages, which keeps the policy true as pages are added.
+
 ## 4. URL policy
 
 | Rule | Implementation |
@@ -178,6 +197,13 @@ python3 scripts/serve-runtime-snapshot.py        # http://localhost:8080
 CSS, JS and images are served from `src/main/resources/static`, so the pages look and behave as
 the server delivered them. This is a review aid for environments without a JDK - the application
 itself still runs from `mvn -DskipTests package && java -jar target/*.jar`.
+
+## 5.3 Status pages
+
+`SiteErrorController` serves `templates/error.html` for every status page, so an unknown URL
+returns a branded 404 with links back into the site instead of the container's default page. The
+status code is unchanged, and `SeoRequestFilter` adds `X-Robots-Tag: noindex, nofollow` to every
+response with a status of 400 or above.
 
 ## 6. Release gate
 
