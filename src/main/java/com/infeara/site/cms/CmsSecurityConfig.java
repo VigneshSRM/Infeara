@@ -1,5 +1,7 @@
 package com.infeara.site.cms;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +11,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -32,6 +35,7 @@ import org.springframework.security.web.header.writers.StaticHeadersWriter;
 @Configuration
 @EnableConfigurationProperties(CmsProperties.class)
 public class CmsSecurityConfig {
+    private static final Logger log = LoggerFactory.getLogger(CmsSecurityConfig.class);
     static final String LOGIN_PAGE = "/cms/login";
     static final String HOME = "/cms";
     private static final String SESSION_COOKIE = "CMS_SESSION";
@@ -77,10 +81,16 @@ public class CmsSecurityConfig {
                             response.sendRedirect(request.getContextPath() + HOME);
                         })
                         .failureHandler((request, response, exception) -> {
-                            if (exception instanceof BadCredentialsException) {
+                            // A LockedException raised while loading the account arrives wrapped in an
+                            // InternalAuthenticationServiceException, so the cause chain is what
+                            // decides whether this was a lockout or a bad password.
+                            boolean lockedOut = causeChainContainsLock(exception);
+                            if (!lockedOut && exception instanceof BadCredentialsException) {
                                 attempts.recordFailure(ClientAddress.of(request), request.getParameter("username"));
                             }
-                            boolean lockedOut = exception instanceof LockedException;
+                            log.info("CMS sign-in rejected: lockedOut={} type={} cause={}", lockedOut,
+                                    exception.getClass().getSimpleName(),
+                                    exception.getCause() == null ? "none" : exception.getCause().getClass().getSimpleName());
                             response.sendRedirect(request.getContextPath() + (lockedOut ? LOCKED : REJECTED));
                         }))
                 .logout(logout -> logout
@@ -116,6 +126,18 @@ public class CmsSecurityConfig {
                 // Public HTML keeps the caching behaviour the performance budget depends on.
                 .headers(headers -> headers.cacheControl(cache -> cache.disable()));
         return http.build();
+    }
+
+    /** True when the rejection was a lockout, however many layers wrap it. */
+    private static boolean causeChainContainsLock(AuthenticationException exception) {
+        Throwable current = exception;
+        while (current != null) {
+            if (current instanceof LockedException) {
+                return true;
+            }
+            current = current.getCause();
+        }
+        return false;
     }
 
     /**

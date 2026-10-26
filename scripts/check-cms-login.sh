@@ -157,6 +157,16 @@ else
   fail "a failed sign-in left the workspace reachable (status ${status})"
 fi
 
+# A single failure must not lock a good sign-in out. Checked here, before the deliberate burst of
+# failures below, so the probe never depends on how many failures this address has spent.
+curl -sS -o "$WORK_DIR/retry.html" -c "$WORK_DIR/retry.jar" "${BASE_URL}/cms/login" > /dev/null
+post_sign_in "$WORK_DIR/retry.jar" "$WORK_DIR/retry.html" "$WORK_DIR/retry.txt" "$USERNAME" "$PASSWORD"
+if location_of "$WORK_DIR/retry.txt" | grep -qE '/cms$'; then
+  pass "one failed attempt does not block the account"
+else
+  fail "one failed attempt blocked the account (location: $(location_of "$WORK_DIR/retry.txt"))"
+fi
+
 # 6. An unknown username is answered exactly like a wrong password: no account enumeration.
 curl -sS -o "$WORK_DIR/unknown.html" -c "$WORK_DIR/unknown.jar" "${BASE_URL}/cms/login" > /dev/null
 post_sign_in "$WORK_DIR/unknown.jar" "$WORK_DIR/unknown.html" "$WORK_DIR/unknown.txt" "nobody-$RANDOM" "irrelevant-$RANDOM"
@@ -231,15 +241,6 @@ if printf '%s' "$locked" | grep -q '/cms/login?locked'; then
   pass "repeated failures lock the account instead of allowing endless guessing"
 else
   fail "repeated failures never locked the account (last location: ${locked})"
-fi
-
-# The lockout is per account: a legitimate sign-in is still possible from the same address.
-curl -sS -o "$WORK_DIR/again.html" -c "$WORK_DIR/again.jar" "${BASE_URL}/cms/login" > /dev/null
-post_sign_in "$WORK_DIR/again.jar" "$WORK_DIR/again.html" "$WORK_DIR/again.txt" "$USERNAME" "$PASSWORD"
-if location_of "$WORK_DIR/again.txt" | grep -qE '/cms$'; then
-  pass "the lockout does not block a different account"
-else
-  fail "the lockout blocked a legitimate sign-in (location: $(location_of "$WORK_DIR/again.txt"))"
 fi
 
 echo
