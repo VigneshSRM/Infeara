@@ -105,6 +105,11 @@ done
 code="$(curl -sS -o /dev/null -w '%{http_code}' "$BASE_URL/this-page-does-not-exist" 2>/dev/null)" || code="000"
 if [ "$code" = "404" ] || [ "$code" = "410" ]; then
   pass "unknown URL returns ${code}"
+  if grep -q 'error-shell' "$WORK_DIR/body" && grep -qi 'Page not found' "$WORK_DIR/body"; then
+    pass "unknown URL serves the branded 404 page"
+  else
+    fail "unknown URL served a default error page instead of the branded 404"
+  fi
 else
   fail "unknown URL should return 404/410 but returned ${code}"
 fi
