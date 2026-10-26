@@ -60,7 +60,7 @@
           <label for="username">Username</label>
           <input id="username" name="username" type="text" required autofocus
                  autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="254"
-                 th:attr="aria-invalid=${param.error != null} ? 'true' : null">
+                 th:attr="aria-invalid=${param.error != null}">
         </div>
         <div class="cms-field">
           <div class="cms-label-row">
@@ -70,7 +70,7 @@
           </div>
           <input id="password" name="password" type="password" required
                  autocomplete="current-password" maxlength="72"
-                 th:attr="aria-invalid=${param.error != null} ? 'true' : null">
+                 th:attr="aria-invalid=${param.error != null}">
         </div>
         <button class="cms-submit" type="submit">Sign in<span aria-hidden="true">→</span></button>
       </form>
