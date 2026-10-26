@@ -2,5 +2,6 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /cms/
 
 Sitemap: https://www.infeara.com/sitemap.xml

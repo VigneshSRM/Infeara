@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in | Infeara Content Manager</title>
+  <!-- A sign-in page is never a search result, never archived and never used as a referrer. -->
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192.png">
+  <!-- Everything on this page is served by this application: no font, script or image comes from
+       a third party, which is what lets the Content-Security-Policy deny every other origin. -->
+  <link rel="stylesheet" href="/css/cms.css?v=20261025">
+  <script src="/js/cms-login.js?v=20261025" defer></script>
+</head>
+<body class="cms-page">
+<div class="cms-layout">
+  <aside class="cms-aside">
+    <p class="cms-aside-mark">Infeara<span>.</span></p>
+    <div class="cms-aside-copy">
+      <p class="cms-aside-eyebrow">Content manager</p>
+      <h2>Publishing, kept<br><em>deliberate.</em></h2>
+      <ul class="cms-aside-list">
+        <li>Service, capability and industry copy</li>
+        <li>Field notes and newsletter editions</li>
+        <li>Page imagery and metadata</li>
+      </ul>
+    </div>
+    <p class="cms-aside-foot">Authorised access only. Attempts are recorded with their time and network address.</p>
+  </aside>
+
+  <main class="cms-main" id="main">
+    <section class="cms-card" aria-labelledby="cms-heading">
+      <a class="cms-brand" href="/" aria-label="Infeara Technologies — back to the website">
+        <img src="/assets/brand/infeara-logo-460.png" alt="Infeara Technologies" width="460" height="153">
+      </a>
+
+      <p class="cms-eyebrow"><span class="cms-dot" aria-hidden="true"></span>Restricted access</p>
+      <h1 class="cms-title" id="cms-heading">Sign in</h1>
+      <p class="cms-lede">Use the account issued to you by the site owner. There is no self-service reset.</p>
+
+      
+      
+      
+      
+
+      <!-- The form posts to a fixed path, so no part of this page's URL can steer where credentials
+           are sent. The CSRF token below is compared server-side before the password is read. -->
+      <form class="cms-form" action="/cms/login" method="post" autocomplete="on">
+        <input type="hidden" name="_csrf" value="0DsTSxw_0gAsxqN3zPF_NlgmVt29FtKxh0I-nD3ay2rDFmo_5V0nKCtZszIBpMIU_9xLU2oWe-WNI-ScviQJ-Ai8_wmmIAwM">
+        <div class="cms-field">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" required autofocus
+                 autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="254">
+        </div>
+        <div class="cms-field">
+          <div class="cms-label-row">
+            <label for="password">Password</label>
+            <button class="cms-reveal" type="button" data-reveal aria-controls="password"
+                    aria-pressed="false" hidden>Show</button>
+          </div>
+          <input id="password" name="password" type="password" required
+                 autocomplete="current-password" maxlength="72">
+        </div>
+        <button class="cms-submit" type="submit">Sign in<span aria-hidden="true">→</span></button>
+      </form>
+
+      
+
+      <p class="cms-note">
+        Locked out, or need a new account? Ask the site owner; accounts and lockouts are cleared by
+        them, not from this page.
+      </p>
+    </section>
+  </main>
+</div>
+</body>
+</html>
