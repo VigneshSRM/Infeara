@@ -57,12 +57,36 @@ def missing_page(path, pages):
     return body.encode("utf-8")
 
 
+def canonical_path(path):
+    """The path the application would redirect to, mirroring SeoRequestFilter.
+
+    The site serves every page without a trailing slash and never from an index.html file, and
+    legacy .html addresses move to the extension-less path.
+    """
+    candidate = path
+    if candidate.endswith("/index.html"):
+        candidate = candidate[: -len("index.html")]
+    elif candidate.endswith(".html") and candidate != "/404.html":
+        candidate = candidate[: -len(".html")]
+        if candidate == "/index":
+            candidate = "/"
+    while len(candidate) > 1 and candidate.endswith("/"):
+        candidate = candidate[:-1]
+    if not candidate:
+        candidate = "/"
+    return None if candidate == path else candidate
+
+
 class Handler(BaseHTTPRequestHandler):
     server_version = "InfearaSnapshot/1.0"
     pages = []
 
     def do_GET(self):  # noqa: N802
         path = self.path.split("?")[0].split("#")[0]
+
+        preferred = canonical_path(path)
+        if preferred is not None:
+            return self.redirect(preferred)
 
         if path.startswith(("/css/", "/js/", "/assets/")):
             target = os.path.join(STATIC, path.lstrip("/"))
@@ -79,7 +103,24 @@ class Handler(BaseHTTPRequestHandler):
         if os.path.isfile(candidate):
             return self.send_file(candidate)
 
+        # The recorded page for an unknown URL is served with the status the application sent, so
+        # the preview behaves like the real site for a typo as well.
+        if path == "/_recorded-routes":
+            return self.send_body(200, missing_page(path, self.pages), "text/html; charset=utf-8")
+
+        not_found = os.path.join(SNAPSHOT, "404.html")
+        if os.path.isfile(not_found):
+            with open(not_found, "rb") as handle:
+                return self.send_body(404, handle.read(), "text/html; charset=utf-8")
+
         return self.send_body(404, missing_page(path, self.pages), "text/html; charset=utf-8")
+
+    def redirect(self, location):
+        self.send_response(301)
+        self.send_header("Location", location)
+        self.send_header("Content-Length", "0")
+        self.send_header("X-Source", "CI runtime snapshot")
+        self.end_headers()
 
     def send_file(self, target):
         extension = os.path.splitext(target)[1].lower()

@@ -136,7 +136,7 @@ import json, re, sys, urllib.request
 
 base = sys.argv[1].rstrip('/')
 canonical_origin = sys.argv[2].rstrip('/')
-pages = [
+sample = [
     '/', '/services', '/services/cybersecurity', '/services/cybersecurity/vulnerability-assessment-penetration-testing',
     '/industries', '/industries/healthcare-life-sciences', '/about', '/clients', '/careers',
     '/careers/open-positions', '/blogs', '/insights', '/newsletters', '/contact', '/privacy', '/terms',
@@ -145,6 +145,17 @@ pages = [
 def fetch(path):
     with urllib.request.urlopen(base + path, timeout=20) as response:
         return response.read().decode('utf-8', 'replace')
+
+# Every URL the sitemap advertises is checked, not a sample: a page that ships without metadata
+# is a page a search engine sees without metadata. The sample is the fallback if the sitemap
+# cannot be parsed.
+try:
+    sitemap = fetch('/sitemap.xml')
+    pages = [re.sub(r'^[a-zA-Z][a-zA-Z0-9+.-]*://[^/]+', '', loc) or '/' for loc in re.findall(r'<loc>([^<]+)</loc>', sitemap)]
+except Exception:                                               # noqa: BLE001
+    pages = sample
+if len(pages) < len(sample):
+    pages = sample
 
 def attr(html, pattern):
     match = re.search(pattern, html, re.I | re.S)
@@ -177,8 +188,8 @@ for path in pages:
     # Structured data must exist whenever the page shows a breadcrumb trail, and must be
     # parseable JSON that mirrors that visible trail (see the SEO standard, section 7).
     shows_breadcrumb = 'service-breadcrumb' in html
-    if shows_breadcrumb and ldjson == 0:
-        problems.append(f'{path}: page shows a breadcrumb but has no JSON-LD')
+    if ldjson == 0:
+        problems.append(f'{path}: page has no JSON-LD structured data')
     for block in re.findall(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', html, re.S):
         try:
             parsed = json.loads(block)

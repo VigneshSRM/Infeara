@@ -354,12 +354,18 @@ public class PageController {
     @GetMapping("/privacy")
     public String privacy(Model model) {
         staticPageCopy(model, "/privacy");
+        model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
+                seo.crumb("Home", "/"),
+                seo.crumb("Privacy Notice", null))));
         return "privacy";
     }
 
     @GetMapping("/terms")
     public String terms(Model model) {
         staticPageCopy(model, "/terms");
+        model.addAttribute("jsonLd", seo.breadcrumbGraph(List.of(
+                seo.crumb("Home", "/"),
+                seo.crumb("Terms of Use", null))));
         return "terms";
     }
 
